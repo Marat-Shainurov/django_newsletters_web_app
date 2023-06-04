@@ -12,8 +12,8 @@ class NewsletterSettings(models.Model):
 
     REGULARITY_CHOICES = [
         ('daily', 'Daily'),
-        ('daily', 'Weekly'),
-        ('daily', 'Monthly'),
+        ('weekly', 'Weekly'),
+        ('monthly', 'Monthly'),
     ]
 
     newsletter = models.CharField(max_length=100, verbose_name='newsletter_name')
