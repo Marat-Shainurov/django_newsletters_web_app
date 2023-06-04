@@ -5,7 +5,7 @@ from newsletter.models import NewsletterSettings, NewsletterAttempts, Newsletter
 
 @admin.register(NewsletterSettings)
 class NewsletterSettingsAdmin(admin.ModelAdmin):
-    list_display = ('newsletter', 'start_campaign', 'finish_campaign', 'status', 'regularity')
+    list_display = ('pk', 'newsletter', 'start_campaign', 'finish_campaign', 'status', 'regularity')
     list_filter = ('newsletter', 'status')
 
 
