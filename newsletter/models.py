@@ -32,9 +32,9 @@ class NewsletterSettings(models.Model):
 
 class NewsletterAttempts(models.Model):
     ATTEMPT_STATUS_CHOICES = [
-        ('success', 'success'),
-        ('failure', 'failure'),
-        ('in_progress', 'in_progress'),
+        ('success', 'Success'),
+        ('failure', 'Failure'),
+        ('in_progress', 'In_progress'),
     ]
 
     newsletter = models.ForeignKey(NewsletterSettings, verbose_name='newsletter', on_delete=models.CASCADE)
