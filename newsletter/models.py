@@ -3,7 +3,7 @@ from django.db import models
 NULLABLE = {'blank': True, 'null': True}
 
 
-class NewsletterSettings(models.Model):
+class Newsletter(models.Model):
     STATUS_CHOICE = [
         ('created', 'Created'),
         ('launched', 'Launched'),
@@ -39,7 +39,7 @@ class NewsletterAttempts(models.Model):
         ('in_progress', 'In_progress'),
     ]
 
-    newsletter = models.ForeignKey(NewsletterSettings, verbose_name='newsletter', on_delete=models.CASCADE)
+    newsletter = models.ForeignKey(Newsletter, verbose_name='newsletter', on_delete=models.CASCADE)
     last_attempt = models.DateTimeField(verbose_name='last_attempt', **NULLABLE)
     attempt_status = models.CharField(max_length=12, choices=ATTEMPT_STATUS_CHOICES, verbose_name='attempt_status',
                                       **NULLABLE)

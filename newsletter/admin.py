@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from newsletter.models import NewsletterSettings, NewsletterAttempts
+from newsletter.models import Newsletter, NewsletterAttempts
 
 
-@admin.register(NewsletterSettings)
+@admin.register(Newsletter)
 class NewsletterSettingsAdmin(admin.ModelAdmin):
     list_display = (
     'pk', 'newsletter', 'start_campaign', 'finish_campaign', 'status', 'regularity', 'subject')
