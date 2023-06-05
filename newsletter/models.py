@@ -21,6 +21,8 @@ class NewsletterSettings(models.Model):
     finish_campaign = models.DateTimeField(verbose_name='until')
     status = models.CharField(max_length=10, default='created', choices=STATUS_CHOICE, verbose_name='newsletter_status')
     regularity = models.CharField(max_length=10, choices=REGULARITY_CHOICES, verbose_name='newsletter_regularity')
+    subject = models.CharField(max_length=100, verbose_name='subject')
+    content = models.TextField(verbose_name='content')
 
     def __str__(self):
         return f'{self.newsletter} ({self.status} {self.regularity})'
@@ -49,16 +51,3 @@ class NewsletterAttempts(models.Model):
     class Meta:
         verbose_name = 'Newsletter Attempt'
         verbose_name_plural = 'Newsletter Attempts'
-
-
-class NewsletterContent(models.Model):
-    newsletter = models.ForeignKey(NewsletterSettings, on_delete=models.CASCADE)
-    newsletter_subject = models.CharField(max_length=100, verbose_name='newsletter_subject')
-    newsletter_content = models.TextField(verbose_name='newsletter_content')
-
-    def __str__(self):
-        return f'{self.newsletter} {self.newsletter_subject}'
-
-    class Meta:
-        verbose_name = 'Newsletter Content'
-        verbose_name_plural = 'Newsletter Content'
