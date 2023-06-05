@@ -6,3 +6,7 @@ from newsletter.models import Newsletter
 
 class NewsletterListView(generic.ListView):
     model = Newsletter
+
+
+class NewsletterDetailView(generic.DetailView):
+    model = Newsletter
