@@ -1,10 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'newsletter/base.html'%}
+{% block content %}
 
-</body>
-</html>
+<div class="container py-3">
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+            <a href="{% url 'client:client_list'%}"
+               class="d-flex align-items-center link-body-emphasis text-decoration-none">
+                <span class="fs-4">Back</span>
+            </a>
+
+            <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                <a class="btn btn-outline-info rounded-pill"
+                   href="{% url 'client:client_update' object.slug %}">Edit</a>
+                <a class="btn btn-outline-warning rounded-pill"
+                   href="{% url 'client:client_delete' object.slug %}">Delete</a>
+            </nav>
+
+        </div>
+
+        <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+            <h1 class="display-4 fw-normal text-body-emphasis">{{object.name}}</h1>
+            <p class="fs-5 text-body-secondary"> Email - {{object.email}} </p>
+            <p class="fs-5 text-body-secondary"> Is signed up - {{object.is_signed_up}} </p>
+            <p class="fs-5 text-body-secondary"> Additional info - {{object.comments}} </p>
+        </div>
+    </header>
+
+</div>
+{% endblock %}
