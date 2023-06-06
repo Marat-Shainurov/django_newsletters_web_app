@@ -165,7 +165,7 @@
 
     <div class="flex-shrink-0 p-3" style="width: 280px;">
 
-        <a href="/" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
+        <a href="{% url 'newsletter:newsletter_list'%}" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
             <svg class="bi pe-none me-2" width="30" height="24">
                 <use xlink:href="#home"/>
             </svg>
@@ -197,7 +197,7 @@
                 </button>
                 <div class="collapse" id="dashboard-collapse">
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="{% url 'newsletter:newsletter_list'%}"
+                        <li><a href="{% url 'client:client_list' %}"
                                class="link-body-emphasis d-inline-flex text-decoration-none rounded">All</a></li>
                         <li><a href="#"
                                class="link-body-emphasis d-inline-flex text-decoration-none rounded">Signed up</a></li>

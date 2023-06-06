@@ -1,3 +1,8 @@
 from django.shortcuts import render
+from django.views import generic
 
-# Create your views here.
+from client.models import Client
+
+
+class ClientListView(generic.ListView):
+    model = Client
