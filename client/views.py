@@ -19,3 +19,11 @@ class ClientCreateView(generic.CreateView):
 
     def get_success_url(self):
         return reverse('client:client_detail', kwargs={'slug': self.object.slug})
+
+
+class ClientUpdateView(generic.UpdateView):
+    model = Client
+    fields = ('name', 'email', 'is_signed_up')
+
+    def get_success_url(self):
+        return reverse('client:client_detail', kwargs={'slug': self.object.slug})

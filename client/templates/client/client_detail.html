@@ -11,7 +11,7 @@
 
             <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
                 <a class="btn btn-outline-info rounded-pill"
-                   href="#">Edit</a>
+                   href="{% url 'client:client_update' object.slug %}">Edit</a>
                 <a class="btn btn-outline-warning rounded-pill"
                    href="#">Delete</a>
             </nav>
