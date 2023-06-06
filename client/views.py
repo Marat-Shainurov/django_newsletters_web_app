@@ -6,3 +6,8 @@ from client.models import Client
 
 class ClientListView(generic.ListView):
     model = Client
+
+
+class ClientDetailView(generic.DetailView):
+    model = Client
+

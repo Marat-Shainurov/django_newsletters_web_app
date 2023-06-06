@@ -19,7 +19,7 @@ class Newsletter(models.Model):
     ]
 
     newsletter = models.CharField(max_length=100, verbose_name='newsletter_name')
-    slug = models.CharField(max_length=250, verbose_name='slug', **NULLABLE)
+    slug = models.SlugField(max_length=250, verbose_name='slug', **NULLABLE)
     start_campaign = models.DateTimeField(verbose_name='from')
     finish_campaign = models.DateTimeField(verbose_name='until')
     status = models.CharField(max_length=10, default='created', choices=STATUS_CHOICE, verbose_name='newsletter_status')
