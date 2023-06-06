@@ -26,6 +26,7 @@ class Newsletter(models.Model):
     regularity = models.CharField(max_length=10, choices=REGULARITY_CHOICES, verbose_name='newsletter_regularity')
     subject = models.CharField(max_length=100, verbose_name='subject', unique=True)
     content = models.TextField(verbose_name='content')
+    is_active = models.BooleanField(verbose_name='is_active', default=True)
 
     def __str__(self):
         return f'{self.newsletter} ({self.status} {self.regularity})'
@@ -33,6 +34,11 @@ class Newsletter(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(unidecode(self.subject))
         super().save(*args, **kwargs)
+
+    def delete(self, **kwargs):
+        self.is_active = False
+        super().delete(**kwargs)
+        self.save()
 
     class Meta:
         verbose_name = 'Newsletter'

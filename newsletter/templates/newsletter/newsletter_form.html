@@ -1,6 +1,6 @@
 {% extends 'newsletter/base.html'%}
 {% block content %}
-
+<div class="form-control scrollarea">
 <form method="post" class="form-control form-control-lg" enctype="multipart/form-data">
     {% csrf_token %}
     <h1>Add Newsletter</h1><br>
@@ -15,5 +15,5 @@
         {% endif %}
     </button>
 </form>
-
+</div>
 {% endblock %}
