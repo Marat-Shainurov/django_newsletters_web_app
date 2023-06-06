@@ -19,3 +19,11 @@ class NewsletterCreateView(generic.CreateView):
 
     def get_success_url(self):
         return reverse_lazy('newsletter:newsletter_detail', kwargs={'slug': self.object.slug})
+
+
+class NewsletterUpdateView(generic.UpdateView):
+    model = Newsletter
+    fields = ('newsletter', 'start_campaign', 'finish_campaign', 'regularity', 'subject', 'content')
+
+    def get_success_url(self):
+        return reverse_lazy('newsletter:newsletter_detail', kwargs={'slug': self.object.slug})

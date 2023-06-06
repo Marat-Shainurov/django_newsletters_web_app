@@ -7,7 +7,13 @@
     <div class="mb-3">
         {{form.as_p}}
     </div>
-    <button type="submit" class="btn btn-primary">Create</button>
+    <button type="submit" class="btn btn-primary">
+        {% if object %}
+        Save changes
+        {% else %}
+        Create
+        {% endif %}
+    </button>
 </form>
 
 {% endblock %}
