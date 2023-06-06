@@ -11,6 +11,7 @@ class Client(models.Model):
     slug = models.SlugField(verbose_name='slug', **NULLABLE)
     is_signed_up = models.BooleanField(verbose_name='is_signed_up', default=True)
     comments = models.TextField(verbose_name='additional_info')
+    created = models.DateTimeField(verbose_name='created', auto_now_add=True)
 
     def __str__(self):
         return f'{self.name} {self.email}'

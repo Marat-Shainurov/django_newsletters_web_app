@@ -27,6 +27,8 @@ class Newsletter(models.Model):
     subject = models.CharField(max_length=100, verbose_name='subject', unique=True)
     content = models.TextField(verbose_name='content')
     is_active = models.BooleanField(verbose_name='is_active', default=True)
+    created = models.DateTimeField(verbose_name='created', auto_now_add=True)
+
 
     def __str__(self):
         return f'{self.newsletter} ({self.status} {self.regularity})'
