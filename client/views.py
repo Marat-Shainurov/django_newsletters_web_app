@@ -15,7 +15,7 @@ class ClientDetailView(generic.DetailView):
 
 class ClientCreateView(generic.CreateView):
     model = Client
-    fields = ('name', 'email', 'is_signed_up')
+    fields = ('name', 'email', 'comments', 'is_signed_up')
 
     def get_success_url(self):
         return reverse('client:client_detail', kwargs={'slug': self.object.slug})
@@ -23,7 +23,12 @@ class ClientCreateView(generic.CreateView):
 
 class ClientUpdateView(generic.UpdateView):
     model = Client
-    fields = ('name', 'email', 'is_signed_up')
+    fields = ('name', 'email', 'comments', 'is_signed_up')
 
     def get_success_url(self):
         return reverse('client:client_detail', kwargs={'slug': self.object.slug})
+
+
+class ClientDeleteView(generic.DeleteView):
+    model = Client
+    success_url = reverse_lazy('client:client_list')

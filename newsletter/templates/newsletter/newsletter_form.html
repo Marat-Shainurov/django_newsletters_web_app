@@ -3,7 +3,7 @@
 <div class="form-control scrollarea">
 <form method="post" class="form-control form-control-lg" enctype="multipart/form-data">
     {% csrf_token %}
-    <h1>Add a newsletter</h1><br>
+    <h1>{% if object %}Edit the{%else%}Add a{%endif%} newsletter</h1><br>
     <div class="mb-3">
         {{form.as_p}}
     </div>

@@ -13,7 +13,7 @@
                 <a class="btn btn-outline-info rounded-pill"
                    href="{% url 'client:client_update' object.slug %}">Edit</a>
                 <a class="btn btn-outline-warning rounded-pill"
-                   href="#">Delete</a>
+                   href="{% url 'client:client_delete' object.slug %}">Delete</a>
             </nav>
 
         </div>
