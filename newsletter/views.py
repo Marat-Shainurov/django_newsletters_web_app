@@ -27,7 +27,7 @@ class NewsletterUpdateView(generic.UpdateView):
         'newsletter', 'status', 'start_campaign', 'finish_campaign', 'regularity', 'subject', 'content', 'is_active')
 
     def get_success_url(self):
-        return reverse_lazy('newsletter:newsletter_detail', kwargs={'slug': self.object.slug})
+        return reverse('newsletter:newsletter_detail', kwargs={'slug': self.object.slug})
 
 
 class NewsletterDeleteView(generic.DeleteView):

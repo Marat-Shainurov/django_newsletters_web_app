@@ -86,6 +86,7 @@
       }
 
 
+
     </style>
 
     <!-- Custom styles for this template -->
@@ -165,7 +166,8 @@
 
     <div class="flex-shrink-0 p-3" style="width: 280px;">
 
-        <a href="{% url 'newsletter:newsletter_list'%}" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
+        <a href="{% url 'newsletter:newsletter_list'%}"
+           class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
             <svg class="bi pe-none me-2" width="30" height="24">
                 <use xlink:href="#home"/>
             </svg>
@@ -201,7 +203,7 @@
                                class="link-body-emphasis d-inline-flex text-decoration-none rounded">All</a></li>
                         <li><a href="#"
                                class="link-body-emphasis d-inline-flex text-decoration-none rounded">Signed up</a></li>
-                        <li><a href="#"
+                        <li><a href="{% url 'client:client_form'%}"
                                class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
                     </ul>
                 </div>
