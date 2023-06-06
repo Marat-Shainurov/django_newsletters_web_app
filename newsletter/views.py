@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 from newsletter.models import Newsletter
@@ -27,3 +27,8 @@ class NewsletterUpdateView(generic.UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('newsletter:newsletter_detail', kwargs={'slug': self.object.slug})
+
+
+class NewsletterDeleteView(generic.DeleteView):
+    model = Newsletter
+    success_url = reverse_lazy('newsletter:newsletter_list')

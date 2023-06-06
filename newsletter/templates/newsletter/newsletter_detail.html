@@ -10,9 +10,12 @@
             </a>
 
             <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-                <a class="py-2 link-body-emphasis text-decoration-none"
+                <a class="btn btn-outline-info rounded-pill"
                    href="{% url 'newsletter:newsletter_update' object.slug %}">Edit the content</a>
+                <a class="btn btn-outline-warning rounded-pill"
+                   href="{% url 'newsletter:newsletter_delete' object.slug %}">Delete</a>
             </nav>
+
         </div>
 
         <div class="pricing-header p-3 pb-md-4 mx-auto text-center">

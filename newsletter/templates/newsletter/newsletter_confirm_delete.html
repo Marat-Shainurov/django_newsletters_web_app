@@ -1,10 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'newsletter/base.html'%}
+{% block content %}
 
-</body>
-</html>
+<div class="container py-3">
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+            <a href="{% url 'newsletter:newsletter_list'%}"
+               class="d-flex align-items-center link-body-emphasis text-decoration-none">
+                <span class="fs-4">Back</span>
+            </a>
+        </div>
+
+        <div class="label">
+            <h2>Are you sure you want to delete (deactivate) the '{{object.subject}}' newsletter</h2>
+            <form method="post">
+                {% csrf_token %}
+                <p><input class="btn btn-outline-danger rounded-pill" type="submit" value="Yes"></p>
+            </form>
+        </div>
+    </header>
+
+</div>
+{% endblock %}
