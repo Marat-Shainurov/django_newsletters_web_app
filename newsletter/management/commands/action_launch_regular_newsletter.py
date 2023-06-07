@@ -1,7 +1,7 @@
-from django.core.management import BaseCommand, call_command
+from crontab import CronTab
+from django.core.management import BaseCommand
 from django.shortcuts import get_object_or_404
 
-from config import settings
 from newsletter.models import Newsletter
 from newsletter.services import send_newsletter
 
@@ -15,11 +15,11 @@ class Command(BaseCommand):
         newsletter_id = options['newsletter_id']
         newsletter_to_be_sent = get_object_or_404(Newsletter, pk=newsletter_id)
         newsletter_regularity = newsletter_to_be_sent.regularity
+        send_newsletter(newsletter_to_be_sent.pk)
 
-        cronjobs = getattr(settings, 'CRONJOBS', [])
-
-        for cronjob in cronjobs:
-            cronjob_regularity = cronjob[3]['regularity']
-            if newsletter_regularity == cronjob_regularity:
-                # run the needed job somehow!!!
-                send_newsletter(newsletter_to_be_sent.pk)
+        if newsletter_regularity == 'daily':
+            cron = CronTab(user=True)
+            job = cron.new(command=f'python manage.py action_send_newsletter {newsletter_id}')
+            job.setall('50 14 * * *')
+            cron.write()
+            print('Cron job was added successfully')
