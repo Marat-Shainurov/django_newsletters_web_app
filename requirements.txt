@@ -3,7 +3,6 @@ asttokens==2.2.1
 backcall==0.2.0
 decorator==5.1.1
 Django==4.2.1
-django-crontab==0.7.1
 executing==1.2.0
 ipython==8.14.0
 jedi==0.18.2
