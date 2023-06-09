@@ -17,7 +17,7 @@ class Command(BaseCommand):
         newsletter_regularity = newsletter_to_be_sent.regularity
 
         regularity_modes = {
-            'daily': '35 14 * * *',
+            'daily': '50 19 * * *',
             'weekly': '0 12 * * 1',
             'monthly': '0 12 1 * *'
         }
@@ -25,8 +25,10 @@ class Command(BaseCommand):
         for mode in regularity_modes:
             if mode == newsletter_regularity:
                 cron = CronTab(user=True)
-                job = cron.new(
-                    command=f'C:\\Users\\m_sha\\AppData\\Local\\Microsoft\\WindowsApps\\python3.11.exe /path/to/django/project/manage.py action_send_newsletter {newsletter_id}')
+                # command = f'\\wsl$\\Ubuntu\\home\\marat_shainurov\\django_cw\\venv\\bin\\python \\wsl$\\Ubuntu\\home\\marat_shainurov\\django_cw\\manage.py action_send_newsletter {newsletter_id}'
+                # command = f'/mnt/wsl/Ubuntu/home/marat_shainurov/django_cw/venv/bin/python /mnt/wsl/Ubuntu/home/marat_shainurov/django_cw/manage.py action_send_newsletter {newsletter_id}'
+                command = f'python manage.py action_send_newsletter {newsletter_id}'
+                job = cron.new(command=command)
                 job.setall(regularity_modes[mode])
                 cron.write()
                 print('Cron job is added successfully')

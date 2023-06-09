@@ -11,3 +11,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         newsletter_id = options['newsletter_id']
         send_newsletter(newsletter_id)
+        print('Emails have been sent')
