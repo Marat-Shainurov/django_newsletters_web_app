@@ -36,8 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'django_crontab',
-
     'newsletter',
     'client'
 ]
@@ -107,7 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Istanbul'
 
 USE_I18N = True
 
@@ -136,18 +134,3 @@ EMAIL_HOST_USER = 'shainurov.mar@yandex.ru'
 EMAIL_HOST_PASSWORD = 'mtrqvcttesattpwj'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
-
-CRONJOBS = [
-    (
-        '0 0 * * *', 'newsletter.management.commands.action_launch_regular_newsletter',
-        ['newsletter_id'], {'regularity': 'daily'}
-    ),
-    (
-        '0 0 * * 1', 'newsletter.management.commands.action_launch_regular_newsletter',
-        ['newsletter_id'], {'regularity': 'weekly'}
-    ),
-    (
-        '0 0 1 * *', 'newsletter.management.commands.action_launch_regular_newsletter',
-        ['newsletter_id'], {'regularity': 'monthly'}
-    ),
-]

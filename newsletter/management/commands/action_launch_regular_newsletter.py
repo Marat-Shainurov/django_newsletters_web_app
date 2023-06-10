@@ -1,9 +1,12 @@
-from django.core.management import BaseCommand, call_command
+import sys
+from pathlib import Path
+
+from crontab import CronTab
+from django.core.management import BaseCommand
 from django.shortcuts import get_object_or_404
 
-from config import settings
+from config.settings import BASE_DIR
 from newsletter.models import Newsletter
-from newsletter.services import send_newsletter
 
 
 class Command(BaseCommand):
@@ -16,10 +19,21 @@ class Command(BaseCommand):
         newsletter_to_be_sent = get_object_or_404(Newsletter, pk=newsletter_id)
         newsletter_regularity = newsletter_to_be_sent.regularity
 
-        cronjobs = getattr(settings, 'CRONJOBS', [])
+        regularity_modes = {
+            'daily': '10 12 * * *',
+            'weekly': '0 12 * * 1',
+            'monthly': '0 12 1 * *'
+        }
 
-        for cronjob in cronjobs:
-            cronjob_regularity = cronjob[3]['regularity']
-            if newsletter_regularity == cronjob_regularity:
-                # run the needed job somehow!!!
-                send_newsletter(newsletter_to_be_sent.pk)
+        python_executable = Path(sys.executable)
+        manage_py = BASE_DIR / 'manage.py'
+
+        for mode in regularity_modes:
+            if mode == newsletter_regularity:
+                cron = CronTab(user=True)
+                command = f'{python_executable} {manage_py} action_send_newsletter {newsletter_id}'
+                job = cron.new(command=command)
+                job.setall(regularity_modes[mode])
+                cron.write()
+                print('Cron job is added successfully')
+                print(f'newsletter regularity mode - {newsletter_regularity}')
