@@ -3,7 +3,6 @@ from datetime import datetime
 from pathlib import Path
 
 from crontab import CronTab
-from dateutil import parser
 from dateutil.tz import tz
 from django.core.management import BaseCommand, call_command
 from django.shortcuts import get_object_or_404
@@ -14,41 +13,52 @@ from newsletter.models import Newsletter
 
 
 class Command(BaseCommand):
+    python_executable = Path(sys.executable)
+    manage_py = BASE_DIR / 'manage.py'
 
     def add_arguments(self, parser):
         parser.add_argument('newsletter_id', type=int, help='ID of the newsletter to be launched.')
 
     def handle(self, *args, **options):
+        regularity_modes = {'daily': '35 17 * * *', 'weekly': '0 12 * * 1', 'monthly': '0 12 1 * *'}
+
         newsletter_id = options['newsletter_id']
-        newsletter_to_be_sent: Newsletter = get_object_or_404(Newsletter, pk=newsletter_id)
-        newsletter_regularity = newsletter_to_be_sent.regularity
-        newsletter_from = parser.parse(newsletter_to_be_sent.start_campaign.strftime("%Y-%m-%d %H:%M:%S")).replace(tzinfo=None)
-        newsletter_until = parser.parse(newsletter_to_be_sent.finish_campaign.strftime("%Y-%m-%d %H:%M:%S")).replace(tzinfo=None)
+        newsletter_to_send = get_object_or_404(Newsletter, pk=newsletter_id)
+        newsletter_regularity = newsletter_to_send.regularity
+
+        newsletter_from = newsletter_to_send.start_campaign.replace(tzinfo=None)
+        newsletter_until = newsletter_to_send.finish_campaign.replace(tzinfo=None)
         timezone = tz.gettz(settings.TIME_ZONE)
         actual_time = datetime.now(timezone).replace(tzinfo=None)
 
-        regularity_modes = {'daily': '55 13 * * *', 'weekly': '0 12 * * 1', 'monthly': '0 12 1 * *'}
-
-        python_executable = Path(sys.executable)
-        manage_py = BASE_DIR / 'manage.py'
-
         for mode in regularity_modes:
             if mode == newsletter_regularity:
-
                 if actual_time > newsletter_from:
-                    # calls immediate sending via "action_send_newsletter"
                     call_command('action_send_newsletter', f'{newsletter_id}')
                     print(f'Actual time ({actual_time}) is later than the "start_campaign" value ({newsletter_from}). '
                           f'The newsletter has been sent right away.')
 
-                    # sets a new cron job from the closest date, following the cron job schedule
                     cron = CronTab(user=True)
-                    command = f'{python_executable} {manage_py} action_send_newsletter {newsletter_id}'
-                    job = cron.new(command=command)
+                    command = f'{Command.python_executable} {Command.manage_py} action_send_newsletter {newsletter_id}'
+                    job = cron.new(command=command, comment=f'{newsletter_to_send.pk}')
                     job.setall(regularity_modes[mode])
                     cron.write()
+                    newsletter_to_send.status = 'launched'
+                    newsletter_to_send.save()
                     print(f'\nCron job is added successfully. \nNewsletter regularity mode - {newsletter_regularity}')
                     print(f'Campaign duration - from "{newsletter_from}", until "{newsletter_until}"')
+                    print(f'Campaign schedule - "{mode}"')
 
-                    newsletter_to_be_sent.status = 'launched'
-                    newsletter_to_be_sent.save()
+                    command_remove = f'{Command.python_executable} {Command.manage_py} action_remove_cronjob {newsletter_to_send.pk}'
+                    job = cron.new(command=command_remove)
+                    year = newsletter_until.year
+                    month = newsletter_until.month
+                    day = newsletter_until.day
+                    hour = newsletter_until.hour if newsletter_until.hour is not None else 0
+                    minute = newsletter_until.minute if newsletter_until.minute is not None else 0
+                    removal_datetime = datetime(year, month, day, hour, minute)
+                    job.setall(removal_datetime)
+                    cron.write()
+
+                else:
+                    pass
