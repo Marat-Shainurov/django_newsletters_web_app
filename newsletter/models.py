@@ -30,7 +30,7 @@ class Newsletter(models.Model):
     created = models.DateTimeField(verbose_name='created', auto_now_add=True)
 
     def __str__(self):
-        return f'{self.newsletter} ({self.status} {self.regularity})'
+        return f'{self.newsletter} {self.status} {self.regularity}'
 
     def save(self, *args, **kwargs):
         self.slug = slugify(unidecode(self.subject))
@@ -59,7 +59,7 @@ class NewsletterAttempts(models.Model):
     comment = models.TextField(verbose_name='Error message or comment', **NULLABLE)
 
     def __str__(self):
-        return f'{self.newsletter} (last attempt - {self.last_attempt}, {self.attempt_status})'
+        return f'{self.newsletter} {self.newsletter} {self.last_attempt})'
 
     class Meta:
         verbose_name = 'Newsletter Attempt'
