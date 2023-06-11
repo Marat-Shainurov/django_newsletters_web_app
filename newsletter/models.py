@@ -49,15 +49,14 @@ class Newsletter(models.Model):
 class NewsletterAttempts(models.Model):
     ATTEMPT_STATUS_CHOICES = [
         ('success', 'Success'),
-        ('failure', 'Failure'),
-        ('in_progress', 'In_progress'),
+        ('failure', 'Failure')
     ]
 
     newsletter = models.ForeignKey(Newsletter, verbose_name='newsletter', on_delete=models.CASCADE)
     last_attempt = models.DateTimeField(verbose_name='last_attempt', **NULLABLE)
     attempt_status = models.CharField(max_length=12, choices=ATTEMPT_STATUS_CHOICES, verbose_name='attempt_status',
                                       **NULLABLE)
-    email_server_response = models.TextField(verbose_name='email_server_response', **NULLABLE)
+    comment = models.TextField(verbose_name='Error message or comment', **NULLABLE)
 
     def __str__(self):
         return f'{self.newsletter} (last attempt - {self.last_attempt}, {self.attempt_status})'
@@ -65,3 +64,16 @@ class NewsletterAttempts(models.Model):
     class Meta:
         verbose_name = 'Newsletter Attempt'
         verbose_name_plural = 'Newsletter Attempts'
+
+
+class EmailServerResponse(models.Model):
+    attempt = models.ForeignKey(NewsletterAttempts, verbose_name='newsletter_attempt', on_delete=models.CASCADE)
+    recipient_email = models.EmailField(verbose_name='recipient_email')
+    response = models.TextField(verbose_name='email_server_response', **NULLABLE)
+
+    def __str__(self):
+        return f'{self.attempt} ({self.recipient_email}, response - {self.response})'
+
+    class Meta:
+        verbose_name = 'Response'
+        verbose_name_plural = 'Responses'
