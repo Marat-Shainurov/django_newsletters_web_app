@@ -4,9 +4,11 @@ from smtplib import SMTPException
 from dateutil.tz import tz
 from django.conf import settings
 from django.core.mail import send_mail, BadHeaderError
+from django.core.validators import EmailValidator, ValidationError
 
 from client.models import Client
 from newsletter.models import Newsletter, NewsletterAttempts, EmailServerResponse
+
 
 def send_newsletter(newsletter_id):
     clients_to_be_informed = Client.objects.filter(is_signed_up=True)
@@ -16,11 +18,13 @@ def send_newsletter(newsletter_id):
     actual_time = datetime.now(timezone)
 
     new_attempt = NewsletterAttempts.objects.create(newsletter=newsletter_to_send, last_attempt=actual_time)
+    email_validator = EmailValidator()
 
     try:
         for address in recipient_list:
             new_response_obj = EmailServerResponse.objects.create(attempt=new_attempt, recipient_email=address)
             try:
+                email_validator(address)
                 send_mail(
                     f'{newsletter_to_send.subject}',
                     f'{newsletter_to_send.content}',
@@ -28,9 +32,10 @@ def send_newsletter(newsletter_id):
                     recipient_list=[address],
                     fail_silently=False
                 )
-                new_response_obj.response = 'Successful sending.'
-            except (SMTPException, BadHeaderError) as error:
+            except (SMTPException, BadHeaderError, ValidationError) as error:
                 new_response_obj.response = str(error)
+            else:
+                new_response_obj.response = 'Successful sending.'
             new_response_obj.save()
     except Exception as e:
         new_attempt.attempt_status = 'failure'
