@@ -37,53 +37,59 @@ class Command(BaseCommand):
         for mode in regularity_modes:
             if mode == newsletter_regularity:
 
-                if actual_time > newsletter_from:
-                    call_command('action_send_newsletter', f'{newsletter_id}')
-                    print(f'Actual time ({actual_time}) is later than the "start_campaign" value ({newsletter_from}). '
-                          f'The newsletter has been sent right away.')
+                if actual_time < newsletter_until:
+                    if actual_time > newsletter_from:
+                        call_command('action_send_newsletter', f'{newsletter_id}')
+                        print(
+                            f'Actual time ({actual_time}) is later than the "start_campaign" field\'s value  ({newsletter_from}). '
+                            f'The newsletter has been sent right away.')
 
-                    command = f'{Command.python_executable} {Command.manage_py} action_send_newsletter {newsletter_id}'
-                    job = cron.new(command=command, comment=f'{newsletter_to_send.pk}')
-                    job.setall(regularity_modes[mode])
+                        command = f'{Command.python_executable} {Command.manage_py} action_send_newsletter {newsletter_id}'
+                        job = cron.new(command=command, comment=f'{newsletter_to_send.pk}')
+                        job.setall(regularity_modes[mode])
+                        cron.write()
+                        newsletter_to_send.status = 'launched'
+                        newsletter_to_send.save()
+                        print('\nMain cronjob:')
+                        print(f'Cron job is added successfully. \nNewsletter regularity mode - {newsletter_regularity}')
+                        print(f'Campaign duration - from "{newsletter_from}", until "{newsletter_until}"')
+                        print(f'Campaign schedule - "{mode}"')
+
+                    else:
+                        year = newsletter_from.year
+                        month = newsletter_from.month
+                        day = newsletter_from.day
+                        hour = newsletter_from.hour if newsletter_from.hour is not None else 0
+                        minute = newsletter_from.minute if newsletter_from.minute is not None else 0
+                        date_from = datetime(year, month, day, hour, minute)
+
+                        command = f'{Command.python_executable} {Command.manage_py} action_send_newsletter {newsletter_id}'
+                        job = cron.new(command=command, comment=f'{newsletter_to_send.pk}')
+                        job.setall(regularity_modes[mode])
+                        schedule = job.schedule(date_from=date_from)
+                        next_run_time = schedule.get_next()
+                        cron.write()
+                        newsletter_to_send.status = 'launched'
+                        newsletter_to_send.save()
+                        print('\nMain cronjob:')
+                        print(f'Cron job is added successfully. \nNewsletter regularity mode - {newsletter_regularity}')
+                        print(f'Campaign duration - from "{newsletter_from}", until "{newsletter_until}"')
+                        print(f'Campaign schedule - "{mode}"')
+                        print(f"The job will be launched at: {next_run_time}")
+
+                    command_remove = f'{Command.python_executable} {Command.manage_py} action_remove_cronjob {newsletter_to_send.pk}'
+                    job = cron.new(command=command_remove, comment=f'{newsletter_to_send.pk}')
+                    year = newsletter_until.year
+                    month = newsletter_until.month
+                    day = newsletter_until.day
+                    hour = newsletter_until.hour if newsletter_until.hour is not None else 0
+                    minute = newsletter_until.minute if newsletter_until.minute is not None else 0
+                    removal_datetime = datetime(year, month, day, hour, minute)
+                    job.setall(removal_datetime)
                     cron.write()
-                    newsletter_to_send.status = 'launched'
-                    newsletter_to_send.save()
-                    print('\nMain cronjob:')
-                    print(f'Cron job is added successfully. \nNewsletter regularity mode - {newsletter_regularity}')
-                    print(f'Campaign duration - from "{newsletter_from}", until "{newsletter_until}"')
-                    print(f'Campaign schedule - "{mode}"')
-
+                    print(f'\nRemoval cronjob:')
+                    print(f'The removal cronjob is added and scheduled to {newsletter_until}')
                 else:
-                    year = newsletter_from.year
-                    month = newsletter_from.month
-                    day = newsletter_from.day
-                    hour = newsletter_from.hour if newsletter_from.hour is not None else 0
-                    minute = newsletter_from.minute if newsletter_from.minute is not None else 0
-                    date_from = datetime(year, month, day, hour, minute)
-
-                    command = f'{Command.python_executable} {Command.manage_py} action_send_newsletter {newsletter_id}'
-                    job = cron.new(command=command, comment=f'{newsletter_to_send.pk}')
-                    job.setall(regularity_modes[mode])
-                    schedule = job.schedule(date_from=date_from)
-                    next_run_time = schedule.get_next()
-                    cron.write()
-                    newsletter_to_send.status = 'launched'
-                    newsletter_to_send.save()
-                    print('\nMain cronjob:')
-                    print(f'Cron job is added successfully. \nNewsletter regularity mode - {newsletter_regularity}')
-                    print(f'Campaign duration - from "{newsletter_from}", until "{newsletter_until}"')
-                    print(f'Campaign schedule - "{mode}"')
-                    print(f"The job will be launched at: {next_run_time}")
-
-                command_remove = f'{Command.python_executable} {Command.manage_py} action_remove_cronjob {newsletter_to_send.pk}'
-                job = cron.new(command=command_remove, comment=f'{newsletter_to_send.pk}')
-                year = newsletter_until.year
-                month = newsletter_until.month
-                day = newsletter_until.day
-                hour = newsletter_until.hour if newsletter_until.hour is not None else 0
-                minute = newsletter_until.minute if newsletter_until.minute is not None else 0
-                removal_datetime = datetime(year, month, day, hour, minute)
-                job.setall(removal_datetime)
-                cron.write()
-                print(f'\nRemoval cronjob:')
-                print(f'The removal cronjob is added and scheduled to {newsletter_until}')
+                    print(
+                        f'Actual time ({actual_time}) is later than the "finish_campaign" field\'s value ({newsletter_until})')
+                    print('Please, set the right duration.')
