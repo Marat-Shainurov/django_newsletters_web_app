@@ -21,7 +21,7 @@ class Command(BaseCommand):
         parser.add_argument('newsletter_id', type=int, help='ID of the newsletter to be launched.')
 
     def handle(self, *args, **options):
-        regularity_modes = {'daily': '50 13 * * *', 'weekly': '0 9 * * 0', 'monthly': '0 12 1 * *'}
+        regularity_modes = {'daily': '0 11 * * *', 'weekly': '0 11 * * 2', 'monthly': '0 11 13 * *'}
 
         newsletter_id = options['newsletter_id']
         newsletter_to_send = get_object_or_404(Newsletter, pk=newsletter_id)
@@ -48,7 +48,8 @@ class Command(BaseCommand):
                     cron.write()
                     newsletter_to_send.status = 'launched'
                     newsletter_to_send.save()
-                    print(f'\nCron job is added successfully. \nNewsletter regularity mode - {newsletter_regularity}')
+                    print('\nMain cronjob:')
+                    print(f'Cron job is added successfully. \nNewsletter regularity mode - {newsletter_regularity}')
                     print(f'Campaign duration - from "{newsletter_from}", until "{newsletter_until}"')
                     print(f'Campaign schedule - "{mode}"')
 
@@ -68,14 +69,14 @@ class Command(BaseCommand):
                     cron.write()
                     newsletter_to_send.status = 'launched'
                     newsletter_to_send.save()
-                    print('Main cronjob:')
-                    print(f'\nCron job is added successfully. \nNewsletter regularity mode - {newsletter_regularity}')
+                    print('\nMain cronjob:')
+                    print(f'Cron job is added successfully. \nNewsletter regularity mode - {newsletter_regularity}')
                     print(f'Campaign duration - from "{newsletter_from}", until "{newsletter_until}"')
                     print(f'Campaign schedule - "{mode}"')
                     print(f"The job will be launched at: {next_run_time}")
 
                 command_remove = f'{Command.python_executable} {Command.manage_py} action_remove_cronjob {newsletter_to_send.pk}'
-                job = cron.new(command=command_remove)
+                job = cron.new(command=command_remove, comment=f'{newsletter_to_send.pk}')
                 year = newsletter_until.year
                 month = newsletter_until.month
                 day = newsletter_until.day
@@ -84,5 +85,5 @@ class Command(BaseCommand):
                 removal_datetime = datetime(year, month, day, hour, minute)
                 job.setall(removal_datetime)
                 cron.write()
-                print(f'Removal cronjob:')
+                print(f'\nRemoval cronjob:')
                 print(f'The removal cronjob is added and scheduled to {newsletter_until}')
