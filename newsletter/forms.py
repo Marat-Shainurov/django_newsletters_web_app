@@ -10,7 +10,6 @@ class NewsletterForm(forms.ModelForm):
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
 
-
     class Meta:
         model = Newsletter
         exclude = ('created', 'slug', 'is_active')
