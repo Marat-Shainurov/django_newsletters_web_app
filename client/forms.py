@@ -1,16 +1,15 @@
 from django import forms
 
-from newsletter.models import Newsletter
+from client.models import Client
 
 
-class NewsletterForm(forms.ModelForm):
+class ClientForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
 
-
     class Meta:
-        model = Newsletter
-        exclude = ('created', 'slug', 'is_active')
+        model = Client
+        exclude = ('is_active',)

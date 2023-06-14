@@ -1,7 +1,7 @@
-from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
+from client.forms import ClientForm
 from client.models import Client
 
 
@@ -15,7 +15,7 @@ class ClientDetailView(generic.DetailView):
 
 class ClientCreateView(generic.CreateView):
     model = Client
-    fields = ('name', 'email', 'comments', 'is_signed_up')
+    form_class = ClientForm
 
     def get_success_url(self):
         return reverse('client:client_detail', kwargs={'slug': self.object.slug})
@@ -23,7 +23,7 @@ class ClientCreateView(generic.CreateView):
 
 class ClientUpdateView(generic.UpdateView):
     model = Client
-    fields = ('name', 'email', 'comments', 'is_signed_up')
+    form_class = ClientForm
 
     def get_success_url(self):
         return reverse('client:client_detail', kwargs={'slug': self.object.slug})
