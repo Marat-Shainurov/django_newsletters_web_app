@@ -12,10 +12,10 @@ class NewsletterSettingsAdmin(admin.ModelAdmin):
 
 @admin.register(NewsletterAttempts)
 class NewsletterAttemptsAdmin(admin.ModelAdmin):
-    list_display = ('newsletter', 'last_attempt', 'attempt_status')
+    list_display = ('pk', 'newsletter', 'last_attempt', 'attempt_status')
     list_filter = ('newsletter', 'attempt_status', 'last_attempt')
 
 @admin.register(EmailServerResponse)
-class EmailServerResponseAdmon(admin.ModelAdmin):
-    list_display = ('attempt', 'recipient_email', 'response')
+class EmailServerResponseAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'attempt', 'recipient_email', 'response')
     list_filter = ('attempt', 'recipient_email')

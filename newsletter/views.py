@@ -3,7 +3,7 @@ from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 from newsletter.forms import NewsletterForm
-from newsletter.models import Newsletter, EmailServerResponse
+from newsletter.models import Newsletter, EmailServerResponse, NewsletterAttempts
 
 
 class NewsletterListView(generic.ListView):
@@ -40,5 +40,11 @@ class NewsletterDeleteView(generic.DeleteView):
     success_url = reverse_lazy('newsletter:newsletter_list')
 
 
-class EmailServerResponseListView(generic.ListView):
-    model = EmailServerResponse
+class NewsletterAttemptsListView(generic.ListView):
+    model = NewsletterAttempts
+
+
+class NewsletterAttemptsDetailView(generic.DetailView):
+    model = NewsletterAttempts
+
+
