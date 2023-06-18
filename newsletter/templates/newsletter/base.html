@@ -160,19 +160,38 @@
     </symbol>
 </svg>
 
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'newsletter:newsletter_list'%}">Home</a>
+                    </li>
+                </ul>
+                <div class="mb-md-2">
+
+                    <a class="" href="#">Profile</a>
+                    <a href="{% url 'users:logout' %}">Logout</a>
+
+                    <a href="#">Register</a>
+                    <a href="{% url 'users:login' %}">Login</a>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<br><br>
+
 <main class="d-flex flex-nowrap">
 
     <div class="b-example-divider b-example-vr"></div>
 
     <div class="flex-shrink-0 p-3" style="width: 280px;">
 
-        <a href="{% url 'newsletter:newsletter_list'%}"
-           class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
-            <svg class="bi pe-none me-2" width="30" height="24">
-                <use xlink:href="#home"/>
-            </svg>
-            <span class="fs-5 fw-semibold">Main</span>
-        </a>
         <ul class="list-unstyled ps-0">
             <li class="mb-1">
                 <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
@@ -186,7 +205,8 @@
                         <li><a href="{% url 'newsletter:newsletter_create'%}"
                                class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
                         <li><a href="{% url 'newsletter:attempts_list' %}"
-                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">Attempts Report</a></li>
+                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">Attempts Report</a>
+                        </li>
                     </ul>
 
                 </div>
