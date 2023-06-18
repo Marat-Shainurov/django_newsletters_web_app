@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.utils.text import slugify
 from unidecode import unidecode
@@ -28,6 +29,9 @@ class Newsletter(models.Model):
     content = models.TextField(verbose_name='content')
     is_active = models.BooleanField(verbose_name='is_active', default=True)
     created = models.DateTimeField(verbose_name='created', auto_now_add=True)
+
+    newsletter_user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='newsletter_user',
+                                        on_delete=models.CASCADE, **NULLABLE)
 
     def __str__(self):
         return f'{self.newsletter} ({self.status}, {self.regularity})'

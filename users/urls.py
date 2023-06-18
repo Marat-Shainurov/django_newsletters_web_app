@@ -1,12 +1,13 @@
 from django.urls import path
 
 from users.apps import UsersConfig
-from users.views import LoginView, LogoutView, RegisterView
+from users.views import LoginView, LogoutView, RegisterView, verify_email
 
 app_name = UsersConfig.name
 
 urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('registration/', RegisterView.as_view(), name='register')
+    path('registration/', RegisterView.as_view(), name='register'),
+    path('registration/verification/<str:email>', verify_email, name='verify_email'),
 ]
