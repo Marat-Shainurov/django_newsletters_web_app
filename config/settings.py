@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'newsletter',
-    'client'
+    'client',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,7 @@ EMAIL_HOST_USER = 'shainurov.mar@yandex.ru'
 EMAIL_HOST_PASSWORD = 'mtrqvcttesattpwj'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
+
+AUTH_USER_MODEL = 'users.User'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
