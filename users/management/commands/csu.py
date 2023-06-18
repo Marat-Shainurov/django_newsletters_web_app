@@ -5,7 +5,7 @@ from users.models import User
 
 class Command(BaseCommand):
 
-    def handle(self):
+    def handle(self, *args, **kwargs):
         user = User(
             email='m_shainurov@mail.ru',
             first_name='Marat',
