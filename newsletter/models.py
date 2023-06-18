@@ -59,7 +59,7 @@ class NewsletterAttempts(models.Model):
     comment = models.TextField(verbose_name='Error message or comment', **NULLABLE)
 
     def __str__(self):
-        return f'{self.newsletter} {self.last_attempt})'
+        return f'{self.newsletter}'
 
     class Meta:
         verbose_name = 'Newsletter Attempt'
