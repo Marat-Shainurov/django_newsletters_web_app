@@ -1,30 +1,30 @@
 {% extends 'newsletter/base.html'%}
 {% block content %}
-<div class="container d-flex justify-content-center align-items-center" style="height: 20vh;">
+<div class="container d-flex justify-content-center align-items-center" style="height: 30vh;">
     <div class="container-fluid">
         <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Email</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Avatar</th>
-            <th scope="col">Is verified</th>
-            <th scope="col">Is manager</th>
-        </tr>
-        </thead>
-        <tbody class="table-group-divider">
-        {% for object in object_list %}
-        <tr>
-            <th scope="row">{{ object.pk}}</th>
-            <td><a href="{% url 'users:user_form' object.pk %}">{{ object.email }}</a></td>
-            <td>{{ object.phone}}</td>
-            <td>{{ object.avatar}}</td>
-            <td>{{ object.is_verified}}</td>
-            <td>{{ object.is_manager}}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Avatar</th>
+                <th scope="col">Is verified</th>
+                <th scope="col">Is manager</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider">
+            {% for object in object_list %}
+            <tr>
+                <th scope="row">{{ object.pk}}</th>
+                <td><a href="{% url 'users:user_form' object.pk %}">{{ object.email }}</a></td>
+                <td>{{ object.phone}}</td>
+                <td>{{ object.avatar}}</td>
+                <td>{{ object.is_verified}}</td>
+                <td>{{ object.is_manager}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
         </table>
     </div>
 </div>

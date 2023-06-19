@@ -172,12 +172,21 @@
                            href="{% url 'newsletter:newsletter_list'%}">Home</a>
                     </li>
                 </ul>
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+
+                </ul>
                 <div class="mb-md-2">
                     {% if user.is_authenticated %}
-                    <a href="{% url 'users:logout' %}">Logout</a>
+                    <a href="{% url 'users:user_form' user.pk %}"
+                       class="link-secondary link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Welcome,
+                        {{user}} /</a>
+                    <a href="{% url 'users:logout' %}"
+                       class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Logout</a>
                     {% else %}
-                    <a href="{% url 'users:register' %}">Register</a>
-                    <a href="{% url 'users:login' %}">Login</a>
+                    <a href="{% url 'users:register' %}"
+                       class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Register</a>
+                    <a href="{% url 'users:login' %}"
+                       class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Login</a>
                     {% endif %}
                 </div>
             </div>
