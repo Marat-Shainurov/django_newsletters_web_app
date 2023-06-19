@@ -10,19 +10,29 @@
             <th scope="col">Newsletter</th>
             <th scope="col">Attempt date</th>
             <th scope="col">Attempt status</th>
+            <th scope="col">User</th>
         </tr>
         </thead>
         <tbody class="table-group-divider">
+        {% if user.is_authenticated %}
         {% for object in object_list %}
+        {% if user == object.newsletter.newsletter_user %}
         <tr>
             <th scope="row">{{ object.pk}}</th>
             <td><a href="{% url 'newsletter:attempt_responses_detail' object.pk %}">{{ object.newsletter }}</a></td>
             <td>{{ object.last_attempt}}</td>
             <td>{{ object.attempt_status}}</td>
+            <td>{{ object.newsletter.newsletter_user }}</td>
         </tr>
+        {% endif %}
         {% endfor %}
+        {% endif %}
         </tbody>
         </table>
     </div>
+</div>
+<br>
+<div>
+
 </div>
 {% endblock %}

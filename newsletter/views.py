@@ -1,9 +1,8 @@
-from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 from newsletter.forms import NewsletterForm
-from newsletter.models import Newsletter, EmailServerResponse, NewsletterAttempts
+from newsletter.models import Newsletter, NewsletterAttempts
 
 
 class NewsletterListView(generic.ListView):
@@ -46,5 +45,3 @@ class NewsletterAttemptsListView(generic.ListView):
 
 class NewsletterAttemptsDetailView(generic.DetailView):
     model = NewsletterAttempts
-
-

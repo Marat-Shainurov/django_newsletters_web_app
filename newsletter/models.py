@@ -56,7 +56,8 @@ class NewsletterAttempts(models.Model):
         ('failure', 'Failure')
     ]
 
-    newsletter = models.ForeignKey(Newsletter, verbose_name='newsletter', on_delete=models.CASCADE)
+    newsletter = models.ForeignKey(Newsletter, verbose_name='newsletter', on_delete=models.CASCADE,
+                                   related_name='newsletter_attempt')
     last_attempt = models.DateTimeField(verbose_name='last_attempt', **NULLABLE)
     attempt_status = models.CharField(max_length=12, choices=ATTEMPT_STATUS_CHOICES, verbose_name='attempt_status',
                                       **NULLABLE)
