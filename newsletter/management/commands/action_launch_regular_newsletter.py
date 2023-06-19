@@ -21,7 +21,7 @@ class Command(BaseCommand):
         parser.add_argument('newsletter_id', type=int, help='ID of the newsletter to be launched.')
 
     def handle(self, *args, **options):
-        regularity_modes = {'daily': '0 11 * * *', 'weekly': '0 11 * * 2', 'monthly': '0 11 13 * *'}
+        regularity_modes = {'daily': '0 12 * * *', 'weekly': '0 12 * * 2', 'monthly': '0 12 20 * *'}
 
         newsletter_id = options['newsletter_id']
         newsletter_to_send = get_object_or_404(Newsletter, pk=newsletter_id)

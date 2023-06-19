@@ -23,7 +23,8 @@
         <div>
             <p class="fw-medium">Newsletter name - '{{object.newsletter}}'</p>
             <p class="fw-medium">Newsletter id - '{{object.pk}}'</p>
-            <p class="fw-medium">Newsletter duration - from {{object.start_campaign}}, to {{object.finish_campaign}}</p>
+            <p class="fw-medium">Newsletter duration:
+                <br>- from {{object.start_campaign}} <br>- to {{object.finish_campaign}}</p>
             <p class="fw-medium">Newsletter status - '{{object.status}}'</p>
             {% if object.status == 'launched'%}
             <p class="fw-medium">Newsletter regularity - '{{object.regularity}}'</p>
@@ -31,6 +32,7 @@
             <p class="fw-medium">Newsletter activity - {% if object.is_active %}'Active'{%else%}'Deactivated' and not in
                 the list{%endif%}</p>
             <p class="fw-medium">Newsletter created - {{object.created}}</p>
+            <p class="fw-medium">Newsletter user - {{object.newsletter_user}}</p>
         </div>
         <br><br>
         <div>
