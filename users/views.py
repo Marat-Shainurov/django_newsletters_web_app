@@ -9,9 +9,17 @@ from django.contrib.auth.views import LogoutView as BaseLogoutView
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
-from users.forms import UserRegisterForm
+from users.forms import UserRegisterForm, UserProfileForm
 from users.models import User
 
+
+class UserListView(generic.ListView):
+    model = User
+
+class UserUpdateView(generic.UpdateView):
+    model = User
+    form_class = UserProfileForm
+    success_url = reverse_lazy('users:user_list')
 
 class LoginView(BaseLoginView):
     template_name = 'users/login.html'
