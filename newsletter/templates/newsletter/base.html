@@ -174,7 +174,6 @@
                 </ul>
                 <div class="mb-md-2">
                     {% if user.is_authenticated %}
-                    <a class="" href="#">Profile</a>
                     <a href="{% url 'users:logout' %}">Logout</a>
                     {% else %}
                     <a href="{% url 'users:register' %}">Register</a>
@@ -200,8 +199,10 @@
                     Newsletters
                 </button>
                 <div class="collapse show" id="home-collapse">
+                    {% if user.is_authenticated %}
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="{% url 'newsletter:newsletter_list'%}"
+                        <li>
+                            <a href="{% url 'newsletter:newsletter_list' %}"
                                class="link-body-emphasis d-inline-flex text-decoration-none rounded">List</a></li>
                         <li><a href="{% url 'newsletter:newsletter_create'%}"
                                class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
@@ -209,7 +210,18 @@
                                class="link-body-emphasis d-inline-flex text-decoration-none rounded">Attempts Report</a>
                         </li>
                     </ul>
-
+                    {% else %}
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        <li>
+                            <a href="{% url 'users:login_warning' %}"
+                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">List</a></li>
+                        <li><a href="{% url 'users:login_warning' %}"
+                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
+                        <li><a href="{% url 'users:login_warning' %}"
+                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">Attempts Report</a>
+                        </li>
+                    </ul>
+                    {% endif %}
                 </div>
             </li>
             <li class="border-top my-3"></li>
@@ -219,12 +231,21 @@
                     Clients
                 </button>
                 <div class="collapse show" id="dashboard-collapse">
+                    {% if user.is_authenticated %}
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                         <li><a href="{% url 'client:client_list' %}"
                                class="link-body-emphasis d-inline-flex text-decoration-none rounded">List</a></li>
                         <li><a href="{% url 'client:client_form'%}"
                                class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
                     </ul>
+                    {% else %}
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        <li><a href="{% url 'users:login_warning' %}"
+                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">List</a></li>
+                        <li><a href="{% url 'users:login_warning' %}"
+                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
+                    </ul>
+                    {% endif %}
                 </div>
             </li>
             <li class="border-top my-3"></li>

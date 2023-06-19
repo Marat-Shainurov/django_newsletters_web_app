@@ -62,3 +62,6 @@ def verify_email(request, email):
             raise ValidationError('You have inputted the wrong verification code')
     else:
         return render(request, 'users/verify_email.html')
+
+def login_warning(request):
+    return render(request, 'users/login_warning.html')
