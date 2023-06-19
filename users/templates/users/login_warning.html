@@ -3,21 +3,15 @@
 <div class="container d-flex justify-content-center align-items-center" style="height: 60vh;">
     <div class="card">
 
-            <div class="card-header">
-                <h1>Log in issue</h1>
-            </div>
+        <div class="card-header">
+            <h1>Yoy have to log in first!</h1>
+        </div>
 
-            <div class="card-body">
-                <div>
-                    You have to log in first
-                </div>
-            </div>
-
-            <div class="card-footer">
-                <a href="{% url 'users:login' %}" class="btn btn-primary">
-                    Go to log in
-                </a>
-            </div>
+        <div class="card-footer">
+            <a href="{% url 'users:login' %}" class="btn btn-primary">
+                Log in
+            </a>
+        </div>
 
     </div>
 </div>
