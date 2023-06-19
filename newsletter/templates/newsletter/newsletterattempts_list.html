@@ -1,28 +1,28 @@
 {% extends 'newsletter/base.html'%}
 {% block content %}
-
-<div class="container-fluid">
-    <table class="table table-striped"
-    ">
-    <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">Newsletter</th>
-        <th scope="col">Attempt date</th>
-        <th scope="col">Attempt status</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for object in object_list %}
-    <tr>
-        <th scope="row">{{ object.pk}}</th>
-        <td><a href="{% url 'newsletter:attempt_responses_detail' object.pk %}">{{ object.newsletter }}</a></td>
-        <td>{{ object.last_attempt}}</td>
-        <td>{{ object.attempt_status}}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-    </table>
+<div class="container d-flex justify-content-center align-items-center" style="height: 20vh;">
+    <div class="container-fluid">
+        <table class="table table-striped"
+        ">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Newsletter</th>
+            <th scope="col">Attempt date</th>
+            <th scope="col">Attempt status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
+        <tr>
+            <th scope="row">{{ object.pk}}</th>
+            <td><a href="{% url 'newsletter:attempt_responses_detail' object.pk %}">{{ object.newsletter }}</a></td>
+            <td>{{ object.last_attempt}}</td>
+            <td>{{ object.attempt_status}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    </div>
 </div>
-
 {% endblock %}
