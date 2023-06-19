@@ -12,7 +12,9 @@ class Command(BaseCommand):
             last_name='Shainurov',
             is_staff=True,
             is_superuser=True,
-            is_active=True
+            is_active=True,
+            is_manager=True,
+            is_verified=True,
         )
         user.set_password('123')
         user.save()
