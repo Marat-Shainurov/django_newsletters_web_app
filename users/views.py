@@ -29,7 +29,7 @@ class RegisterView(generic.CreateView):
         self.object = form.save()
         if form.is_valid():
             code = ''.join([str(random.randint(0,9)) for _ in range(12)])
-            self.request.user.verification_code = code
+            self.object.verification_code = code
             self.object.save()
             send_mail(
                 'Email verification',
@@ -40,7 +40,7 @@ class RegisterView(generic.CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return redirect(reverse('users:verify_email', kwargs={'email', self.object.email}))
+        return reverse('users:verify_email', kwargs={'email': self.object.email})
 
 def verify_email(request, email):
     if request.method == 'POST':
@@ -53,4 +53,4 @@ def verify_email(request, email):
         else:
             raise ValidationError('You have inputted the wrong verification code')
     else:
-        render(request, 'users/verify_email.html')
+        return render(request, 'users/verify_email.html')
