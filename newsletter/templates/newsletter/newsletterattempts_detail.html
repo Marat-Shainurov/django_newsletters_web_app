@@ -11,7 +11,7 @@
         <th scope="col">Email server response</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody class="table-group-divider">
     {% for response in object.email_response.all %}
     <tr>
         <th scope="row">{{ response.attempt}}</th>
