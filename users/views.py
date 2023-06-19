@@ -3,12 +3,14 @@ import random
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
+from django.core.management import call_command
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
+from newsletter.models import Newsletter
 from users.forms import UserRegisterForm, UserProfileForm
 from users.models import User
 
@@ -65,3 +67,13 @@ def verify_email(request, email):
 
 def login_warning(request):
     return render(request, 'users/login_warning.html')
+
+def send_newsletter_manager(request):
+    if request.method == 'POST':
+        newsletter = request.POST.get('newsletter')
+        call_command('action_send_newsletter', f'{newsletter}')
+        return redirect(reverse('newsletter:newsletter_list'))
+    else:
+        all_newsletters = Newsletter.objects.all()
+        context = {'newsletters_list': all_newsletters}
+        return render(request, 'users/send_newsletter_manager.html', context)
