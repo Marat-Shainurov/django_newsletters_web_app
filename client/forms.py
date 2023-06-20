@@ -17,4 +17,4 @@ class ClientForm(forms.ModelForm):
 
     class Meta:
         model = Client
-        exclude = ('is_active',)
+        exclude = ('is_active', 'client_user')

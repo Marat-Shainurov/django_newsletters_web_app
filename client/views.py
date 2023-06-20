@@ -29,6 +29,13 @@ class ClientCreateView(generic.CreateView):
     def get_success_url(self):
         return reverse('client:client_detail', kwargs={'slug': self.object.slug})
 
+    def form_valid(self, form):
+        self.object = form.save()
+        if form.is_valid():
+            self.object.client_user = self.request.user
+            self.object.save()
+            return super().form_valid(form)
+
 
 class ClientUpdateView(generic.UpdateView):
     model = Client
