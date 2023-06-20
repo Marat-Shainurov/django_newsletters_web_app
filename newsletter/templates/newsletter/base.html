@@ -271,15 +271,18 @@
                     </ul>
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                         <li><a href="{% url 'users:send_newsletter_manager' %}"
-                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">Send newsletter</a></li>
+                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">Send newsletter</a>
+                        </li>
                     </ul>
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                         <li><a href="{% url 'users:launch_regular_manager' %}"
-                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">Launch regular newsletter</a></li>
+                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">Launch regular
+                            newsletter</a></li>
                     </ul>
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                         <li><a href="{% url 'users:remove_regular_manager' %}"
-                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">Remove regular newsletter</a></li>
+                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">Remove regular
+                            newsletter</a></li>
                     </ul>
                 </div>
             </li>
@@ -307,6 +310,15 @@
 
 <script src="{% static 'js/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
 <script src="{% static 'js/sidebars.js' %}"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl)
+        })
+    })
+</script>
 
 </body>
 </html>
