@@ -34,7 +34,7 @@ class Newsletter(models.Model):
                                         on_delete=models.CASCADE, **NULLABLE)
 
     def __str__(self):
-        return f'{self.newsletter} ({self.status}, {self.regularity})'
+        return f'{self.newsletter} (pk - {self.pk}, {self.status}, {self.regularity})'
 
     def save(self, *args, **kwargs):
         self.slug = slugify(unidecode(self.subject))
