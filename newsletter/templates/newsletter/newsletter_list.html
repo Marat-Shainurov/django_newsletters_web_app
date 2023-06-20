@@ -18,7 +18,7 @@
             <h3 class="fs-2 text-body-emphasis">{{ object.subject }}</h3>
             <p>Status - {{ object.status }}</p>
             <p>Regularity - {{ object.regularity }}</p>
-            <p>User - {{ object.newsletter_user }}</p>
+            <p>Author - {{ object.newsletter_user }}</p>
             <a href="{% url 'newsletter:newsletter_detail' object.slug %}" class="icon-link">
                 Details
                 <svg class="bi">
@@ -39,7 +39,7 @@
             <h3 class="fs-2 text-body-emphasis">{{ object.subject }}</h3>
             <p>Status - {{ object.status }}</p>
             <p>Regularity - {{ object.regularity }}</p>
-            <p>User - {{ object.newsletter_user }}</p>
+            <p>Author - {{ object.newsletter_user }}</p>
             <a href="{% url 'newsletter:newsletter_detail' object.slug %}" class="icon-link">
                 Details
                 <svg class="bi">

@@ -11,7 +11,7 @@ from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 from newsletter.models import Newsletter
-from users.forms import UserRegisterForm, UserProfileForm
+from users.forms import UserRegisterForm, UserProfileForm, LoginForm
 from users.models import User
 
 
@@ -26,6 +26,7 @@ class UserUpdateView(generic.UpdateView):
 
 
 class LoginView(BaseLoginView):
+    form_class = LoginForm
     template_name = 'users/login.html'
 
 
