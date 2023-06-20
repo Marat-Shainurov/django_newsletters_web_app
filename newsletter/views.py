@@ -25,6 +25,13 @@ class NewsletterCreateView(generic.CreateView):
     def get_success_url(self):
         return reverse_lazy('newsletter:newsletter_detail', kwargs={'slug': self.object.slug})
 
+    def form_valid(self, form):
+        self.object = form.save()
+        if form.is_valid():
+            self.object.newsletter_user = self.request.user
+            self.object.save()
+            return super().form_valid(form)
+
 
 class NewsletterUpdateView(generic.UpdateView):
     model = Newsletter

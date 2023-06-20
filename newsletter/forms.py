@@ -12,4 +12,4 @@ class NewsletterForm(forms.ModelForm):
 
     class Meta:
         model = Newsletter
-        exclude = ('created', 'slug', 'is_active')
+        exclude = ('created', 'slug', 'is_active', 'newsletter_user')
