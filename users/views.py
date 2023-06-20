@@ -87,7 +87,7 @@ def send_newsletter_manager(request):
 
 
 def launch_regular_manager(request):
-    if request == 'POST':
+    if request.method == 'POST':
         newsletter = request.POST.get('newsletter')
         call_command('action_launch_regular_newsletter', f'{newsletter}')
         return redirect(reverse('newsletter:newsletter_list'))
@@ -99,7 +99,7 @@ def launch_regular_manager(request):
 
 
 def remove_regular_manager(request):
-    if request == 'POST':
+    if request.method == 'POST':
         newsletter = request.POST.get('newsletter')
         call_command('action_remove_cronjob', f'{newsletter}')
         return redirect(reverse('newsletter:newsletter_list'))

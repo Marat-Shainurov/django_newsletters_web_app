@@ -3,7 +3,6 @@ from datetime import datetime
 from pathlib import Path
 
 from crontab import CronTab
-import croniter
 from dateutil.tz import tz
 from django.core.management import BaseCommand, call_command
 from django.shortcuts import get_object_or_404
@@ -21,7 +20,7 @@ class Command(BaseCommand):
         parser.add_argument('newsletter_id', type=int, help='ID of the newsletter to be launched.')
 
     def handle(self, *args, **options):
-        regularity_modes = {'daily': '0 12 * * *', 'weekly': '0 12 * * 2', 'monthly': '0 12 20 * *'}
+        regularity_modes = {'daily': '0 12 * * *', 'weekly': '10 12 * * 3', 'monthly': '5 12 21 * *'}
 
         newsletter_id = options['newsletter_id']
         newsletter_to_send = get_object_or_404(Newsletter, pk=newsletter_id)
