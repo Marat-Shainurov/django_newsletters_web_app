@@ -8,6 +8,15 @@ from client.models import Client
 class ClientListView(generic.ListView):
     model = Client
 
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        user = self.request.user
+        if user.is_manager:
+            return queryset
+        else:
+            queryset = queryset.filter(client_user=user)
+            return queryset
+
 
 class ClientDetailView(generic.DetailView):
     model = Client

@@ -13,7 +13,8 @@
                 </svg>
             </div>
             <h3 class="fs-2 text-body-emphasis">{{ object.name }}</h3>
-            <p>{{ object.email }}</p>
+            <p>Email - {{ object.email }}</p>
+            <p>Added by - {{ object.client_user|default:'None' }}</p>
             <a href="{% url 'client:client_detail' object.slug %}" class="icon-link">
                 Details
                 <svg class="bi">

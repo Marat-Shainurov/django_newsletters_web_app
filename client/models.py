@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.utils.text import slugify
 from unidecode import unidecode
@@ -13,6 +14,9 @@ class Client(models.Model):
     is_active = models.BooleanField(verbose_name='is_active', default=True)
     comments = models.TextField(verbose_name='additional_info')
     created = models.DateTimeField(verbose_name='created', auto_now_add=True)
+
+    client_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
+                                    verbose_name='user_added_client', **NULLABLE)
 
     def __str__(self):
         return f'{self.name} {self.email}'
