@@ -175,7 +175,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
 
                 </ul>
-                <div class="mb-md-2">
+                <div class="mb-md-2" id="user-tools">
                     {% if user.is_authenticated %}
                     <a href="{% url 'users:user_form' user.pk %}"
                        class="link-secondary link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Welcome,

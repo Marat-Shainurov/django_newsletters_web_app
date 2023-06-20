@@ -1,6 +1,6 @@
 {% extends 'newsletter/base.html'%}
 {% block content %}
-<div class="container d-flex justify-content-center align-items-center" style="height: 30vh;">
+<div class="container d-flex justify-content-center align-items-center" style="height: 70vh;">
     <div class="container-fluid">
         <table class="table table-striped">
             <thead>
@@ -8,22 +8,41 @@
                 <th scope="col">#</th>
                 <th scope="col">Email</th>
                 <th scope="col">Phone</th>
-                <th scope="col">Avatar</th>
                 <th scope="col">Is verified</th>
                 <th scope="col">Is manager</th>
+                <th scope="col">Verify toggle</th>
+                <th scope="col">Manager toggle</th>
+
             </tr>
             </thead>
             <tbody class="table-group-divider">
-            {% for object in object_list %}
-            <tr>
-                <th scope="row">{{ object.pk}}</th>
-                <td><a href="{% url 'users:user_form' object.pk %}">{{ object.email }}</a></td>
-                <td>{{ object.phone}}</td>
-                <td>{{ object.avatar}}</td>
-                <td>{{ object.is_verified}}</td>
-                <td>{{ object.is_manager}}</td>
-            </tr>
-            {% endfor %}
+                {% for object in object_list %}
+                <tr>
+                    <th scope="row">{{ object.pk}}</th>
+                    <td><strong>{{ object.email }}</strong></td>
+                    <td>{{ object.phone}}</td>
+                    <td>{{ object.is_verified}}</td>
+                    <td>{{ object.is_manager}}</td>
+                    <td>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="pk_verify_toggle" value="{{ object.pk }}">
+                            <button class="btn btn-outline-info" type="submit" name="verify_toggle">
+                                {% if object.is_verified %}Block{% else %}Unblock{% endif %}
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="pk_manager_toggle" value="{{ object.pk }}">
+                            <button class="btn btn-outline-info" type="submit" name="manager_toggle">
+                                {% if object.is_manager %}Switch off{% else %}Switch on{% endif %}
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

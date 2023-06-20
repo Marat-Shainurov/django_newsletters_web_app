@@ -15,8 +15,23 @@ from users.forms import UserRegisterForm, UserProfileForm, LoginForm
 from users.models import User
 
 
-class UserListView(generic.ListView):
-    model = User
+def user_list(request):
+    if request.method == 'POST':
+        if 'verify_toggle' in request.POST:
+            pk = request.POST.get('pk_verify_toggle')
+            user = User.objects.get(pk=pk)
+            user.is_verified = not user.is_verified
+            user.save()
+        elif 'manager_toggle' in request.POST:
+            pk = request.POST.get('pk_manager_toggle')
+            user = User.objects.get(pk=pk)
+            user.is_manager = not user.is_manager
+            user.save()
+        return redirect(reverse('users:user_list'))
+    else:
+        all_users = User.objects.order_by('pk')
+        context = {'object_list': all_users}
+        return render(request, 'users/user_list.html', context)
 
 
 class UserUpdateView(generic.UpdateView):
