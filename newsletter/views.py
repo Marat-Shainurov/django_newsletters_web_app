@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
+from client.models import Client
 from newsletter.forms import NewsletterForm
 from newsletter.models import Newsletter, NewsletterAttempts
 
@@ -54,5 +55,18 @@ class NewsletterAttemptsListView(generic.ListView):
 class NewsletterAttemptsDetailView(generic.DetailView):
     model = NewsletterAttempts
 
+
 def index(request):
-    return render(request, 'newsletter/index.html')
+    all_newsletters = Newsletter.objects.exclude(status='finished')
+    all_newsletters_launched = Newsletter.objects.filter(status='launched')
+    all_attempts = NewsletterAttempts.objects.all()
+    all_clients = Client.objects.all()
+    all_clients_signed_up = Client.objects.filter(is_signed_up=True)
+    context = {
+        'all_newsletters': all_newsletters,
+        'all_newsletters_launched': all_newsletters_launched,
+        'all_attempts': all_attempts,
+        'all_clients': all_clients,
+        'all_clients_signed_up': all_clients_signed_up,
+    }
+    return render(request, 'newsletter/index.html', context)
