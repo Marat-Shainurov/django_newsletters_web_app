@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
@@ -52,3 +53,6 @@ class NewsletterAttemptsListView(generic.ListView):
 
 class NewsletterAttemptsDetailView(generic.DetailView):
     model = NewsletterAttempts
+
+def index(request):
+    return render(request, 'newsletter/index.html')
