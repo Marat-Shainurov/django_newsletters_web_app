@@ -1,13 +1,62 @@
 {% extends 'newsletter/base.html'%}
 {% block content %}
 
-
 <div class="container px-4 py-5" id="featured-3">
-    <h2>all_newsletters - {{ all_newsletters.count }}</h2>
-    <h2>all_newsletters_launched - {{ all_newsletters_launched.count }}</h2>
-    <h2>all_attempts - {{ all_attempts.count }}</h2>
-    <h2>all_clients - {{ all_clients.count }}</h2>
-    <h2>all_clients_signed_up - {{ all_clients_signed_up.count }}</h2>
+    <h2 class="pb-2 border-bottom">Highlights</h2>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="feature col">
+            <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+                <svg class="bi" width="1em" height="1em">
+                    <use xlink:href="#collection"/>
+                </svg>
+            </div>
+            <h3 class="fs-2 text-body-emphasis">Newsletters</h3>
+            <p>Total active: <br><strong>{{ all_newsletters.count }} newsletters</strong></p>
+            <p>Launched: <br><strong>{{ all_newsletters_launched.count }} newsletters</strong></p>
+            <p>Created: <br><strong>{{ all_newsletters_created.count }} newsletters</strong></p>
+            <p>Finished: <br><strong>{{ all_newsletters_finished.count }} newsletters</strong></p>
+            <a href="#" class="icon-link">
+                Call to action
+                <svg class="bi">
+                    <use xlink:href="#chevron-right"/>
+                </svg>
+            </a>
+        </div>
+        <div class="feature col">
+            <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+                <svg class="bi" width="1em" height="1em">
+                    <use xlink:href="#toggles2"/>
+                </svg>
+            </div>
+            <h3 class="fs-2 text-body-emphasis">Sending</h3>
+            <p>Total attempts: <br><strong>{{ all_attempts.count }} attempts</strong></p>
+            <p>Successful: <br><strong>{{ attempts_success.count }} attempts</strong></p>
+            <p>Success ratio: <br><strong>{{ success_ratio }}</strong></p>
+            <a href="#" class="icon-link">
+                Call to action
+                <svg class="bi">
+                    <use xlink:href="#chevron-right"/>
+                </svg>
+            </a>
+        </div>
+        <div class="feature col">
+            <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+                <svg class="bi" width="1em" height="1em">
+                    <use xlink:href="#people-circle"/>
+                </svg>
+            </div>
+            <h3 class="fs-2 text-body-emphasis">Clients</h3>
+            <p>Total active: <br><strong>{{ all_clients.count }} clients</strong></p>
+            <p>Signed up clients: <br><strong>{{ all_clients_signed_up.count }} clients</strong></p>
+            <p>Signing up ration: <br><strong>{{ signing_up_ratio }} clients</strong></p>
+            <a href="#" class="icon-link">
+                Call to action
+                <svg class="bi">
+                    <use xlink:href="#chevron-right"/>
+                </svg>
+            </a>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
