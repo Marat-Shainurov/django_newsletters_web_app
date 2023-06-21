@@ -1,6 +1,15 @@
+import logging
+
 from django.core.management import BaseCommand
 
 from newsletter.services import send_newsletter
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s %(levelname)s %(message)s',
+    filename='cron.log',
+    filemode='a'
+)
 
 
 class Command(BaseCommand):
@@ -11,4 +20,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         newsletter_id = options['newsletter_id']
         send_newsletter(newsletter_id)
-        print('Emails have been sent')
+        logging.info('Emails have been sent')

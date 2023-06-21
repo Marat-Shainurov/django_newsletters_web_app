@@ -8,6 +8,13 @@ from django.shortcuts import get_object_or_404
 from config.settings import BASE_DIR
 from newsletter.models import Newsletter
 
+import logging
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s %(levelname)s %(message)s',
+    filename='cron.log',
+    filemode='a'
+)
 
 class Command(BaseCommand):
     python_executable = Path(sys.executable)
@@ -26,4 +33,5 @@ class Command(BaseCommand):
         newsletter = get_object_or_404(Newsletter, pk=cronjob_id)
         newsletter.status = 'finished'
         newsletter.save()
+        logging.info(f'The cronjob {cronjob_id} has been removed')
 

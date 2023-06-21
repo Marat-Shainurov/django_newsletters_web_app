@@ -1,3 +1,4 @@
+import logging
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -10,8 +11,6 @@ from django.shortcuts import get_object_or_404
 from config import settings
 from config.settings import BASE_DIR
 from newsletter.models import Newsletter
-
-import logging
 
 logging.basicConfig(
     level=logging.DEBUG,
