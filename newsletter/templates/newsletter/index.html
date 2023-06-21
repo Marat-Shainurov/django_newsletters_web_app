@@ -2,7 +2,6 @@
 {% block content %}
 
 <div class="container px-4 py-5" id="featured-3">
-    <h2 class="pb-2 border-bottom">Highlights</h2>
     <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
         <div class="feature col">
             <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
@@ -13,10 +12,9 @@
             <h3 class="fs-2 text-body-emphasis">Newsletters</h3>
             <p>Total active: <br><strong>{{ all_newsletters.count }} newsletters</strong></p>
             <p>Launched: <br><strong>{{ all_newsletters_launched.count }} newsletters</strong></p>
-            <p>Created: <br><strong>{{ all_newsletters_created.count }} newsletters</strong></p>
             <p>Finished: <br><strong>{{ all_newsletters_finished.count }} newsletters</strong></p>
-            <a href="#" class="icon-link">
-                Call to action
+            <a href="{% url 'newsletter:newsletter_list'%}" class="icon-link">
+                Newsletters list
                 <svg class="bi">
                     <use xlink:href="#chevron-right"/>
                 </svg>
@@ -32,8 +30,8 @@
             <p>Total attempts: <br><strong>{{ all_attempts.count }} attempts</strong></p>
             <p>Successful: <br><strong>{{ attempts_success.count }} attempts</strong></p>
             <p>Success ratio: <br><strong>{{ success_ratio }}</strong></p>
-            <a href="#" class="icon-link">
-                Call to action
+            <a href="{% url 'newsletter:attempts_list' %}" class="icon-link">
+                Attempts report
                 <svg class="bi">
                     <use xlink:href="#chevron-right"/>
                 </svg>
@@ -49,8 +47,8 @@
             <p>Total active: <br><strong>{{ all_clients.count }} clients</strong></p>
             <p>Signed up clients: <br><strong>{{ all_clients_signed_up.count }} clients</strong></p>
             <p>Signing up ration: <br><strong>{{ signing_up_ratio }} clients</strong></p>
-            <a href="#" class="icon-link">
-                Call to action
+            <a href="{% url 'client:client_list'%}" class="icon-link">
+                Clients list
                 <svg class="bi">
                     <use xlink:href="#chevron-right"/>
                 </svg>
