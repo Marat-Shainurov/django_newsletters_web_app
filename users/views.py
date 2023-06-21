@@ -30,7 +30,7 @@ def user_list(request):
         return redirect(reverse('users:user_list'))
     else:
         all_users = User.objects.order_by('pk')
-        context = {'object_list': all_users}
+        context = {'object_list': all_users, 'page_title': 'Users list'}
         return render(request, 'users/user_list.html', context)
 
 
@@ -38,11 +38,17 @@ class UserUpdateView(generic.UpdateView):
     model = User
     form_class = UserProfileForm
     success_url = reverse_lazy('users:user_list')
+    extra_context = {'page_title': 'Update users'}
 
 
 class LoginView(BaseLoginView):
     form_class = LoginForm
     template_name = 'users/login.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['page_title'] = 'Logging in'
+        return context
 
 
 class LogoutView(BaseLogoutView):
@@ -71,6 +77,11 @@ class RegisterView(generic.CreateView):
     def get_success_url(self):
         return reverse('users:verify_email', kwargs={'email': self.object.email})
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['page_title'] = 'Register'
+        return context
+
 
 def verify_email(request, email):
     if request.method == 'POST':
@@ -83,11 +94,13 @@ def verify_email(request, email):
         else:
             raise ValidationError('You have inputted the wrong verification code')
     else:
-        return render(request, 'users/verify_email.html')
+        context = {'page_title': 'Email verification'}
+        return render(request, 'users/verify_email.html', context)
 
 
 def login_warning(request):
-    return render(request, 'users/login_warning.html')
+    context = {'page_title': 'Logging in warning'}
+    return render(request, 'users/login_warning.html', context)
 
 
 def send_newsletter_manager(request):
@@ -98,7 +111,7 @@ def send_newsletter_manager(request):
     else:
         user = request.user
         all_newsletters = Newsletter.objects.filter(newsletter_user=user)
-        context = {'newsletters_list': all_newsletters}
+        context = {'newsletters_list': all_newsletters, 'page_title': 'Send newsletter'}
         return render(request, 'users/send_newsletter_manager.html', context)
 
 
@@ -110,7 +123,7 @@ def launch_regular_manager(request):
     else:
         user = request.user
         all_newsletters = Newsletter.objects.filter(newsletter_user=user)
-        context = {'newsletters_list': all_newsletters}
+        context = {'newsletters_list': all_newsletters, 'page_title': 'Launch newsletter'}
         return render(request, 'users/launch_regular_manager.html', context)
 
 
@@ -122,5 +135,5 @@ def remove_regular_manager(request):
     else:
         user = request.user
         all_newsletters = Newsletter.objects.filter(newsletter_user=user)
-        context = {'newsletters_list': all_newsletters}
+        context = {'newsletters_list': all_newsletters, 'page_title': 'Remove newsletter'}
         return render(request, 'users/remove_regular_manager.html', context)

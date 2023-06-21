@@ -8,6 +8,11 @@ from client.models import Client
 class ClientListView(generic.ListView):
     model = Client
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['page_title'] = 'Clients list'
+        return context
+
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
         user = self.request.user
@@ -20,6 +25,11 @@ class ClientListView(generic.ListView):
 
 class ClientDetailView(generic.DetailView):
     model = Client
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['page_title'] = 'Client details'
+        return context
 
 
 class ClientCreateView(generic.CreateView):
@@ -36,6 +46,11 @@ class ClientCreateView(generic.CreateView):
             self.object.save()
             return super().form_valid(form)
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['page_title'] = 'Create a client'
+        return context
+
 
 class ClientUpdateView(generic.UpdateView):
     model = Client
@@ -44,7 +59,13 @@ class ClientUpdateView(generic.UpdateView):
     def get_success_url(self):
         return reverse('client:client_detail', kwargs={'slug': self.object.slug})
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['page_title'] = 'Update a client'
+        return context
+
 
 class ClientDeleteView(generic.DeleteView):
     model = Client
     success_url = reverse_lazy('client:client_list')
+    extra_context = {'page_title': 'Delete a client'}
