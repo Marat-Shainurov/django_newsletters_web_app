@@ -6,6 +6,7 @@
             <thead>
             <tr>
                 <th scope="col">Newsletter attempt</th>
+                <th scope="col">Attempt date</th>
                 <th scope="col">Recipient email</th>
                 <th scope="col">Email server response</th>
             </tr>
@@ -14,6 +15,7 @@
             {% for response in object.email_response.all %}
             <tr>
                 <th scope="row">{{ response.attempt}}</th>
+                <td>{{ object.last_attempt }}</td>
                 <td>{{ response.recipient_email }}</td>
                 <td>{{ response.response }}</td>
             </tr>

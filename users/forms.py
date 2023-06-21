@@ -1,7 +1,7 @@
+from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django.core.exceptions import ValidationError
 
-from newsletter.models import Newsletter
 from users.models import User
 
 
@@ -20,6 +20,15 @@ class UserRegisterForm(UserCreationForm):
 
 
 class UserProfileForm(UserChangeForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+            if field_name == 'is_verified' or field_name == 'is_manager':
+                self.fields[field_name] = forms.BooleanField(
+                    required=False, widget=forms.CheckboxInput(attrs={'class': 'checkbox-small'}), label=field_name)
+
     class Meta:
         model = User
         fields = ('email', 'phone', 'avatar', 'is_verified', 'is_manager')
