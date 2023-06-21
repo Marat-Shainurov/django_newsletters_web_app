@@ -1,52 +1,67 @@
 {% extends 'newsletter/base.html'%}
 {% block content %}
-<div class="container d-flex justify-content-center align-items-center" style="height: 80vh;">
-    <div class="container-fluid">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Added by</th>
-                <th scope="col">Is signed up</th>
-                <th scope="col">Is active</th>
-            </tr>
-            </thead>
-            <tbody class="table-group-divider">
-            {% if user.is_authenticated %}
-            {% for object in object_list %}
-            {% if user.is_manager %}
-            <tr>
-                <th scope="row">{{ object.pk}}</th>
-                <td><a href="{% url 'client:client_detail' object.slug %}">{{ object.name }}</a></td>
-                <td>{{ object.email}}</td>
-                <td>{{ object.client_user}}</td>
-                <td>{{ object.is_signed_up }}</td>
-                <td>{{ object.is_active }}</td>
-            </tr>
-            {% else %}
-            {% if user == object.client_user %}
-            <tr>
-                <th scope="row">{{ object.pk}}</th>
-                <td><a href="{% url 'client:client_detail' object.slug %}">{{ object.name }}</a></td>
-                <td>{{ object.email}}</td>
-                <td>{{ object.client_user}}</td>
-                <td>{{ object.is_signed_up }}</td>
-                <td>{{ object.is_active }}</td>
-            </tr>
-            {% endif %}
-            {% endif %}
-            {% endfor %}
-            {% endif %}
-            </tbody>
-        </table>
+
+<div class="container py-3">
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+            <a href="{% url 'newsletter:index'%}"
+               class="d-flex align-items-center link-body-emphasis text-decoration-none">
+                <span class="fs-4">Back</span>
+            </a>
+            <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                <a class="btn btn-outline-success rounded-pill"
+                   href="{% url 'client:client_form' %}">Create</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container d-flex justify-content-center align-items-center" style="height: 30vh;">
+        <div class="container-fluid">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Added by</th>
+                    <th scope="col">Is signed up</th>
+                    <th scope="col">Is active</th>
+                </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                {% if user.is_authenticated %}
+                {% for object in object_list %}
+                {% if user.is_manager %}
+                <tr>
+                    <th scope="row">{{ object.pk}}</th>
+                    <td><a href="{% url 'client:client_detail' object.slug %}">{{ object.name }}</a></td>
+                    <td>{{ object.email}}</td>
+                    <td>{{ object.client_user}}</td>
+                    <td>{{ object.is_signed_up }}</td>
+                    <td>{{ object.is_active }}</td>
+                </tr>
+                {% else %}
+                {% if user == object.client_user %}
+                <tr>
+                    <th scope="row">{{ object.pk}}</th>
+                    <td><a href="{% url 'client:client_detail' object.slug %}">{{ object.name }}</a></td>
+                    <td>{{ object.email}}</td>
+                    <td>{{ object.client_user}}</td>
+                    <td>{{ object.is_signed_up }}</td>
+                    <td>{{ object.is_active }}</td>
+                </tr>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div>
+
     </div>
 </div>
-<br>
-<div>
-
-</div>
-
 
 {% endblock %}
