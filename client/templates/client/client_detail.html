@@ -28,15 +28,29 @@
             </nav>
             {% endif %}
         </div>
-
-        <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-            <h1 class="display-4 fw-normal text-body-emphasis">{{object.name}}</h1>
-            <p class="fs-5 text-body-secondary"> Email - {{object.email}} </p>
-            <p class="fs-5 text-body-secondary"> Is signed up - {{object.is_signed_up}} </p>
-            <p class="fs-5 text-body-secondary"> Additional info - {{object.comments}} </p>
-            <p class="fs-5 text-body-secondary"> Added by - {{object.client_user}} </p>
-        </div>
     </header>
+
+    <div class="row">
+        <div class="col-sm-8 mb-3 mb-sm-0">
+            <div class="card">
+                <div class="card-header">
+                    <p class="fw-bold fs-2">Client details</p>
+                </div>
+                <div class="card-body">
+                    <p class="fw-medium"><strong>Client name</strong> - {{object.name}}</p>
+                    <p class="fw-medium"><strong>Client email</strong> - {{object.email}}</p>
+                    <p class="fw-medium"><strong>Added by</strong> - {{object.client_user}}</p>
+                    <p class="fw-medium"><strong>Added </strong> - {{object.created}}</p>
+                    <p class="fw-medium"><strong>Additional info</strong> - {{object.comments}}</p>
+                    <p class="fw-medium"><strong>Is active</strong> - {{object.is_active}}</p>
+                </div>
+                <div class="card-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 </div>
 

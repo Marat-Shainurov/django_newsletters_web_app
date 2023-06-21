@@ -11,7 +11,7 @@
             {% if user == object.newsletter_user %}
             <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
                 <a class="btn btn-outline-info rounded-pill"
-                   href="{% url 'newsletter:newsletter_update' object.slug %}">Edit content</a>
+                   href="{% url 'newsletter:newsletter_update' object.slug %}">Edit</a>
                 <a class="btn btn-outline-warning rounded-pill"
                    href="{% url 'newsletter:newsletter_delete' object.slug %}">Delete</a>
             </nav>
@@ -20,7 +20,7 @@
                 <a class="btn btn-outline-info rounded-pill"
                    data-bs-toggle="popover"
                    data-bs-title="Access issue"
-                   data-bs-content="You can access and edit your own newsletters only!">Edit content</a>
+                   data-bs-content="You can access and edit your own newsletters only!">Edit</a>
                 <a class="btn btn-outline-warning rounded-pill"
                    data-bs-toggle="popover"
                    data-bs-title="Access issue"
@@ -28,31 +28,46 @@
             </nav>
             {% endif %}
         </div>
-        <div>
-            <p class="fw-bold fs-2">Technical info</p>
-        </div>
-        <div>
-            <p class="fw-medium">Newsletter name - '{{object.newsletter}}'</p>
-            <p class="fw-medium">Newsletter id - '{{object.pk}}'</p>
-            <p class="fw-medium">Newsletter duration:
-                <br>- from {{object.start_campaign}} <br>- to {{object.finish_campaign}}</p>
-            <p class="fw-medium">Newsletter status - '{{object.status}}'</p>
-            {% if object.status == 'launched'%}
-            <p class="fw-medium">Newsletter regularity - '{{object.regularity}}'</p>
-            {% endif %}
-            <p class="fw-medium">Newsletter activity - {% if object.is_active %}'Active'{%else%}'Deactivated' and not in
-                the list{%endif%}</p>
-            <p class="fw-medium">Newsletter created - {{object.created}}</p>
-            <p class="fw-medium">Newsletter user - {{object.newsletter_user}}</p>
-        </div>
-        <br><br>
-        <div>
-            <p class="fw-bold fs-2">Newsletter to be sent</p>
-        </div>
-        <div>
-            <p class="fw-medium">Email subject: {{object.subject}}</p>
-            <p class="fw-medium">Content: {{object.content}}</p>
-        </div>
     </header>
+
+    <div class="row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <div class="card">
+                <div class="card-header">
+                    <p class="fw-bold fs-2">Technical info</p>
+                </div>
+                <div class="card-body">
+                    <p class="fw-medium"><strong>Newsletter name</strong> - {{object.newsletter}}</p>
+                    <p class="fw-medium"><strong>Newsletter id</strong> - {{object.pk}}</p>
+                    <p class="fw-medium"><strong>Newsletter duration</strong>:
+                        <br> From - {{object.start_campaign}} / To - {{object.finish_campaign}}</p>
+                    <p class="fw-medium"><strong>Newsletter status</strong> - {{object.status}}</p>
+                    {% if object.status == 'launched'%}
+                    <p class="fw-medium"><strong>Newsletter regularity</strong> - {{object.regularity}}</p>
+                    {% endif %}
+                    <p class="fw-medium"><strong>Newsletter activity</strong> -
+                        {% if object.is_active %}Active
+                        {%else%}'Deactivated' and not in the list{%endif%}</p>
+                    <p class="fw-medium"><strong>Newsletter created</strong> - {{object.created}}</p>
+                    <p class="fw-medium"><strong>Newsletter user</strong> - {{object.newsletter_user}}</p>
+                </div>
+                <div class="card-footer">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">
+                    <p class="fw-bold fs-2">Newsletter content</p>
+                </div>
+                <div class="card-body">
+                    <p class="fw-medium"><strong>Email subject</strong>: {{object.subject}}</p>
+                    <p class="fw-medium"><strong>Content</strong>: {{object.content}}</p>
+                </div>
+                <div class="card-footer"></div>
+            </div>
+        </div>
+    </div>
 </div>
+
 {% endblock %}

@@ -1,58 +1,52 @@
 {% extends 'newsletter/base.html'%}
 {% block content %}
-
-
-<div class="container px-4 py-5" id="featured-3">
-    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+<div class="container d-flex justify-content-center align-items-center" style="height: 80vh;">
+    <div class="container-fluid">
+        <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Newsletter</th>
+            <th scope="col">Status</th>
+            <th scope="col">Regularity</th>
+            <th scope="col">Author</th>
+            <th scope="col">Is active</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
         {% if user.is_authenticated %}
-        {% for object in object_list%}
+        {% for object in object_list %}
         {% if user.is_manager %}
-
-        <div class="feature col">
-            <div class="feature-icon d-inline-flex align-items-center
-            justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
-                <svg class="bi" width="1em" height="1em">
-                    <use xlink:href="#collection"/>
-                </svg>
-            </div>
-            <h3 class="fs-2 text-body-emphasis">{{ object.subject }}</h3>
-            <p>Status - {{ object.status }}</p>
-            <p>Regularity - {{ object.regularity }}</p>
-            <p>Author - {{ object.newsletter_user }}</p>
-            <a href="{% url 'newsletter:newsletter_detail' object.slug %}" class="icon-link">
-                Details
-                <svg class="bi">
-                    <use xlink:href="#chevron-right"/>
-                </svg>
-            </a>
-        </div>
-
+        <tr>
+            <th scope="row">{{ object.pk}}</th>
+            <td><a href="{% url 'newsletter:newsletter_detail' object.slug %}">{{ object.newsletter }}</a></td>
+            <td>{{ object.status}}</td>
+            <td>{{ object.regularity}}</td>
+            <td>{{ object.newsletter_user }}</td>
+            <td>{{ object.is_active }}</td>
+        </tr>
         {% else %}
         {% if user == object.newsletter_user %}
-        <div class="feature col">
-            <div class="feature-icon d-inline-flex align-items-center
-            justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
-                <svg class="bi" width="1em" height="1em">
-                    <use xlink:href="#collection"/>
-                </svg>
-            </div>
-            <h3 class="fs-2 text-body-emphasis">{{ object.subject }}</h3>
-            <p>Status - {{ object.status }}</p>
-            <p>Regularity - {{ object.regularity }}</p>
-            <p>Author - {{ object.newsletter_user }}</p>
-            <a href="{% url 'newsletter:newsletter_detail' object.slug %}" class="icon-link">
-                Details
-                <svg class="bi">
-                    <use xlink:href="#chevron-right"/>
-                </svg>
-            </a>
-        </div>
+        <tr>
+            <th scope="row">{{ object.pk}}</th>
+            <td><a href="{% url 'newsletter:newsletter_detail' object.slug %}">{{ object.newsletter }}</a></td>
+            <td>{{ object.status}}</td>
+            <td>{{ object.regularity}}</td>
+            <td>{{ object.newsletter_user }}</td>
+            <td>{{ object.is_active }}</td>
+        </tr>
         {% endif %}
-
         {% endif %}
         {% endfor %}
         {% endif %}
+        </tbody>
+        </table>
     </div>
 </div>
+<br>
+<div>
+
+</div>
+
 
 {% endblock %}
