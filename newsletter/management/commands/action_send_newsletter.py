@@ -13,4 +13,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         newsletter_id = options['newsletter_id']
         send_newsletter(newsletter_id)
-        logging.info('Emails have been sent')
+        logging.info(f'Emails have been sent. Newsletter id - "{newsletter_id}"')
