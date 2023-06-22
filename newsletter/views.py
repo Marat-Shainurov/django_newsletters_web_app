@@ -1,7 +1,10 @@
+import random
+
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
+from blog.models import Blog
 from client.models import Client
 from newsletter.forms import NewsletterForm
 from newsletter.models import Newsletter, NewsletterAttempts
@@ -94,6 +97,9 @@ def index(request):
     all_clients = Client.objects.all()
     all_clients_signed_up = Client.objects.filter(is_signed_up=True)
     signing_up_ratio = str(round(((all_clients_signed_up.count() / all_clients.count()) * 100), 0)) + '%'
+    all_blogs = Blog.objects.all()
+    blogs_to_show = [all_blogs[x] for x in range(all_blogs.count())]
+    random.shuffle(blogs_to_show)
 
     context = {
         'all_newsletters': all_newsletters,
@@ -106,6 +112,7 @@ def index(request):
         'all_clients': all_clients,
         'all_clients_signed_up': all_clients_signed_up,
         'signing_up_ratio': signing_up_ratio,
+        'blogs_to_show': blogs_to_show[:3],
         'page_title': 'Main page'
     }
     return render(request, 'newsletter/index.html', context)

@@ -1,8 +1,9 @@
 {% extends 'newsletter/base.html'%}
 {% block content %}
 
-<div class="container px-4 py-5" id="featured-3">
-    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+<div class="container px-6 py-4" id="featured-3">
+    <h3 class="pb-2 border-bottom">Highlights</h3>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-4">
         <div class="feature col">
             <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
                 <svg class="bi" width="1em" height="1em">
@@ -53,6 +54,33 @@
                     <use xlink:href="#chevron-right"/>
                 </svg>
             </a>
+        </div>
+
+        <div class="col-md-4">
+            <div class="position-sticky" style="top: 2rem;">
+                <div>
+                    <h4 class="fst-italic">Recent blogs</h4>
+                    <ul class="list-unstyled">
+                        {% for blog in blogs_to_show %}
+                        <li>
+                            <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
+                               href="#">
+                                <svg class="bd-placeholder-img" width="100%" height="96"
+                                     xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                                     preserveAspectRatio="xMidYMid slice" focusable="false">
+                                    <rect width="100%" height="100%" fill="#777"/>
+                                </svg>
+                                <div class="col-lg-8">
+                                    <h6 class="mb-0">{{ blog.title }}</h6>
+                                    <small class="text-body-secondary">{{ blog.created }}</small>
+                                </div>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>
