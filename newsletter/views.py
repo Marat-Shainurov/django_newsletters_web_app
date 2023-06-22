@@ -1,5 +1,6 @@
 import random
 
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views import generic
@@ -85,7 +86,7 @@ class NewsletterAttemptsDetailView(generic.DetailView):
         context['page_title'] = 'Newsletters attempt detail'
         return context
 
-
+@login_required(login_url='users:login')
 def index(request):
     all_newsletters = Newsletter.objects.filter(is_active=True)
     all_newsletters_launched = Newsletter.objects.filter(status='launched')
