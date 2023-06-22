@@ -12,6 +12,8 @@ from config import settings
 from config.settings import BASE_DIR
 from newsletter.models import Newsletter
 
+logger = logging.getLogger('custom_command')
+
 
 class Command(BaseCommand):
     python_executable = Path(sys.executable)
@@ -21,7 +23,7 @@ class Command(BaseCommand):
         parser.add_argument('newsletter_id', type=int, help='ID of the newsletter to be launched.')
 
     def handle(self, *args, **options):
-        regularity_modes = {'daily': '0 12 * * *', 'weekly': '10 12 * * 3', 'monthly': '5 12 21 * *'}
+        regularity_modes = settings.REGULARITY_MODES
 
         newsletter_id = options['newsletter_id']
         newsletter_to_send = get_object_or_404(Newsletter, pk=newsletter_id)
@@ -50,7 +52,7 @@ class Command(BaseCommand):
                         cron.write()
                         newsletter_to_send.status = 'launched'
                         newsletter_to_send.save()
-                        logging.info(
+                        logger.info(
                             '\nMain cronjob:'
                             f'\nCron job is added successfully. \nRegularity mode - {newsletter_regularity}'
                             f'\nCampaign duration - from "{newsletter_from}", until "{newsletter_until}"'
@@ -72,10 +74,12 @@ class Command(BaseCommand):
                         cron.write()
                         newsletter_to_send.status = 'launched'
                         newsletter_to_send.save()
-                        logging.info(
+                        logger.info(
                             '\nMain cronjob:'
-                            f'\nCronjob "{newsletter_id}" is added successfully. \nRegularity mode - {newsletter_regularity}'
-                            f'\nCampaign duration - from "{newsletter_from}", until "{newsletter_until}"'
+                            f'\nCronjob "{newsletter_id}" is added successfully. '
+                            f'\nRegularity mode - {newsletter_regularity}'
+                            f'\nCampaign duration - from {day}.{month}.{year}, '
+                            f'until {newsletter_until.day}.{newsletter_until.month}.{newsletter_until.year}.'
                             f"The job will be launched at: {next_run_time}"
                         )
 
@@ -89,12 +93,12 @@ class Command(BaseCommand):
                         removal_datetime = datetime(year, month, day, hour, minute)
                         job.setall(removal_datetime)
                         cron.write()
-                        logging.info(
+                        logger.info(
                             f'\nRemoval cronjob:'
-                            f'\nThe removal cronjob is added and scheduled to {newsletter_until}'
+                            f'\nThe removal cronjob "{newsletter_id}" is added and scheduled to {newsletter_until}'
                         )
                 else:
-                    logging.info(
+                    logger.info(
                         f'\nActual time ({actual_time}) is later than the "finish_campaign" field\'s value ({newsletter_until})'
                         '\nPlease, set the right duration.'
                     )

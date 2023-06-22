@@ -141,15 +141,20 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
+REGULARITY_MODES = {
+    'daily': '0 12 * * *',
+    'weekly': '30 12 * * 6',
+    'monthly': '0 13 24 * *'
+}
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
-        'file': {
+        'custom_command_file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': 'cron.log',
+            'filename': 'custom_command.log',
             'formatter': 'verbose',
         },
     },
@@ -158,8 +163,11 @@ LOGGING = {
             'format': '%(asctime)s %(levelname)s %(message)s',
         },
     },
-    'root': {
-        'handlers': ['file'],
-        'level': 'DEBUG',
+    'loggers': {
+        'custom_command': {
+            'handlers': ['custom_command_file'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
     },
 }
