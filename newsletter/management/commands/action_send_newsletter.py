@@ -4,13 +4,6 @@ from django.core.management import BaseCommand
 
 from newsletter.services import send_newsletter
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s %(levelname)s %(message)s',
-    filename='cron.log',
-    filemode='a'
-)
-
 
 class Command(BaseCommand):
 

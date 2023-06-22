@@ -12,13 +12,6 @@ from config import settings
 from config.settings import BASE_DIR
 from newsletter.models import Newsletter
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s %(levelname)s %(message)s',
-    filename='cron.log',
-    filemode='a'
-)
-
 
 class Command(BaseCommand):
     python_executable = Path(sys.executable)
