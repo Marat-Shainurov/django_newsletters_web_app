@@ -185,6 +185,7 @@
                     {% else %}
                     <a href="{% url 'users:register' %}"
                        class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Register</a>
+                    <label class="text-primary"> / </label>
                     <a href="{% url 'users:login' %}"
                        class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Login</a>
                     {% endif %}
@@ -271,7 +272,8 @@
                     </ul>
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                         <li><a href="{% url 'users:send_newsletter_manager' %}"
-                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">One-time newsletter</a>
+                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">One-time
+                            newsletter</a>
                         </li>
                     </ul>
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
@@ -302,8 +304,8 @@
     <div class="b-example-divider b-example-vr"></div>
 
     <div class="col-md-9 ms-sm-auto px-md-4">
-            {% block content %}
-            {% endblock %}
+        {% block content %}
+        {% endblock %}
     </div>
 
 </main>

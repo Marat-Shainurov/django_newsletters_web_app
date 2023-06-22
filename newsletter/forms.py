@@ -12,6 +12,10 @@ class NewsletterForm(forms.ModelForm):
             if field_name == 'content':
                 self.fields[field_name] = forms.CharField(
                     widget=forms.Textarea(attrs={'class': 'form-control', 'rows': '4'}))
+            if field_name == 'start_campaign' or field_name == 'finish_campaign':
+                self.fields[field_name].widget = forms.DateTimeInput(
+                    attrs={'class': 'form-control datetime', 'type': 'datetime-local'}
+                )
 
     class Meta:
         model = Newsletter
