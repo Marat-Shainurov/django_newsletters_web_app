@@ -1,27 +1,40 @@
 {% extends 'newsletter/base.html'%}
 {% block content %}
-<div class="container d-flex justify-content-center align-items-center" style="height: 70vh;">
-    <div class="container-fluid">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="col">Newsletter attempt</th>
-                <th scope="col">Attempt date</th>
-                <th scope="col">Recipient email</th>
-                <th scope="col">Email server response</th>
-            </tr>
-            </thead>
-            <tbody class="table-group-divider">
-            {% for response in object.email_response.all %}
-            <tr>
-                <th scope="row">{{ response.attempt}}</th>
-                <td>{{ object.last_attempt }}</td>
-                <td>{{ response.recipient_email }}</td>
-                <td>{{ response.response }}</td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+
+
+<div class="container py-3">
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+            <a href="{% url 'newsletter:attempts_list'%}"
+               class="d-flex align-items-center link-body-emphasis text-decoration-none">
+                <span class="fs-4">Back</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container d-flex justify-content-center align-items-center" style="height: 50vh;">
+        <div class="container-fluid">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Newsletter</th>
+                    <th scope="col">Attempt date</th>
+                    <th scope="col">Recipient email</th>
+                    <th scope="col">Email server response</th>
+                </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                {% for response in object.email_response.all %}
+                <tr>
+                    <th scope="row">{{ object.newsletter.newsletter }}</th>
+                    <td>{{ object.last_attempt }}</td>
+                    <td>{{ response.recipient_email }}</td>
+                    <td>{{ response.response }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 {% endblock %}
