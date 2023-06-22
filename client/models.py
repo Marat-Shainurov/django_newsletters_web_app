@@ -21,9 +21,12 @@ class Client(models.Model):
     def __str__(self):
         return f'{self.name} {self.email}'
 
-    def save(self, **kwargs):
-        self.slug = slugify(unidecode(self.name))
-        super().save(**kwargs)
+    def save(self, *args, **kwargs):
+        if self.slug:
+            super().save(*args, **kwargs)
+        else:
+            self.slug = slugify(unidecode(self.name))
+            super().save(**kwargs)
 
     def delete(self, **kwargs):
         self.is_active = False

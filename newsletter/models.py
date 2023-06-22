@@ -37,8 +37,11 @@ class Newsletter(models.Model):
         return f'{self.newsletter} (pk - {self.pk}, {self.status}, {self.regularity})'
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(unidecode(self.subject))
-        super().save(*args, **kwargs)
+        if self.slug:
+            super().save(*args, **kwargs)
+        else:
+            self.slug = slugify(unidecode(self.subject))
+            super().save(*args, **kwargs)
 
     def delete(self, **kwargs):
         self.is_active = False
