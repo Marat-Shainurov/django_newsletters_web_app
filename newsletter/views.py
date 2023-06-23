@@ -72,6 +72,7 @@ class NewsletterDeleteView(generic.DeleteView):
 
 class NewsletterAttemptsListView(generic.ListView):
     model = NewsletterAttempts
+    ordering = ('-last_attempt',)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
