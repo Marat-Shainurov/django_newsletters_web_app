@@ -20,27 +20,34 @@ def send_newsletter(newsletter_id):
     new_attempt = NewsletterAttempts.objects.create(newsletter=newsletter_to_send, last_attempt=actual_time)
     email_validator = EmailValidator()
 
-    try:
-        for address in recipient_list:
-            new_response_obj = EmailServerResponse.objects.create(attempt=new_attempt, recipient_email=address)
-            try:
-                email_validator(address)
-                send_mail(
-                    f'{newsletter_to_send.subject}',
-                    f'{newsletter_to_send.content}',
-                    from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=[address],
-                    fail_silently=False
-                )
-            except (SMTPException, BadHeaderError, ValidationError) as error:
-                new_response_obj.response = str(error)
-            else:
-                new_response_obj.response = 'Successful sending.'
-            new_response_obj.save()
-    except Exception as e:
+    if len(recipient_list) == 0:
         new_attempt.attempt_status = 'failure'
-        new_attempt.comment = str(e)
+        new_attempt.comment = 'No emails to inform'
         new_attempt.save()
-    else:
-        new_attempt.attempt_status = 'success'
-        new_attempt.save()
+
+    informed_clients_count = 0
+
+    for address in recipient_list:
+        new_response_obj = EmailServerResponse.objects.create(attempt=new_attempt, recipient_email=address)
+
+        try:
+            email_validator(address)
+            send_mail(
+                f'{newsletter_to_send.subject}',
+                f'{newsletter_to_send.content}',
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[address],
+            )
+        except (SMTPException, BadHeaderError, ValidationError) as error:
+            new_response_obj.response = str(error)
+        except Exception as e:
+            new_response_obj.response = str(e)
+        else:
+            new_response_obj.response = 'Successful sending.'
+            informed_clients_count += 1
+        finally:
+            new_response_obj.save()
+
+    new_attempt.attempt_status = 'success'
+    new_attempt.comment = f'{informed_clients_count} clients have been informed out of {len(recipient_list)}'
+    new_attempt.save()
