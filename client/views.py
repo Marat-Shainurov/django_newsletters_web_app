@@ -1,3 +1,4 @@
+from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
@@ -7,6 +8,7 @@ from client.models import Client
 
 class ClientListView(generic.ListView):
     model = Client
+    ordering = 'pk'
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -21,6 +23,17 @@ class ClientListView(generic.ListView):
         else:
             queryset = queryset.filter(client_user=user)
             return queryset
+
+    def post(self, *args, **kwargs):
+
+        if 'sign_up_toggle' in self.request.POST:
+            pk = self.request.POST.get('pk_sign_up_toggle')
+            client = Client.objects.get(pk=pk)
+            client.is_signed_up = not client.is_signed_up
+            client.save()
+
+        return redirect(reverse('client:client_list'))
+
 
 
 class ClientDetailView(generic.DetailView):

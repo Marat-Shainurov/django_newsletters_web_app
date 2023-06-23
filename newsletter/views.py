@@ -13,6 +13,7 @@ from newsletter.models import Newsletter, NewsletterAttempts
 
 class NewsletterListView(generic.ListView):
     model = Newsletter
+    ordering = ('newsletter_user', 'pk')
 
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)

@@ -25,7 +25,8 @@
                     <th scope="col">Email</th>
                     <th scope="col">Added by</th>
                     <th scope="col">Is signed up</th>
-                    <th scope="col">Is active</th>
+                    <th scope="col">Sign up toggle</th>
+
                 </tr>
                 </thead>
                 <tbody class="table-group-divider">
@@ -38,7 +39,18 @@
                     <td>{{ object.email}}</td>
                     <td>{{ object.client_user}}</td>
                     <td>{{ object.is_signed_up }}</td>
-                    <td>{{ object.is_active }}</td>
+                    <td>
+                        <form method="post">
+                            {% csrf_token %}
+                                <input type="hidden" name="pk_sign_up_toggle" value="{{ object.pk }}">
+                            <button class="btn btn-outline-info" type="submit" name="sign_up_toggle">
+                                {% if object.is_signed_up %}Switch off
+                                {% else%} Switch on
+                                {% endif %}
+                            </button>
+                        </form>
+                    </td>
+
                 </tr>
                 {% else %}
                 {% if user == object.client_user %}
