@@ -1,50 +1,62 @@
 {% extends 'newsletter/base.html'%}
 {% block content %}
-<div class="container d-flex justify-content-center align-items-center" style="height: 70vh;">
-    <div class="container-fluid">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Email</th>
-                <th scope="col">Phone</th>
-                <th scope="col">Is verified</th>
-                <th scope="col">Verify toggle</th>
-                <th scope="col">Is manager</th>
-                <th scope="col">Manager toggle</th>
 
-            </tr>
-            </thead>
-            <tbody class="table-group-divider">
-            {% for object in object_list %}
-            <tr>
-                <th scope="row">{{ object.pk}}</th>
-                <td><strong>{{ object.email }}</strong></td>
-                <td>{{ object.phone}}</td>
-                <td>{{ object.is_verified}}</td>
-                <td>
-                    <form method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="pk_verify_toggle" value="{{ object.pk }}">
-                        <button class="btn btn-outline-info" type="submit" name="verify_toggle">
-                            {% if object.is_verified %}Block{% else %}Unblock{% endif %}
-                        </button>
-                    </form>
-                </td>
-                <td>{{ object.is_manager}}</td>
-                <td>
-                    <form method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="pk_manager_toggle" value="{{ object.pk }}">
-                        <button class="btn btn-outline-info" type="submit" name="manager_toggle">
-                            {% if object.is_manager %}Switch off{% else %}Switch on{% endif %}
-                        </button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+<div class="container py-3">
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+            <a href="{% url 'newsletter:index'%}"
+               class="d-flex align-items-center link-body-emphasis text-decoration-none">
+                <span class="fs-4">Back</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container d-flex justify-content-center align-items-start" style="min-height: 70vh;">
+        <div class="container-fluid">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Is verified</th>
+                    <th scope="col">Verify toggle</th>
+                    <th scope="col">Is manager</th>
+                    <th scope="col">Manager toggle</th>
+
+                </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                {% for object in object_list %}
+                <tr>
+                    <th scope="row">{{ object.pk}}</th>
+                    <td><strong>{{ object.email }}</strong></td>
+                    <td>{{ object.phone}}</td>
+                    <td>{{ object.is_verified}}</td>
+                    <td>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="pk_verify_toggle" value="{{ object.pk }}">
+                            <button class="btn btn-outline-info" type="submit" name="verify_toggle">
+                                {% if object.is_verified %}Block{% else %}Unblock{% endif %}
+                            </button>
+                        </form>
+                    </td>
+                    <td>{{ object.is_manager}}</td>
+                    <td>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="pk_manager_toggle" value="{{ object.pk }}">
+                            <button class="btn btn-outline-info" type="submit" name="manager_toggle">
+                                {% if object.is_manager %}Switch off{% else %}Switch on{% endif %}
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 {% endblock %}

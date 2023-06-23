@@ -86,6 +86,14 @@
             z-index: 1500;
         }
 
+        .sidebar {
+            flex: 0 0 25%;
+        }
+
+        .content {
+            flex: 1;
+        }
+
 
     </style>
 
@@ -196,120 +204,115 @@
 </header>
 <br><br>
 
-<main class="d-flex flex-nowrap">
+<div class="container-fluid">
 
-    <div class="b-example-divider b-example-vr"></div>
+    <div class="row">
+        <div class="b-example-divider b-example-vr"></div>
+        <div class="sidebar flex-shrink-0 p-3" style="width: 280px;">
 
-    <div class="flex-shrink-0 p-3" style="width: 280px;">
+            <ul class="list-unstyled ps-0">
+                <li class="mb-1">
+                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                            data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+                        Newsletters
+                    </button>
+                    <div class="collapse show" id="home-collapse">
+                        {% if user.is_authenticated %}
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li>
+                                <a href="{% url 'newsletter:newsletter_list' %}"
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">List</a></li>
+                            <li><a href="{% url 'newsletter:newsletter_create'%}"
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
+                            <li><a href="{% url 'newsletter:attempts_list' %}"
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Attempts
+                                Report</a>
+                            </li>
+                        </ul>
+                        {% else %}
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li>
+                                <a href="{% url 'users:login_warning' %}"
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">List</a></li>
+                            <li><a href="{% url 'users:login_warning' %}"
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
+                            <li><a href="{% url 'users:login_warning' %}"
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Attempts
+                                Report</a>
+                            </li>
+                        </ul>
+                        {% endif %}
+                    </div>
+                </li>
+                <li class="border-top my-3"></li>
+                <li class="mb-1">
+                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                            data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="true">
+                        Clients
+                    </button>
+                    <div class="collapse show" id="dashboard-collapse">
+                        {% if user.is_authenticated %}
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="{% url 'client:client_list' %}"
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">List</a></li>
+                            <li><a href="{% url 'client:client_form'%}"
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
+                        </ul>
+                        {% else %}
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="{% url 'users:login_warning' %}"
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">List</a></li>
+                            <li><a href="{% url 'users:login_warning' %}"
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
+                        </ul>
+                        {% endif %}
+                    </div>
+                </li>
+                <li class="border-top my-3"></li>
+                {% if user.is_manager %}
+                <li class="mb-1">
+                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                            data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="true">
+                        Manager menu
+                    </button>
+                    <div class="collapse show" id="dashboard-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="{% url 'users:user_list' %}"
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Users List</a>
+                            </li>
+                        </ul>
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="{% url 'users:send_newsletter_manager' %}"
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">One-time
+                                newsletter</a>
+                            </li>
+                        </ul>
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="{% url 'users:launch_regular_manager' %}"
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Launch regular
+                                newsletter</a></li>
+                        </ul>
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="{% url 'users:remove_regular_manager' %}"
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Remove regular
+                                newsletter</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="border-top my-3"></li>
+                {% endif %}
+            </ul>
+        </div>
 
-        <ul class="list-unstyled ps-0">
-            <li class="mb-1">
-                <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                        data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
-                    Newsletters
-                </button>
-                <div class="collapse show" id="home-collapse">
-                    {% if user.is_authenticated %}
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li>
-                            <a href="{% url 'newsletter:newsletter_list' %}"
-                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">List</a></li>
-                        <li><a href="{% url 'newsletter:newsletter_create'%}"
-                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
-                        <li><a href="{% url 'newsletter:attempts_list' %}"
-                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">Attempts Report</a>
-                        </li>
-                    </ul>
-                    {% else %}
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li>
-                            <a href="{% url 'users:login_warning' %}"
-                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">List</a></li>
-                        <li><a href="{% url 'users:login_warning' %}"
-                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
-                        <li><a href="{% url 'users:login_warning' %}"
-                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">Attempts Report</a>
-                        </li>
-                    </ul>
-                    {% endif %}
-                </div>
-            </li>
-            <li class="border-top my-3"></li>
-            <li class="mb-1">
-                <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                        data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="true">
-                    Clients
-                </button>
-                <div class="collapse show" id="dashboard-collapse">
-                    {% if user.is_authenticated %}
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="{% url 'client:client_list' %}"
-                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">List</a></li>
-                        <li><a href="{% url 'client:client_form'%}"
-                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
-                    </ul>
-                    {% else %}
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="{% url 'users:login_warning' %}"
-                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">List</a></li>
-                        <li><a href="{% url 'users:login_warning' %}"
-                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
-                    </ul>
-                    {% endif %}
-                </div>
-            </li>
-            <li class="border-top my-3"></li>
-            {% if user.is_manager %}
-            <li class="mb-1">
-                <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                        data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="true">
-                    Manager menu
-                </button>
-                <div class="collapse show" id="dashboard-collapse">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="{% url 'users:user_list' %}"
-                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">Users List</a></li>
-                    </ul>
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="{% url 'users:send_newsletter_manager' %}"
-                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">One-time
-                            newsletter</a>
-                        </li>
-                    </ul>
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="{% url 'users:launch_regular_manager' %}"
-                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">Launch regular
-                            newsletter</a></li>
-                    </ul>
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="{% url 'users:remove_regular_manager' %}"
-                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">Remove regular
-                            newsletter</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li class="border-top my-3"></li>
-            {% endif %}
-        </ul>
+        <div class="b-example-divider b-example-vr"></div>
 
-        <div class="position-absolute bottom-0">
-            <footer class="container">
-                <br><br>
-                <p class="float-end">&copy; 2022–{% now 'Y' %} Company, Inc.</p>
-            </footer>
+        <div class="content col-md-9 ms-sm-auto px-md-4">
+            {% block content %}
+            {% endblock %}
         </div>
 
     </div>
-
-    <div class="b-example-divider b-example-vr"></div>
-
-    <div class="col-md-9 ms-sm-auto px-md-4">
-        {% block content %}
-        {% endblock %}
-    </div>
-
-</main>
-
+</div>
 
 <script src="{% static 'js/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
 <script src="{% static 'js/sidebars.js' %}"></script>
