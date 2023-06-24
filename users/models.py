@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from newsletter.models import NULLABLE
+from newsletter.models.newsletter import NULLABLE
 
 
 class User(AbstractUser):
