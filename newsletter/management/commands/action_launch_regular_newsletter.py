@@ -11,6 +11,7 @@ from django.shortcuts import get_object_or_404
 from config import settings
 from config.settings import BASE_DIR
 from newsletter.models import Newsletter
+from newsletter.services import get_datetime_for_cronjob
 
 logger = logging.getLogger('custom_command')
 
@@ -24,7 +25,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         regularity_modes = settings.REGULARITY_MODES
-
         newsletter_id = options['newsletter_id']
         newsletter_to_send = get_object_or_404(Newsletter, pk=newsletter_id)
         newsletter_regularity = newsletter_to_send.regularity
@@ -54,18 +54,12 @@ class Command(BaseCommand):
                         newsletter_to_send.save()
                         logger.info(
                             '\nMain cronjob:'
-                            f'\nCron job is added successfully. \nRegularity mode - {newsletter_regularity}'
+                            f'\nCron job {newsletter_id} is added successfully. \nRegularity mode - {newsletter_regularity}'
                             f'\nCampaign duration - from "{newsletter_from}", until "{newsletter_until}"'
                         )
 
                     else:
-                        year = newsletter_from.year
-                        month = newsletter_from.month
-                        day = newsletter_from.day
-                        hour = newsletter_from.hour if newsletter_from.hour is not None else 0
-                        minute = newsletter_from.minute if newsletter_from.minute is not None else 0
-                        date_from = datetime(year, month, day, hour, minute)
-
+                        date_from = get_datetime_for_cronjob(newsletter_from)
                         command = f'{Command.python_executable} {Command.manage_py} action_send_newsletter {newsletter_id}'
                         job = cron.new(command=command, comment=f'{newsletter_to_send.pk}')
                         job.setall(regularity_modes[mode])
@@ -78,19 +72,14 @@ class Command(BaseCommand):
                             '\nMain cronjob:'
                             f'\nCronjob "{newsletter_id}" is added successfully. '
                             f'\nRegularity mode - {newsletter_regularity}'
-                            f'\nCampaign duration - from {day}.{month}.{year}, '
+                            f'\nCampaign duration - from {newsletter_from.day}.{newsletter_from.month}.{newsletter_from.year}, '
                             f'until {newsletter_until.day}.{newsletter_until.month}.{newsletter_until.year}.'
                             f"The job will be launched at: {next_run_time}"
                         )
 
+                    removal_datetime = get_datetime_for_cronjob(newsletter_until)
                     command_remove = f'{Command.python_executable} {Command.manage_py} action_remove_cronjob {newsletter_to_send.pk}'
                     job = cron.new(command=command_remove, comment=f'{newsletter_to_send.pk}')
-                    year = newsletter_until.year
-                    month = newsletter_until.month
-                    day = newsletter_until.day
-                    hour = newsletter_until.hour if newsletter_until.hour is not None else 0
-                    minute = newsletter_until.minute if newsletter_until.minute is not None else 0
-                    removal_datetime = datetime(year, month, day, hour, minute)
                     job.setall(removal_datetime)
                     cron.write()
                     logger.info(

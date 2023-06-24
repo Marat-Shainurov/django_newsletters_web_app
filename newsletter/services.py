@@ -85,3 +85,18 @@ def get_launched_cron_jobs():
             res_cron_jobs[' '.join(j.split()[:5])] = ['regular', job_id, newsletter]
 
     return res_cron_jobs
+
+
+def get_datetime_for_cronjob(newsletter_datetime_obj):
+    """
+    Takes the Newsletter DateTime filed object, returns the processed datetime() object.
+    the function is used in the action_launch_regular_newsletter command for cron jobs scheduling.
+    """
+    year = newsletter_datetime_obj.year
+    month = newsletter_datetime_obj.month
+    day = newsletter_datetime_obj.day
+    hour = newsletter_datetime_obj.hour if newsletter_datetime_obj.hour is not None else 0
+    minute = newsletter_datetime_obj.minute if newsletter_datetime_obj.minute is not None else 0
+    datetime_for_cronjob = datetime(year, month, day, hour, minute)
+
+    return datetime_for_cronjob
