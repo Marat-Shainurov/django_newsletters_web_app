@@ -14,7 +14,7 @@ def send_newsletter_manager(request):
     else:
         user = request.user
         all_newsletters = Newsletter.objects.filter(newsletter_user=user)
-        context = {'newsletters_list': all_newsletters, 'page_title': 'Send newsletter'}
+        context = {'newsletters_list': all_newsletters, 'user': user, 'page_title': 'Send newsletter'}
         return render(request, 'users/send_newsletter_manager.html', context)
 
 
