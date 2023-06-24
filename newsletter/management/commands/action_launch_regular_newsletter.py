@@ -83,20 +83,20 @@ class Command(BaseCommand):
                             f"The job will be launched at: {next_run_time}"
                         )
 
-                        command_remove = f'{Command.python_executable} {Command.manage_py} action_remove_cronjob {newsletter_to_send.pk}'
-                        job = cron.new(command=command_remove, comment=f'{newsletter_to_send.pk}')
-                        year = newsletter_until.year
-                        month = newsletter_until.month
-                        day = newsletter_until.day
-                        hour = newsletter_until.hour if newsletter_until.hour is not None else 0
-                        minute = newsletter_until.minute if newsletter_until.minute is not None else 0
-                        removal_datetime = datetime(year, month, day, hour, minute)
-                        job.setall(removal_datetime)
-                        cron.write()
-                        logger.info(
-                            f'\nRemoval cronjob:'
-                            f'\nThe removal cronjob "{newsletter_id}" is added and scheduled to {newsletter_until}'
-                        )
+                    command_remove = f'{Command.python_executable} {Command.manage_py} action_remove_cronjob {newsletter_to_send.pk}'
+                    job = cron.new(command=command_remove, comment=f'{newsletter_to_send.pk}')
+                    year = newsletter_until.year
+                    month = newsletter_until.month
+                    day = newsletter_until.day
+                    hour = newsletter_until.hour if newsletter_until.hour is not None else 0
+                    minute = newsletter_until.minute if newsletter_until.minute is not None else 0
+                    removal_datetime = datetime(year, month, day, hour, minute)
+                    job.setall(removal_datetime)
+                    cron.write()
+                    logger.info(
+                        f'\nRemoval cronjob:'
+                        f'\nThe removal cronjob "{newsletter_id}" is added and scheduled to {newsletter_until}'
+                    )
                 else:
                     logger.info(
                         f'\nActual time ({actual_time}) is later than the "finish_campaign" field\'s value ({newsletter_until})'
