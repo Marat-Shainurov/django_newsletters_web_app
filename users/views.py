@@ -10,6 +10,7 @@ from django.contrib.auth.views import LogoutView as BaseLogoutView
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
+from newsletter.services import get_launched_cron_jobs
 from newsletter.models import Newsletter
 from users.forms import UserRegisterForm, UserProfileForm, LoginForm
 from users.models import User
@@ -115,25 +116,33 @@ def send_newsletter_manager(request):
         return render(request, 'users/send_newsletter_manager.html', context)
 
 
-def launch_regular_manager(request):
+def regular_newsletter_manager(request):
     if request.method == 'POST':
-        newsletter = request.POST.get('newsletter')
-        call_command('action_launch_regular_newsletter', f'{newsletter}')
-        return redirect(reverse('newsletter:newsletter_list'))
+        if 'newsletter_launch' in request.POST:
+            newsletter = request.POST.get('pk_newsletter_launch')
+            call_command('action_launch_regular_newsletter', f'{newsletter}')
+            return redirect(reverse('users:regular_newsletter_manager'))
+        if 'newsletter_remove' in request.POST:
+            newsletter = request.POST.get('pk_newsletter_remove')
+            call_command('action_remove_cronjob', f'{newsletter}')
+            return redirect(reverse('users:regular_newsletter_manager'))
     else:
         user = request.user
         all_newsletters = Newsletter.objects.filter(newsletter_user=user)
-        context = {'newsletters_list': all_newsletters, 'page_title': 'Launch newsletter'}
-        return render(request, 'users/launch_regular_manager.html', context)
-
-
-def remove_regular_manager(request):
-    if request.method == 'POST':
-        newsletter = request.POST.get('newsletter')
-        call_command('action_remove_cronjob', f'{newsletter}')
-        return redirect(reverse('newsletter:newsletter_list'))
-    else:
-        user = request.user
-        all_newsletters = Newsletter.objects.filter(newsletter_user=user)
-        context = {'newsletters_list': all_newsletters, 'page_title': 'Remove newsletter'}
-        return render(request, 'users/remove_regular_manager.html', context)
+        cron_jobs = get_launched_cron_jobs()
+        all_newsletters_total = Newsletter.objects.all()
+        context = {'newsletters_list': all_newsletters, 'cron_jobs': cron_jobs, 'page_title': 'Launch newsletter',
+                   'all_newsletters_total': all_newsletters_total}
+        return render(request, 'users/regular_newsletter_manager.html', context)
+#
+#
+# def remove_regular_manager(request):
+#     if request.method == 'POST':
+#         newsletter = request.POST.get('newsletter')
+#         call_command('action_remove_cronjob', f'{newsletter}')
+#         return redirect(reverse('newsletter:newsletter_list'))
+#     else:
+#         user = request.user
+#         all_newsletters = Newsletter.objects.filter(newsletter_user=user)
+#         context = {'newsletters_list': all_newsletters, 'page_title': 'Remove newsletter'}
+#         return render(request, 'users/remove_regular_manager.html', context)

@@ -1,9 +1,12 @@
+import re
 from datetime import datetime
 from smtplib import SMTPException
 
+from crontab import CronTab
 from dateutil.tz import tz
 from django.conf import settings
 from django.core.mail import send_mail, BadHeaderError
+from django.core.management import call_command
 from django.core.validators import EmailValidator, ValidationError
 
 from client.models import Client
@@ -51,3 +54,27 @@ def send_newsletter(newsletter_id):
     new_attempt.attempt_status = 'success'
     new_attempt.comment = f'{informed_clients_count} clients have been informed out of {len(recipient_list)}'
     new_attempt.save()
+
+from pathlib import Path
+import sys
+
+def get_launched_cron_jobs():
+    cron = CronTab(user=True)
+
+    res_cron_jobs = {}
+    cron_jobs = []
+
+    for job in cron.lines:
+        if job != '':
+            cron_jobs.append(str(job.slices) + ' ' + str(job.command))
+
+    for j in cron_jobs:
+        job_id = j[-1]
+        newsletter = Newsletter.objects.get(pk=job_id)
+        match_action_type = re.search('remove', j.lower())
+        if match_action_type:
+            res_cron_jobs[' '.join(j.split()[:5])] = ['removal', job_id, newsletter]
+        else:
+            res_cron_jobs[' '.join(j.split()[:5])] = ['regular', job_id, newsletter]
+
+    return res_cron_jobs

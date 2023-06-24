@@ -2,7 +2,7 @@ from django.urls import path
 
 from users.apps import UsersConfig
 from users.views import LoginView, LogoutView, RegisterView, verify_email, UserUpdateView, login_warning, \
-    send_newsletter_manager, launch_regular_manager, remove_regular_manager, user_list
+    send_newsletter_manager, regular_newsletter_manager, user_list
 
 app_name = UsersConfig.name
 
@@ -15,6 +15,5 @@ urlpatterns = [
     path('list/update/<int:pk>', UserUpdateView.as_view(), name='user_form'),
     path('login/warning/', login_warning, name='login_warning'),
     path('manager/send-newsletter/', send_newsletter_manager, name='send_newsletter_manager'),
-    path('manager/launch-regular-newsletter/', launch_regular_manager, name='launch_regular_manager'),
-    path('manager/remove-regular-manager/', remove_regular_manager, name='remove_regular_manager')
+    path('manager/regular-newsletters/', regular_newsletter_manager, name='regular_newsletter_manager'),
 ]
