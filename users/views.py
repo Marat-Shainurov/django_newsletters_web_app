@@ -134,15 +134,3 @@ def regular_newsletter_manager(request):
         context = {'newsletters_list': all_newsletters, 'cron_jobs': cron_jobs, 'page_title': 'Launch newsletter',
                    'all_newsletters_total': all_newsletters_total}
         return render(request, 'users/regular_newsletter_manager.html', context)
-#
-#
-# def remove_regular_manager(request):
-#     if request.method == 'POST':
-#         newsletter = request.POST.get('newsletter')
-#         call_command('action_remove_cronjob', f'{newsletter}')
-#         return redirect(reverse('newsletter:newsletter_list'))
-#     else:
-#         user = request.user
-#         all_newsletters = Newsletter.objects.filter(newsletter_user=user)
-#         context = {'newsletters_list': all_newsletters, 'page_title': 'Remove newsletter'}
-#         return render(request, 'users/remove_regular_manager.html', context)

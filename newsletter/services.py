@@ -6,7 +6,6 @@ from crontab import CronTab
 from dateutil.tz import tz
 from django.conf import settings
 from django.core.mail import send_mail, BadHeaderError
-from django.core.management import call_command
 from django.core.validators import EmailValidator, ValidationError
 
 from client.models import Client
@@ -14,6 +13,12 @@ from newsletter.models import Newsletter, NewsletterAttempts, EmailServerRespons
 
 
 def send_newsletter(newsletter_id):
+    """
+    Sends emails to each signed up client. Newsletter to be sent is defined by newsletter_id.
+    Depending on the sending results new_attempt.attempt_status (sending attempt's status)
+    and new_response_obj.response (each email's server response) values are assigned.
+    The function is used in custom commands.
+    """
     clients_to_be_informed = Client.objects.filter(is_signed_up=True)
     newsletter_to_send = Newsletter.objects.get(pk=newsletter_id)
     recipient_list = [x.email for x in clients_to_be_informed]
@@ -55,10 +60,12 @@ def send_newsletter(newsletter_id):
     new_attempt.comment = f'{informed_clients_count} clients have been informed out of {len(recipient_list)}'
     new_attempt.save()
 
-from pathlib import Path
-import sys
 
 def get_launched_cron_jobs():
+    """
+    Returns a dict of active and launched regular scheduled cron jobs (both regular and removal ones).
+    Return: dict{<str:cron job schedule>:[<str:cron job type>, <str:cron job id>, <Newsletter QuerySet:newsletter obj>]}.
+    """
     cron = CronTab(user=True)
 
     res_cron_jobs = {}
