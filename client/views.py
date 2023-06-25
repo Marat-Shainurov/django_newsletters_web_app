@@ -8,7 +8,7 @@ from client.models import Client
 
 class ClientListView(generic.ListView):
     model = Client
-    ordering = 'pk'
+    ordering = ('client_user', 'pk',)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
