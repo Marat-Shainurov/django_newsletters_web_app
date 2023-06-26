@@ -21,7 +21,15 @@
     </header>
 
 
-    <div class="container d-flex justify-content-center align-items-center" style="height: 30vh;">
+    <div>
+        <p class="icon-link icon-link-hover d-flex align-items-center link-body-emphasis text-decoration-none">
+        <strong>The list of newsletter</strong> <strong class="text-success">
+            (*newsletters added by you, available for editing)</strong>
+        </p>
+    </div>
+
+
+    <div class="container d-flex justify-content-center align-items-center mt-4" style="height: 30vh;">
         <div class="container-fluid table-container">
             <table class="table table-striped">
                 <thead>
@@ -35,31 +43,40 @@
                 </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                {% if user.is_authenticated %}
+
                 {% for object in object_list %}
-                {% if user.is_manager %}
-                <tr>
-                    <th scope="row">{{ object.pk}}</th>
-                    <td><a href="{% url 'newsletter:newsletter_detail' object.slug %}">{{ object.newsletter }}</a></td>
-                    <td>{{ object.status}}</td>
-                    <td>{{ object.regularity}}</td>
-                    <td>{{ object.newsletter_user }}</td>
-                    <td>{{ object.is_active }}</td>
-                </tr>
-                {% else %}
-                {% if user == object.newsletter_user %}
-                <tr>
-                    <th scope="row">{{ object.pk}}</th>
-                    <td><a href="{% url 'newsletter:newsletter_detail' object.slug %}">{{ object.newsletter }}</a></td>
-                    <td>{{ object.status}}</td>
-                    <td>{{ object.regularity}}</td>
-                    <td>{{ object.newsletter_user }}</td>
-                    <td>{{ object.is_active }}</td>
-                </tr>
-                {% endif %}
-                {% endif %}
+                    {% if user.is_manager %}
+                        <tr>
+                            {% if user == object.newsletter_user %}
+                            <th class="text-success" scope="row"><strong>{{ object.pk}}</strong></th>
+                            <td><a class="text-success" href="{% url 'newsletter:newsletter_detail' object.slug %}"><strong>{{ object.newsletter }}</strong></a></td>
+                            <td class="text-success"><strong>{{ object.status }}</strong></td>
+                            <td class="text-success"><strong>{{ object.regularity }}</strong></td>
+                            <td class="text-success"><strong>{{ object.newsletter_user }}</strong></td>
+                            <td class="text-success"><strong>{{ object.is_active }}</strong></td>
+                            {% else %}
+                                <th scope="row">{{ object.pk}}</th>
+                                <td><a href="{% url 'newsletter:newsletter_detail' object.slug %}">{{ object.newsletter }}</a></td>
+                                <td>{{ object.status }}</td>
+                                <td>{{ object.regularity }}</td>
+                                <td>{{ object.newsletter_user }}</td>
+                                <td>{{ object.is_active }}</td>
+                            {% endif %}
+                        </tr>
+                    {% else %}
+                        {% if user == object.newsletter_user %}
+                        <tr>
+                            <th scope="row">{{ object.pk}}</th>
+                            <td><a href="{% url 'newsletter:newsletter_detail' object.slug %}">{{ object.newsletter }}</a></td>
+                            <td>{{ object.status}}</td>
+                            <td>{{ object.regularity}}</td>
+                            <td>{{ object.newsletter_user }}</td>
+                            <td>{{ object.is_active }}</td>
+                        </tr>
+                        {% endif %}
+                    {% endif %}
                 {% endfor %}
-                {% endif %}
+
                 </tbody>
             </table>
         </div>
