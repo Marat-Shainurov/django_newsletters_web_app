@@ -17,6 +17,30 @@
         </div>
     </header>
 
+    <div class="col-3">
+
+        <form class="form-control" method="get"
+              action="{% url 'newsletter:attempts_list_filtered_newsletter' %}"
+              name="filter_newsletter">
+            <p><strong>Select a newsletter:</strong></p>
+            <div class="row">
+                <div class="col-6">
+                    <select class="form-select required" aria-label="Default select example"
+                            name="pk_filter_newsletter">
+                        <option selected></option>
+                        {% for n in all_newsletters %}
+                        <option value='{{n.pk}}'>{{n.newsletter}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-secondary float-end" type="submit" name="filter_newsletter">Filter</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
     <div class="container d-flex justify-content-center align-items-start" style="min-height: 70vh;">
         <div class="container-fluid table-container">
             <table class="table table-striped">
