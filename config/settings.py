@@ -140,6 +140,7 @@ EMAIL_USE_SSL = True
 AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/users/login/'
 
 REGULARITY_MODES = {
     'daily': '0 12 * * *',

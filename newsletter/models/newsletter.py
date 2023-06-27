@@ -51,3 +51,9 @@ class Newsletter(models.Model):
     class Meta:
         verbose_name = 'Newsletter'
         verbose_name_plural = 'Newsletters'
+        permissions = [
+            (
+                'remove_regular_newsletter',
+                'can remove regular newsletter'
+            )
+        ]

@@ -8,7 +8,7 @@ from client.models import Client
 from newsletter.models import Newsletter, NewsletterAttempts
 
 
-@login_required(login_url='users:login')
+@login_required
 def index(request):
     all_newsletters = Newsletter.objects.filter(is_active=True)
     all_newsletters_launched = Newsletter.objects.filter(status='launched')

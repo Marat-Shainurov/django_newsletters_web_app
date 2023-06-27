@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
@@ -6,7 +7,7 @@ from client.forms import ClientForm
 from client.models import Client
 
 
-class ClientListView(generic.ListView):
+class ClientListView(LoginRequiredMixin, generic.ListView):
     model = Client
     ordering = ('client_user', 'pk',)
 
@@ -36,7 +37,7 @@ class ClientListView(generic.ListView):
 
 
 
-class ClientDetailView(generic.DetailView):
+class ClientDetailView(LoginRequiredMixin, generic.DetailView):
     model = Client
 
     def get_context_data(self, *args, **kwargs):
@@ -45,7 +46,7 @@ class ClientDetailView(generic.DetailView):
         return context
 
 
-class ClientCreateView(generic.CreateView):
+class ClientCreateView(LoginRequiredMixin, generic.CreateView):
     model = Client
     form_class = ClientForm
 
@@ -65,7 +66,7 @@ class ClientCreateView(generic.CreateView):
         return context
 
 
-class ClientUpdateView(generic.UpdateView):
+class ClientUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Client
     form_class = ClientForm
 
@@ -78,7 +79,7 @@ class ClientUpdateView(generic.UpdateView):
         return context
 
 
-class ClientDeleteView(generic.DeleteView):
+class ClientDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Client
     success_url = reverse_lazy('client:client_list')
     extra_context = {'page_title': 'Delete a client'}

@@ -1,5 +1,6 @@
 {% extends 'newsletter/base.html'%}
 {% block content %}
+{% load my_tags %}
 
 <div class="container py-3">
     <header>
@@ -23,8 +24,11 @@
 
     <div>
         <p class="icon-link icon-link-hover d-flex align-items-center link-body-emphasis text-decoration-none">
-        <strong>The list of newsletter</strong> <strong class="text-success">
+        <strong>The list of newsletters</strong>
+            {% if user|has_group:"manager" or user.is_superuser %}
+            <strong class="text-success">
             (*newsletters added by you, available for editing)</strong>
+            {% endif %}
         </p>
     </div>
 
@@ -45,7 +49,7 @@
                 <tbody class="table-group-divider">
 
                 {% for object in object_list %}
-                    {% if user.is_manager %}
+                    {% if perms.newsletter.view_newsletter %}
                         <tr>
                             {% if user == object.newsletter_user %}
                             <th class="text-success" scope="row"><strong>{{ object.pk}}</strong></th>
@@ -64,7 +68,6 @@
                             {% endif %}
                         </tr>
                     {% else %}
-                        {% if user == object.newsletter_user %}
                         <tr>
                             <th scope="row">{{ object.pk}}</th>
                             <td><a href="{% url 'newsletter:newsletter_detail' object.slug %}">{{ object.newsletter }}</a></td>
@@ -73,7 +76,6 @@
                             <td>{{ object.newsletter_user }}</td>
                             <td>{{ object.is_active }}</td>
                         </tr>
-                        {% endif %}
                     {% endif %}
                 {% endfor %}
 

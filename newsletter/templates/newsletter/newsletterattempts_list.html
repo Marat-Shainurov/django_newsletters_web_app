@@ -1,5 +1,6 @@
 {% extends 'newsletter/base.html'%}
 {% block content %}
+{% load my_tags %}
 
 <div class="container py-3">
 
@@ -18,7 +19,7 @@
     </header>
 
     <div class="col-3">
-
+        {% if user|has_group:"manager" or user.is_superuser %}
         <form class="form-control" method="get"
               action="{% url 'newsletter:attempts_list_filtered_newsletter' %}"
               name="filter_newsletter">
@@ -38,6 +39,7 @@
                 </div>
             </div>
         </form>
+        {% endif %}
 
     </div>
 

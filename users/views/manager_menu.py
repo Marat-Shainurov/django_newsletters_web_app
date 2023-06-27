@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.core.management import call_command
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -5,7 +6,7 @@ from django.urls import reverse
 from newsletter.models import Newsletter
 from newsletter.services import get_launched_cron_jobs
 
-
+@login_required
 def send_newsletter_manager(request):
     if request.method == 'POST':
         newsletter = request.POST.get('newsletter')
@@ -17,7 +18,7 @@ def send_newsletter_manager(request):
         context = {'newsletters_list': all_newsletters, 'user': user, 'page_title': 'Send newsletter'}
         return render(request, 'users/send_newsletter_manager.html', context)
 
-
+@login_required
 def regular_newsletter_manager(request):
     if request.method == 'POST':
         if 'newsletter_launch' in request.POST:

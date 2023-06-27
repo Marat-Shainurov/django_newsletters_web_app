@@ -1,4 +1,5 @@
 {% load static %}
+{% load my_tags %}
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 <head>
@@ -222,7 +223,6 @@
                         Newsletters
                     </button>
                     <div class="collapse show" id="home-collapse">
-                        {% if user.is_authenticated %}
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             <li>
                                 <a href="{% url 'newsletter:newsletter_list' %}"
@@ -234,19 +234,6 @@
                                 Report</a>
                             </li>
                         </ul>
-                        {% else %}
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li>
-                                <a href="{% url 'users:login_warning' %}"
-                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">List</a></li>
-                            <li><a href="{% url 'users:login_warning' %}"
-                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
-                            <li><a href="{% url 'users:login_warning' %}"
-                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Attempts
-                                Report</a>
-                            </li>
-                        </ul>
-                        {% endif %}
                     </div>
                 </li>
                 <li class="border-top my-3"></li>
@@ -256,25 +243,16 @@
                         Clients
                     </button>
                     <div class="collapse show" id="dashboard-collapse">
-                        {% if user.is_authenticated %}
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             <li><a href="{% url 'client:client_list' %}"
                                    class="link-body-emphasis d-inline-flex text-decoration-none rounded">List</a></li>
                             <li><a href="{% url 'client:client_form'%}"
                                    class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
                         </ul>
-                        {% else %}
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="{% url 'users:login_warning' %}"
-                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">List</a></li>
-                            <li><a href="{% url 'users:login_warning' %}"
-                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
-                        </ul>
-                        {% endif %}
                     </div>
                 </li>
                 <li class="border-top my-3"></li>
-                {% if user.is_manager %}
+                {% if user|has_group:"manager" or user.is_superuser %}
                 <li class="mb-1">
                     <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
                             data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="true">

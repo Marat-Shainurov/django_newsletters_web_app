@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
@@ -5,13 +6,16 @@ from newsletter.forms import NewsletterForm
 from newsletter.models import Newsletter
 
 
-class NewsletterListView(generic.ListView):
+
+class NewsletterListView(LoginRequiredMixin, generic.ListView):
     model = Newsletter
     ordering = ('newsletter_user', 'pk')
 
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
         queryset = queryset.filter(is_active=True)
+        if not self.request.user.has_perm('newsletter.view_newsletter'):
+            queryset = queryset.filter(newsletter_user=self.request.user)
         return queryset
 
     def get_context_data(self, *args, **kwargs):
@@ -20,7 +24,7 @@ class NewsletterListView(generic.ListView):
         return context
 
 
-class NewsletterDetailView(generic.DetailView):
+class NewsletterDetailView(LoginRequiredMixin, generic.DetailView):
     model = Newsletter
 
     def get_context_data(self, *args, **kwargs):
@@ -29,7 +33,7 @@ class NewsletterDetailView(generic.DetailView):
         return context
 
 
-class NewsletterCreateView(generic.CreateView):
+class NewsletterCreateView(LoginRequiredMixin, generic.CreateView):
     model = Newsletter
     form_class = NewsletterForm
     extra_context = {'page_title': 'Create a newsletter'}
@@ -45,7 +49,7 @@ class NewsletterCreateView(generic.CreateView):
             return super().form_valid(form)
 
 
-class NewsletterUpdateView(generic.UpdateView):
+class NewsletterUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Newsletter
     form_class = NewsletterForm
 
@@ -58,7 +62,7 @@ class NewsletterUpdateView(generic.UpdateView):
         return context
 
 
-class NewsletterDeleteView(generic.DeleteView):
+class NewsletterDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Newsletter
     success_url = reverse_lazy('newsletter:newsletter_list')
     extra_context = {'page_title': 'Delete newsletter'}
