@@ -1,6 +1,5 @@
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
-from django.shortcuts import render
 
 from users.forms import LoginForm
 
@@ -17,8 +16,3 @@ class LoginView(BaseLoginView):
 
 class LogoutView(BaseLogoutView):
     pass
-
-
-def login_warning(request):
-    context = {'page_title': 'Logging in warning'}
-    return render(request, 'users/login_warning.html', context)
