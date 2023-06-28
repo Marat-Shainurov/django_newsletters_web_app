@@ -1,23 +1,61 @@
 {% extends 'newsletter/base.html'%}
 {% block content %}
 
+
 <div class="container py-3">
     <header>
         <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
-            <a href="{% url 'client:client_list'%}"
-               class="d-flex align-items-center link-body-emphasis text-decoration-none">
-                <span class="fs-4">Back</span>
+            <a class="icon-link icon-link-hover d-flex align-items-center link-body-emphasis text-decoration-none"
+               style="margin-right: 30px;" href="{% url 'newsletter:index'%}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                </svg>
+                Main page
             </a>
-        </div>
-
-        <div class="label">
-            <h2>Are you sure you want to delete (deactivate) {{object.name}}</h2>
-            <form method="post">
-                {% csrf_token %}
-                <p><input class="btn btn-outline-danger rounded-pill" type="submit" value="Yes"></p>
-            </form>
+            <a class="icon-link icon-link-hover d-flex align-items-center link-body-emphasis text-decoration-none"
+               href="{% url 'client:client_list'%}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                </svg>
+                Clients list
+            </a>
+            <a class="icon-link icon-link-hover d-flex align-items-center link-body-emphasis text-decoration-none" style="margin-left: 30px"
+               href="{% url 'client:client_detail' object.slug %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                </svg>
+                Client detail
+            </a>
         </div>
     </header>
 
+
+    <div class="card">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="card-header">
+                <h1>Deleting confirmation</h1>
+            </div>
+
+            <div class="card-body">
+                Are you sure you want to delete <strong>{{ object.name }}</strong> client?
+            </div>
+
+            <div class="card-footer">
+                <button type="submit" class="btn btn-danger">
+                    Delete
+                </button>
+            </div>
+        </form>
+    </div>
+
 </div>
+
 {% endblock %}
