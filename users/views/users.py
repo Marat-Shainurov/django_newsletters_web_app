@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
+from client.models import Client
+from newsletter.models import Newsletter
 from users.forms import UserProfileForm
 from users.models import User
 
@@ -53,3 +55,9 @@ class UserDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.Delete
 class UserDetailView(LoginRequiredMixin, generic.DetailView):
     model = User
     extra_context = {'page_title': 'User detail'}
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_clients'] = Client.objects.filter(client_user=self.request.user)
+        context['newsletter_user'] = Newsletter.objects.filter(newsletter_user=self.request.user)
+        return context
