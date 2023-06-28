@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 
 from newsletter.models import NewsletterAttempts, Newsletter
+from users.models import User
 
 
 class NewsletterAttemptsListView(LoginRequiredMixin, generic.ListView):
@@ -12,10 +13,11 @@ class NewsletterAttemptsListView(LoginRequiredMixin, generic.ListView):
         context = super().get_context_data(*args, **kwargs)
         context['page_title'] = 'Newsletter attempts'
         context['all_newsletters'] = Newsletter.objects.all()
+        context['all_users'] = User.objects.all()
         return context
 
     def get_queryset(self, *args, **kwargs):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset(*args, **kwargs)
 
         if not self.request.user.has_perm('newsletter.view_newsletter'):
             newsletter_user = Newsletter.objects.get(newsletter_user=self.request.user)
@@ -25,6 +27,10 @@ class NewsletterAttemptsListView(LoginRequiredMixin, generic.ListView):
             newsletter_pk = self.request.GET.get('pk_filter_newsletter')
             newsletter = Newsletter.objects.get(pk=newsletter_pk)
             queryset = queryset.filter(newsletter=newsletter)
+        if 'filter_users' in self.request.GET:
+            user_email = self.request.GET.get('email_filter_user')
+            newsletters = Newsletter.objects.filter(newsletter_user=User.objects.get(email=user_email))
+            queryset = queryset.filter(newsletter__in=newsletters)
 
         return queryset
 
