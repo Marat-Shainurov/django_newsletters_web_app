@@ -25,11 +25,9 @@
                     <th scope="col">#</th>
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
+                    <th scope="col">Is active</th>
                     <th scope="col">Is verified</th>
                     <th scope="col">Verify toggle</th>
-                    <th scope="col">Is manager</th>
-                    <th scope="col">Manager toggle</th>
-
                 </tr>
                 </thead>
                 <tbody class="table-group-divider">
@@ -38,6 +36,7 @@
                     <th scope="row">{{ object.pk}}</th>
                     <td><a href="{% url 'users:user_detail' object.pk %}"><strong>{{ object.email }}</strong></a></td>
                     <td>{{ object.phone}}</td>
+                    <td>{{ object.is_active }}</td>
                     <td>{{ object.is_verified}}</td>
                     <td>
                         <form method="post">
@@ -48,27 +47,20 @@
                             </button>
                         </form>
                     </td>
-                    <td>{{ object.is_manager}}</td>
-                    <td>
-                        <form method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="pk_manager_toggle" value="{{ object.pk }}">
-                            <button class="btn btn-outline-info" type="submit" name="manager_toggle">
-                                {% if object.is_manager %}Switch off{% else %}Switch on{% endif %}
-                            </button>
-                        </form>
-                    </td>
+
                 </tr>
                 {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
+    {% if user.is_superuser %}
     <div class="m-4 float-end">
         <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
             <a class="btn btn-outline-success rounded-pill"
                href="{% url 'users:user_form' %}">Create</a>
         </nav>
     </div>
+    {% endif %}
 </div>
 {% endblock %}
