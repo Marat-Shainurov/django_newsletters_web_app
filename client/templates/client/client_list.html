@@ -32,10 +32,6 @@
                 </svg>
                 Regular newsletter manager
             </a>
-            <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-                <a class="btn btn-outline-success rounded-pill"
-                   href="{% url 'client:client_form' %}">Create</a>
-            </nav>
         </div>
     </header>
 
@@ -49,7 +45,7 @@
         </p>
     </div>
 
-    <div class="container d-flex justify-content-center align-items-start mt-4" style="min-height: 70vh;">
+    <div class="container d-flex justify-content-center align-items-start mt-4">
         <div class="container-fluid">
             <table class="table table-striped">
                 <thead>
@@ -130,9 +126,12 @@
             </table>
         </div>
     </div>
-    <br>
-    <div>
 
+    <div class="m-4 float-end">
+        <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                <a class="btn btn-outline-primary rounded-pill"
+                   href="{% url 'client:client_form' %}">Add client</a>
+            </nav>
     </div>
 </div>
 

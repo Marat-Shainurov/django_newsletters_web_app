@@ -2,6 +2,7 @@
 {% block content %}
 {% load my_tags %}
 
+
 <div class="container py-3">
     <header>
         <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
@@ -14,26 +15,41 @@
                 </svg>
                 Main page
             </a>
-            <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-                <a class="btn btn-outline-success rounded-pill"
-                   href="{% url 'newsletter:newsletter_create' %}">Create</a>
-            </nav>
+            <a class="icon-link icon-link-hover d-flex align-items-center link-body-emphasis text-decoration-none"
+               href="{% url 'users:send_newsletter_manager'%}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                </svg>
+                One-time newsletter
+            </a>
+            <a class="icon-link icon-link-hover d-flex align-items-center link-body-emphasis text-decoration-none"
+               style="margin-left: 30px"
+               href="{% url 'users:regular_newsletter_manager'%}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                </svg>
+                Regular newsletter
+            </a>
+
         </div>
     </header>
 
-
     <div>
         <p class="icon-link icon-link-hover d-flex align-items-center link-body-emphasis text-decoration-none">
-        <strong>The list of newsletters</strong>
+            <strong>The list of newsletters</strong>
             {% if user|has_group:"manager" or user.is_superuser %}
             <strong class="text-success">
-            (*newsletters added by you, available for editing)</strong>
+                (*newsletters added by you, available for editing)</strong>
             {% endif %}
         </p>
     </div>
 
 
-    <div class="container d-flex justify-content-center align-items-center mt-4" style="height: 30vh;">
+    <div class="container d-flex justify-content-center align-items-start mt-4" style="height: 30vh;">
         <div class="container-fluid table-container">
             <table class="table table-striped">
                 <thead>
@@ -49,34 +65,34 @@
                 <tbody class="table-group-divider">
 
                 {% for object in object_list %}
-                    {% if perms.newsletter.view_newsletter %}
-                        <tr>
-                            {% if user == object.newsletter_user %}
-                            <th class="text-success" scope="row"><strong>{{ object.pk}}</strong></th>
-                            <td><a class="text-success" href="{% url 'newsletter:newsletter_detail' object.slug %}"><strong>{{ object.newsletter }}</strong></a></td>
-                            <td class="text-success"><strong>{{ object.status }}</strong></td>
-                            <td class="text-success"><strong>{{ object.regularity }}</strong></td>
-                            <td class="text-success"><strong>{{ object.newsletter_user }}</strong></td>
-                            <td class="text-success"><strong>{{ object.is_active }}</strong></td>
-                            {% else %}
-                                <th scope="row">{{ object.pk}}</th>
-                                <td><a href="{% url 'newsletter:newsletter_detail' object.slug %}">{{ object.newsletter }}</a></td>
-                                <td>{{ object.status }}</td>
-                                <td>{{ object.regularity }}</td>
-                                <td>{{ object.newsletter_user }}</td>
-                                <td>{{ object.is_active }}</td>
-                            {% endif %}
-                        </tr>
+                {% if perms.newsletter.view_newsletter %}
+                <tr>
+                    {% if user == object.newsletter_user %}
+                    <th class="text-success" scope="row"><strong>{{ object.pk}}</strong></th>
+                    <td><a class="text-success" href="{% url 'newsletter:newsletter_detail' object.slug %}"><strong>{{ object.newsletter }}</strong></a></td>
+                    <td class="text-success"><strong>{{ object.status }}</strong></td>
+                    <td class="text-success"><strong>{{ object.regularity }}</strong></td>
+                    <td class="text-success"><strong>{{ object.newsletter_user }}</strong></td>
+                    <td class="text-success"><strong>{{ object.is_active }}</strong></td>
                     {% else %}
-                        <tr>
-                            <th scope="row">{{ object.pk}}</th>
-                            <td><a href="{% url 'newsletter:newsletter_detail' object.slug %}">{{ object.newsletter }}</a></td>
-                            <td>{{ object.status}}</td>
-                            <td>{{ object.regularity}}</td>
-                            <td>{{ object.newsletter_user }}</td>
-                            <td>{{ object.is_active }}</td>
-                        </tr>
+                    <th scope="row">{{ object.pk}}</th>
+                    <td><a href="{% url 'newsletter:newsletter_detail' object.slug %}">{{ object.newsletter }}</a></td>
+                    <td>{{ object.status }}</td>
+                    <td>{{ object.regularity }}</td>
+                    <td>{{ object.newsletter_user }}</td>
+                    <td>{{ object.is_active }}</td>
                     {% endif %}
+                </tr>
+                {% else %}
+                <tr>
+                    <th scope="row">{{ object.pk}}</th>
+                    <td><a href="{% url 'newsletter:newsletter_detail' object.slug %}">{{ object.newsletter }}</a></td>
+                    <td>{{ object.status}}</td>
+                    <td>{{ object.regularity}}</td>
+                    <td>{{ object.newsletter_user }}</td>
+                    <td>{{ object.is_active }}</td>
+                </tr>
+                {% endif %}
                 {% endfor %}
 
                 </tbody>
@@ -84,8 +100,11 @@
         </div>
     </div>
     <br>
-    <div>
-
+    <div class="m-4 float-end">
+        <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                <a class="btn btn-outline-primary rounded-pill"
+                   href="{% url 'newsletter:newsletter_create' %}">Create newsletter</a>
+            </nav>
     </div>
 </div>
 

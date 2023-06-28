@@ -13,15 +13,11 @@
                 </svg>
                 Main page
             </a>
-            <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-                <a class="btn btn-outline-success rounded-pill"
-                   href="{% url 'users:user_form' %}">Create</a>
-            </nav>
         </div>
 
     </header>
 
-    <div class="container d-flex justify-content-center align-items-start mt-4" style="min-height: 70vh;">
+    <div class="container d-flex justify-content-center align-items-start mt-4">
         <div class="container-fluid table-container">
             <table class="table table-striped">
                 <thead>
@@ -40,7 +36,7 @@
                 {% for object in object_list %}
                 <tr class="sticky-top">
                     <th scope="row">{{ object.pk}}</th>
-                    <td><strong>{{ object.email }}</strong></td>
+                    <td><a href="{% url 'users:user_detail' object.pk %}"><strong>{{ object.email }}</strong></a></td>
                     <td>{{ object.phone}}</td>
                     <td>{{ object.is_verified}}</td>
                     <td>
@@ -67,6 +63,12 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="m-4 float-end">
+        <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+            <a class="btn btn-outline-success rounded-pill"
+               href="{% url 'users:user_form' %}">Create</a>
+        </nav>
     </div>
 </div>
 {% endblock %}
