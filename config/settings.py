@@ -144,8 +144,8 @@ LOGIN_URL = '/users/login/'
 
 REGULARITY_MODES = {
     'daily': '0 12 * * *',
-    'weekly': '30 12 * * 6',
-    'monthly': '0 13 24 * *'
+    'weekly': '15 12 * * 5',
+    'monthly': '30 12 30 * *'
 }
 
 LOGGING = {

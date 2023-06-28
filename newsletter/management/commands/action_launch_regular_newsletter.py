@@ -54,7 +54,7 @@ class Command(BaseCommand):
                         newsletter_to_send.save()
                         logger.info(
                             '\nMain cronjob:'
-                            f'\nCron job {newsletter_id} is added successfully. \nRegularity mode - {newsletter_regularity}'
+                            f'\nCron job "{newsletter_id}" is added successfully. \nRegularity mode - {newsletter_regularity}'
                             f'\nCampaign duration - from "{newsletter_from}", until "{newsletter_until}"'
                         )
 
