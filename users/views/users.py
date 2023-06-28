@@ -1,11 +1,12 @@
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 from users.forms import UserProfileForm
 from users.models import User
+
 
 @login_required
 @permission_required('users.view_user', raise_exception=True)
@@ -28,8 +29,27 @@ def user_list(request):
         return render(request, 'users/user_list.html', context)
 
 
+class UserCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
+    model = User
+    form_class = UserProfileForm
+    success_url = reverse_lazy('users:user_list')
+    extra_context = {'page_title': 'Create user'}
+    permission_required = 'users.add_user'
+
+
 class UserUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = User
     form_class = UserProfileForm
     success_url = reverse_lazy('users:user_list')
     extra_context = {'page_title': 'Update users'}
+
+
+class UserDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
+    model = User
+    success_url = reverse_lazy('users:user_list')
+    extra_context = {'page_title': 'Delete user'}
+
+
+class UserDetailView(LoginRequiredMixin, generic.DetailView):
+    model = User
+    extra_context = {'page_title': 'User detail'}

@@ -1,0 +1,26 @@
+{% extends 'newsletter/base.html'%}
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center" style="height: 80vh;">
+    <div class="card">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="card-header">
+                <h1>Deleting confirmation</h1>
+            </div>
+
+            <div class="card-body">
+                Are you sure you want to delete {{ object }} user?
+            </div>
+
+            <div class="card-footer">
+                <button type="submit" class="btn btn-danger">
+                    Delete
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
