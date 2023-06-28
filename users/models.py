@@ -16,6 +16,10 @@ class User(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
+    def delete(self, **kwargs):
+        self.is_active = False
+        self.save()
+
     class Meta:
         verbose_name = 'user'
         verbose_name_plural = 'users'

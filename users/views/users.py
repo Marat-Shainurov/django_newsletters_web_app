@@ -19,11 +19,6 @@ def user_list(request):
             user = User.objects.get(pk=pk)
             user.is_verified = not user.is_verified
             user.save()
-        elif 'manager_toggle' in request.POST:
-            pk = request.POST.get('pk_manager_toggle')
-            user = User.objects.get(pk=pk)
-            user.is_manager = not user.is_manager
-            user.save()
         return redirect(reverse('users:user_list'))
     else:
         all_users = User.objects.order_by('pk')
@@ -50,6 +45,7 @@ class UserDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.Delete
     model = User
     success_url = reverse_lazy('users:user_list')
     extra_context = {'page_title': 'Delete user'}
+    permission_required = 'users.delete_user'
 
 
 class UserDetailView(LoginRequiredMixin, generic.DetailView):
