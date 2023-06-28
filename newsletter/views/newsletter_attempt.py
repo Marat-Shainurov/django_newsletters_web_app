@@ -25,10 +25,14 @@ class NewsletterAttemptsListView(LoginRequiredMixin, generic.ListView):
 
         if 'filter_newsletter' in self.request.GET:
             newsletter_pk = self.request.GET.get('pk_filter_newsletter')
+            if newsletter_pk == 'all' or newsletter_pk == 'Select newsletter:':
+                return queryset
             newsletter = Newsletter.objects.get(pk=newsletter_pk)
             queryset = queryset.filter(newsletter=newsletter)
         if 'filter_users' in self.request.GET:
             user_email = self.request.GET.get('email_filter_user')
+            if user_email == 'all' or user_email == 'Select user:':
+                return queryset
             newsletters = Newsletter.objects.filter(newsletter_user=User.objects.get(email=user_email))
             queryset = queryset.filter(newsletter__in=newsletters)
 

@@ -19,16 +19,15 @@
     </header>
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-5">
             <form class="form-control" method="get"
                   action="{% url 'newsletter:attempts_list_filtered_newsletter' %}"
                   name="filter_newsletter">
-                <p><strong>Select newsletter:</strong></p>
                 <div class="row">
                     <div class="col-6">
-                        <select class="form-select required" aria-label="Default select example"
+                        <select class="form-select form-select-sm required" aria-label=".form-select-sm example"
                                 name="pk_filter_newsletter">
-                            <option selected></option>
+                            <option selected>Select newsletter:</option>
                             <option value='all'>All newsletters</option>
                             {% for n in all_newsletters %}
                             <option value='{{n.pk}}'>{{n.newsletter}}</option>
@@ -44,16 +43,15 @@
         </div>
 
         {% if user|has_group:"manager" or user.is_superuser %}
-            <div class="col-3">
+            <div class="col-4">
                 <form class="form-control" method="get"
                       action="{% url 'newsletter:attempts_list_filtered_newsletter' %}"
                       name="filter_users">
-                    <p><strong>Select user:</strong></p>
                     <div class="row">
                         <div class="col-6">
-                            <select class="form-select required" aria-label="Default select example"
+                            <select class="form-select form-select-sm required" aria-label=".form-select-sm example"
                                     name="email_filter_user">
-                                <option selected></option>
+                                <option selected>Select user:</option>
                                 <option value='all'>All users</option>
                                 {% for u in all_users %}
                                 <option value='{{u.email}}'>{{u.email}}</option>
