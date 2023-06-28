@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
@@ -5,7 +7,8 @@ from django.views import generic
 from users.forms import UserProfileForm
 from users.models import User
 
-
+@login_required
+@permission_required('users.view_user', raise_exception=True)
 def user_list(request):
     if request.method == 'POST':
         if 'verify_toggle' in request.POST:
@@ -25,7 +28,7 @@ def user_list(request):
         return render(request, 'users/user_list.html', context)
 
 
-class UserUpdateView(generic.UpdateView):
+class UserUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = User
     form_class = UserProfileForm
     success_url = reverse_lazy('users:user_list')
