@@ -1,5 +1,6 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.core.management import call_command
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
@@ -26,6 +27,8 @@ def regular_newsletter_manager(request):
             call_command('action_launch_regular_newsletter', f'{newsletter}')
             return redirect(reverse('users:regular_newsletter_manager'))
         if 'newsletter_remove' in request.POST:
+            if not request.user.has_perm('newsletter.remove_regular_newsletter'):
+                raise Http404('You don\'t have access to this action! PLease contact your manager.')
             newsletter = request.POST.get('pk_newsletter_remove')
             call_command('action_remove_cronjob', f'{newsletter}')
             return redirect(reverse('users:regular_newsletter_manager'))
