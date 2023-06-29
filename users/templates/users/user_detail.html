@@ -51,14 +51,5 @@
         </div>
     </div>
 
-    <div class="m-4 float-end">
-        <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-            <a class="btn btn-outline-info rounded-pill"
-               href="{% url 'users:user_form' object.pk %}">Edit</a>
-            <a class="btn btn-outline-warning rounded-pill"
-               href="{% url 'users:user_delete' object.pk %}">Delete</a>
-        </nav>
-    </div>
-
 </div>
 {% endblock %}
