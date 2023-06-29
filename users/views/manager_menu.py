@@ -34,9 +34,10 @@ def regular_newsletter_manager(request):
             return redirect(reverse('users:regular_newsletter_manager'))
     else:
         user = request.user
-        all_newsletters = Newsletter.objects.filter(newsletter_user=user)
+        all_newsletters_new = Newsletter.objects.filter(newsletter_user=user)
+        all_newsletters_rem = Newsletter.objects.all()
         cron_jobs = get_launched_cron_jobs()
         all_newsletters_total = Newsletter.objects.all()
-        context = {'newsletters_list': all_newsletters, 'cron_jobs': cron_jobs, 'page_title': 'Launch newsletter',
+        context = {'all_newsletters_new': all_newsletters_new, 'newsletters_list_rem': all_newsletters_rem, 'cron_jobs': cron_jobs, 'page_title': 'Launch newsletter',
                    'all_newsletters_total': all_newsletters_total}
         return render(request, 'users/regular_newsletter_manager.html', context)

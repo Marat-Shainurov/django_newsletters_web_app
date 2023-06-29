@@ -42,7 +42,7 @@
                                     name="pk_newsletter_launch"
                                     required>
                                 <option selected></option>
-                                {% for n in newsletters_list %}
+                                {% for n in all_newsletters_new %}
                                 <option value='{{n.pk}}'>{{n}}</option>
                                 {% endfor %}
                             </select>
@@ -69,7 +69,7 @@
                                     name="pk_newsletter_remove"
                                     required>
                                 <option selected></option>
-                                {% for n in newsletters_list %}
+                                {% for n in newsletters_list_rem %}
                                 <option value='{{n.pk}}'>{{n}}</option>
                                 {% endfor %}
                             </select>
