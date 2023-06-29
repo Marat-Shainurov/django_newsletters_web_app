@@ -29,4 +29,4 @@ class Command(BaseCommand):
         newsletter = get_object_or_404(Newsletter, pk=cronjob_id)
         newsletter.status = 'finished'
         newsletter.save()
-        logger.info(f'The "{cronjob_id}" cronjob has been removed successfully')
+        logger.info(f'The "{cronjob_id}" cronjobs have been removed successfully')

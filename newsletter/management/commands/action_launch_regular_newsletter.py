@@ -42,9 +42,9 @@ class Command(BaseCommand):
                 if actual_time < newsletter_until:
                     if actual_time > newsletter_from:
                         call_command('action_send_newsletter', f'{newsletter_id}')
-                        logging.info(
-                            f'Actual time ({actual_time}) is later than the "start_campaign" field\'s value  ({newsletter_from}). '
-                            f'The newsletter has been sent right away.')
+                        logger.info(
+                            f'\nActual time ({actual_time}) is later than the "start_campaign" field\'s value  ({newsletter_from}).'
+                            f'\nThe newsletter "{newsletter_id}" ("{newsletter_to_send}") has been sent right away.')
 
                         command = f'{Command.python_executable} {Command.manage_py} action_send_newsletter {newsletter_id}'
                         job = cron.new(command=command, comment=f'{newsletter_to_send.pk}')
