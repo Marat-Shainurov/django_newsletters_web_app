@@ -8,22 +8,14 @@ from client.models import Client
 from newsletter.models import Newsletter
 from users.forms import UserProfileForm
 from users.models import User
+from users.services import get_cached_users_for_list_table
 
 
 @login_required
 @permission_required('users.view_user', raise_exception=True)
 def user_list(request):
-    if request.method == 'POST':
-        if 'verify_toggle' in request.POST:
-            pk = request.POST.get('pk_verify_toggle')
-            user = User.objects.get(pk=pk)
-            user.is_verified = not user.is_verified
-            user.save()
-        return redirect(reverse('users:user_list'))
-    else:
-        all_users = User.objects.order_by('pk')
-        context = {'object_list': all_users, 'page_title': 'Users list'}
-        return render(request, 'users/user_list.html', context)
+    context = {'object_list': get_cached_users_for_list_table(), 'page_title': 'Users list'}
+    return render(request, 'users/user_list.html', context)
 
 
 class UserCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
@@ -57,3 +49,13 @@ class UserDetailView(LoginRequiredMixin, generic.DetailView):
         context['user_clients'] = Client.objects.filter(client_user=self.request.user)
         context['newsletter_user'] = Newsletter.objects.filter(newsletter_user=self.request.user)
         return context
+
+    def post(self, *args, **kwargs):
+
+        if 'verify_toggle' in self.request.POST:
+            pk = self.request.POST.get('pk_verify_toggle')
+            user = User.objects.get(pk=pk)
+            user.is_verified = not user.is_verified
+            user.save()
+
+        return redirect('users:user_detail', pk=self.kwargs['pk'])
