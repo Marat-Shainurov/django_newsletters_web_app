@@ -17,7 +17,7 @@ def send_newsletter_manager(request):
         user = request.user
         all_newsletters = Newsletter.objects.filter(newsletter_user=user)
         context = {'newsletters_list': all_newsletters, 'user': user, 'page_title': 'Send newsletter'}
-        return render(request, 'users/send_newsletter_manager.html', context)
+        return render(request, 'newsletter/send_newsletter_manager.html', context)
 
 @login_required
 def regular_newsletter_manager(request):
@@ -25,13 +25,13 @@ def regular_newsletter_manager(request):
         if 'newsletter_launch' in request.POST:
             newsletter = request.POST.get('pk_newsletter_launch')
             call_command('action_launch_regular_newsletter', f'{newsletter}')
-            return redirect(reverse('users:regular_newsletter_manager'))
+            return redirect(reverse('newsletter:regular_newsletter_manager'))
         if 'newsletter_remove' in request.POST:
             if not request.user.has_perm('newsletter.remove_regular_newsletter'):
                 raise Http404('You don\'t have access to this action! PLease contact your manager.')
             newsletter = request.POST.get('pk_newsletter_remove')
             call_command('action_remove_cronjob', f'{newsletter}')
-            return redirect(reverse('users:regular_newsletter_manager'))
+            return redirect(reverse('newsletter:regular_newsletter_manager'))
     else:
         user = request.user
         all_newsletters_new = Newsletter.objects.exclude(status='launched').filter(newsletter_user=user)
@@ -41,4 +41,4 @@ def regular_newsletter_manager(request):
         context = {'all_newsletters_new': all_newsletters_new, 'newsletters_list_rem': all_newsletters_rem,
                    'cron_jobs': cron_jobs, 'page_title': 'Launch newsletter',
                    'all_newsletters_total': all_newsletters_total}
-        return render(request, 'users/regular_newsletter_manager.html', context)
+        return render(request, 'newsletter/regular_newsletter_manager.html', context)
