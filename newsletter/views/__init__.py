@@ -2,6 +2,8 @@ from .newsletter import NewsletterListView, NewsletterDetailView, NewsletterCrea
     NewsletterDeleteView
 from .index import index
 from .newsletter_attempt import NewsletterAttemptsListView, NewsletterAttemptsDetailView
+from newsletter.views.manager_menu import send_newsletter_manager, regular_newsletter_manager
 
 __all__ = ['index', 'NewsletterListView', 'NewsletterDetailView', 'NewsletterCreateView', 'NewsletterUpdateView',
-           'NewsletterDeleteView', 'NewsletterAttemptsListView', 'NewsletterAttemptsDetailView']
+           'NewsletterDeleteView', 'NewsletterAttemptsListView', 'NewsletterAttemptsDetailView',
+           'send_newsletter_manager', 'regular_newsletter_manager']
