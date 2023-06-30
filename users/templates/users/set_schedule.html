@@ -1,0 +1,91 @@
+{% extends 'newsletter/base.html'%}
+{% block content %}
+
+<div class="container py-3">
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+            <a class="icon-link icon-link-hover d-flex align-items-center link-body-emphasis text-decoration-none"
+               style="margin-right: 30px;" href="{% url 'newsletter:index'%}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                </svg>
+                Main page
+            </a>
+        </div>
+    </header>
+
+    <div class="row">
+
+        <div class="col-sm-4 mb-3 mb-sm-0">
+            <form class="form-control" method="post">
+                {% csrf_token %}
+                <div class="card">
+                    <div class="card-header">
+                        <p class="fw-bold fs-2">Daily</p>
+                    </div>
+                    <div class="card-body">
+                        <p class="fw-medium"><strong>Active settings</strong>:
+                            <strong class="text-success"><br>
+                                Everyday, at {{daily_settings.1}}:{% if daily_settings.0 == "0"%}{{daily_settings.0}}0
+                            </strong>
+                            {% else %}
+                            {{daily_settings.0}}
+                            {% endif %}
+                        </p>
+                        <p class="fw-medium"><strong></strong>Select an hour:</p>
+                        <select class="form-select required" aria-label="Default select example"
+                                name="daily_hour"
+                                required>
+                            <option selected></option>
+                            {% for h in hour_list %}
+                            <option value='{{h}}'>{{h}}</option>
+                            {% endfor %}
+                        </select>
+                        <p class="fw-medium"><strong></strong>Select a minute:</p>
+                        <select class="form-select required" aria-label="Default select example"
+                                name="daily_minute"
+                                required>
+                            <option selected></option>
+                            {% for m in minute_list %}
+                            <option value='{{m}}'>{{m}}</option>
+                            {% endfor %}
+                        </select>
+
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-footer">
+                            <button class="btn btn-outline-primary" type="submit" name="daily">Send changes</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-header">
+                    <p class="fw-bold fs-2">Weekly</p>
+                </div>
+                <div class="card-body">
+
+                </div>
+                <div class="card-footer"></div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-header">
+                    <p class="fw-bold fs-2">Monthly</p>
+                </div>
+                <div class="card-body">
+                </div>
+                <div class="card-footer"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
