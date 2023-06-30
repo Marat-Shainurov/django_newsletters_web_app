@@ -191,9 +191,9 @@
                 </ul>
                 <div class="mb-md-2" id="user-tools">
                     {% if user.is_authenticated %}
-                    <a href="{% url 'users:user_detail' user.pk %}"
+                    <a href="{% url 'users:user_detail' request.user.pk %}"
                        class="link-secondary link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Welcome,
-                        {{user}} /</a>
+                        {{ request.user }} /</a>
                     <a href="{% url 'users:logout' %}"
                        class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Logout</a>
                     {% else %}
