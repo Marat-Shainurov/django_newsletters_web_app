@@ -40,16 +40,11 @@
                     <p class="fw-medium"><strong>Is active</strong> - {{object.is_active}}</p>
                 </div>
                 <div class="card-footer">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="m-4 float-end">
-            {% if user == object.client_user %}
+                      {% if user == object.client_user %}
             <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
                 <a class="btn btn-outline-info rounded-pill"
                    href="{% url 'client:client_update' object.slug %}">Edit</a>
-                <a class="btn btn-outline-warning rounded-pill"
+                <a class="btn btn-outline-danger rounded-pill"
                    href="{% url 'client:client_delete' object.slug %}">Delete</a>
             </nav>
             {% else %}
@@ -58,13 +53,17 @@
                    data-bs-toggle="popover"
                    data-bs-title="Access issue"
                    data-bs-content="You can only access and edit clients that have been added by you!">Edit</a>
-                <a class="btn btn-outline-warning rounded-pill"
+                <a class="btn btn-outline-danger rounded-pill"
                    data-bs-toggle="popover"
                    data-bs-title="Access issue"
                    data-bs-content="You can only access and edit clients that have been added by you!">Delete</a>
             </nav>
             {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
+
 </div>
 
 

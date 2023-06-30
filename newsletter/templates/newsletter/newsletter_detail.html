@@ -47,6 +47,27 @@
                     <p class="fw-medium"><strong>Newsletter user</strong> - {{object.newsletter_user}}</p>
                 </div>
                 <div class="card-footer">
+
+                        {% if user == object.newsletter_user %}
+                        <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                            <a class="btn btn-outline-info rounded-pill"
+                               href="{% url 'newsletter:newsletter_update' object.slug %}">Edit</a>
+                            <a class="btn btn-outline-danger rounded-pill"
+                               href="{% url 'newsletter:newsletter_delete' object.slug %}">Delete</a>
+                        </nav>
+                        {% else %}
+                        <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                            <a class="btn btn-outline-info rounded-pill"
+                               data-bs-toggle="popover"
+                               data-bs-title="Access issue"
+                               data-bs-content="You can access and edit your own newsletters only!">Edit</a>
+                            <a class="btn btn-outline-danger rounded-pill"
+                               data-bs-toggle="popover"
+                               data-bs-title="Access issue"
+                               data-bs-content="You can access and edit your own newsletters only!">Delete</a>
+                        </nav>
+                        {% endif %}
+
                 </div>
             </div>
         </div>
@@ -63,27 +84,7 @@
             </div>
         </div>
     </div>
-    <div class="m-4 float-end">
-        {% if user == object.newsletter_user %}
-        <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-            <a class="btn btn-outline-info rounded-pill"
-               href="{% url 'newsletter:newsletter_update' object.slug %}">Edit</a>
-            <a class="btn btn-outline-warning rounded-pill"
-               href="{% url 'newsletter:newsletter_delete' object.slug %}">Delete</a>
-        </nav>
-        {% else %}
-        <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-            <a class="btn btn-outline-info rounded-pill"
-               data-bs-toggle="popover"
-               data-bs-title="Access issue"
-               data-bs-content="You can access and edit your own newsletters only!">Edit</a>
-            <a class="btn btn-outline-warning rounded-pill"
-               data-bs-toggle="popover"
-               data-bs-title="Access issue"
-               data-bs-content="You can access and edit your own newsletters only!">Delete</a>
-        </nav>
-        {% endif %}
-    </div>
+
 </div>
 
 {% endblock %}

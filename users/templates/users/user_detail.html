@@ -41,12 +41,30 @@
                     <strong>Phone number</strong> - {{ object.phone }}<br><br>
                     <strong>Clients added by user </strong> - {{ user_clients.count }}<br><br>
                     <strong>Newsletters added by user </strong> - {{ newsletter_user.count }}<br><br>
-                    <strong>Is manager</strong> - {% if object.is_manager %} Yes {% else %} No {% endif %}<br><br>
+                    <strong>Is manager</strong> - {% if object.is_staff %}Yes{% else %}No{% endif %}<br><br>
+                    <strong>Is verified</strong> - {% if object.is_verified %}Yes{% else %}No{% endif %}<br><br>
                 </div>
-
                 <div class="card-footer">
-                </div>
 
+                    {% if request.user.is_superuser %}
+                        <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                            <a class="btn btn-outline-info rounded-pill"
+                               href="{% url 'users:user_form' object.pk %}">Edit</a>
+                            <a class="btn btn-outline-danger rounded-pill"
+                               href="{% url 'users:user_delete' object.pk %}">Delete</a>
+                        </nav>
+                    {% endif %}
+
+                    <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto float-end">
+                    <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="pk_verify_toggle" value="{{ object.pk }}">
+                            <button class="btn btn-outline-warning" type="submit" name="verify_toggle">
+                                {% if object.is_verified %}Block{% else %}Unblock{% endif %}
+                            </button>
+                        </form>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
