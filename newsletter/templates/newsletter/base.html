@@ -229,7 +229,7 @@
                                    class="link-body-emphasis d-inline-flex text-decoration-none rounded">List</a>
                             </li>
                             <li><a href="{% url 'newsletter:newsletter_create'%}"
-                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a>
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Add newsletters</a>
                             </li>
                             <li><a href="{% url 'newsletter:send_newsletter_manager' %}"
                                    class="link-body-emphasis d-inline-flex text-decoration-none rounded">One-time
@@ -257,7 +257,7 @@
                             <li><a href="{% url 'client:client_list' %}"
                                    class="link-body-emphasis d-inline-flex text-decoration-none rounded">List</a></li>
                             <li><a href="{% url 'client:client_form'%}"
-                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Add clients</a></li>
                         </ul>
                     </div>
                 </li>
@@ -273,6 +273,10 @@
                             <li><a href="{% url 'users:user_list' %}"
                                    class="link-body-emphasis d-inline-flex text-decoration-none rounded">Users List</a>
                             </li>
+                            {% if request.user.is_superuser %}
+                            <li><a href="{% url 'users:user_form'%}"
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Add users</a></li>
+                            {% endif %}
                         </ul>
                     </div>
                 </li>
