@@ -86,7 +86,7 @@ def get_launched_cron_jobs():
         else:
             res_cron_jobs[' '.join(j.split()[:5])] = ['regular', job_id, newsletter]
 
-    return res_cron_jobs
+    return {k: v for k, v in sorted(res_cron_jobs.items(), key=lambda item: item[1][1])}
 
 
 def get_datetime_for_cronjob(newsletter_datetime_obj):
