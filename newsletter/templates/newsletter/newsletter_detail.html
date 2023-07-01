@@ -37,9 +37,9 @@
                     <p class="fw-medium"><strong>Newsletter duration</strong>:
                         <br> From - {{object.start_campaign}} / To - {{object.finish_campaign}}</p>
                     <p class="fw-medium"><strong>Newsletter status</strong> - {{object.status}}</p>
-                    {% if object.status == 'launched'%}
-                    <p class="fw-medium"><strong>Newsletter regularity</strong> - {{object.regularity}}</p>
-                    {% endif %}
+
+                    <p class="fw-medium"><strong>Newsletter regularity</strong> - {{object.regularity.mode_name }}</p>
+
                     <p class="fw-medium"><strong>Newsletter activity</strong> -
                         {% if object.is_active %}Active
                         {%else%}'Deactivated' and not in the list{%endif%}</p>
