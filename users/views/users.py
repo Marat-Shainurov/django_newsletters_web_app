@@ -26,10 +26,11 @@ class UserCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Create
     permission_required = 'users.add_user'
 
 
-class UserUpdateView(LoginRequiredMixin, generic.UpdateView):
+class UserUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
     model = User
     form_class = UserProfileForm
     extra_context = {'page_title': 'Update users'}
+    permission_required = 'users.change_user'
 
     def get_success_url(self):
         return reverse('users:user_detail', kwargs={'pk': self.object.pk})
