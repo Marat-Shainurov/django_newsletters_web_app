@@ -29,8 +29,10 @@ class UserCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Create
 class UserUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = User
     form_class = UserProfileForm
-    success_url = reverse_lazy('users:user_list')
     extra_context = {'page_title': 'Update users'}
+
+    def get_success_url(self):
+        return reverse('users:user_detail', kwargs={'pk': self.object.pk})
 
 
 class UserDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
