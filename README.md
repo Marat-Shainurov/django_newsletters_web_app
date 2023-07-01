@@ -38,3 +38,6 @@
     - Включает все доступные права
     - Дополнительно в Manager menu интерфейса реализован CRUD для модели User
     - Дополнительно в Manager menu реализована возможность настраивать расписания рассылок (daily, weekly, monthly)
+
+### Создание superuser 
+python manage.py csu
