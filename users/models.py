@@ -27,5 +27,9 @@ class User(AbstractUser):
             (
                 'block_user',
                 'can block users'
+            ),
+            (
+                'set_schedule',
+                'can set schedule'
             )
         ]

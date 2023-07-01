@@ -2,6 +2,7 @@
 {% block content %}
 
 <div class="container py-3">
+
     <header>
         <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
             <a class="icon-link icon-link-hover d-flex align-items-center link-body-emphasis text-decoration-none"
@@ -26,15 +27,11 @@
                         <p class="fw-bold fs-2">Daily</p>
                     </div>
                     <div class="card-body">
-                        <p class="fw-medium"><strong>Active settings</strong>:
-                            <strong class="text-success"><br>
-                                Everyday, at {{daily_settings.1}}:{% if daily_settings.0 == "0"%}{{daily_settings.0}}0
-                            </strong>
-                            {% else %}
-                            {{daily_settings.0}}
-                            {% endif %}
+                        <p class="fw-medium"><strong>Active settings</strong>:<br>
+                            <strong class="text-primary">{{ daily_settings }} / {{ daily_settings.mode_settings }}</strong>
                         </p>
-                        <p class="fw-medium"><strong></strong>Select an hour:</p>
+                        <br>
+                        <p class="fw-medium mt-3"><strong></strong>Select an hour:</p>
                         <select class="form-select required" aria-label="Default select example"
                                 name="daily_hour"
                                 required>
@@ -43,6 +40,7 @@
                             <option value='{{h}}'>{{h}}</option>
                             {% endfor %}
                         </select>
+                        <br>
                         <p class="fw-medium"><strong></strong>Select a minute:</p>
                         <select class="form-select required" aria-label="Default select example"
                                 name="daily_minute"
@@ -52,11 +50,10 @@
                             <option value='{{m}}'>{{m}}</option>
                             {% endfor %}
                         </select>
-
                     </div>
                     <div class="card-footer">
                         <div class="card-footer">
-                            <button class="btn btn-outline-primary" type="submit" name="daily">Send changes</button>
+                            <button class="btn btn-outline-primary" type="submit" name="daily">Save changes</button>
                         </div>
                     </div>
                 </div>
@@ -64,28 +61,98 @@
         </div>
 
         <div class="col-sm-4">
-            <div class="card">
-                <div class="card-header">
-                    <p class="fw-bold fs-2">Weekly</p>
+            <form class="form-control" method="post">
+                {% csrf_token %}
+                <div class="card">
+                    <div class="card-header">
+                        <p class="fw-bold fs-2">Weekly</p>
+                    </div>
+                    <div class="card-body">
+                        <p class="fw-medium"><strong>Active settings</strong>:<br>
+                             <strong class="text-primary">{{ weekly_settings }} / {{ weekly_settings.mode_settings }}</strong>
+                        </p>
+                        <p class="fw-medium"><strong></strong>Select an hour:</p>
+                        <select class="form-select required" aria-label="Default select example"
+                                name="weekly_hour"
+                                required>
+                            <option selected></option>
+                            {% for h in hour_list %}
+                            <option value='{{h}}'>{{h}}</option>
+                            {% endfor %}
+                        </select>
+                        <p class="fw-medium"><strong></strong>Select a minute:</p>
+                        <select class="form-select required" aria-label="Default select example"
+                                name="weekly_minute"
+                                required>
+                            <option selected></option>
+                            {% for m in minute_list %}
+                            <option value='{{m}}'>{{m}}</option>
+                            {% endfor %}
+                        </select>
+                        <p class="fw-medium"><strong></strong>Select a day:</p>
+                        <select class="form-select required" aria-label="Default select example"
+                                name="weekly_day"
+                                required>
+                            <option selected></option>
+                            {% for d in dow_list %}
+                            <option value='{{d}}'>{{d}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-outline-primary" type="submit" name="weekly">Save changes</button>
+                    </div>
                 </div>
-                <div class="card-body">
-
-                </div>
-                <div class="card-footer"></div>
-            </div>
+            </form>
         </div>
+
         <div class="col-sm-4">
-            <div class="card">
-                <div class="card-header">
-                    <p class="fw-bold fs-2">Monthly</p>
+            <form class="form-control" method="post">
+                {% csrf_token %}
+                <div class="card">
+                    <div class="card-header">
+                        <p class="fw-bold fs-2">Monthly</p>
+                    </div>
+                    <div class="card-body">
+                        <p class="fw-medium"><strong>Active settings</strong>:<br>
+                             <strong class="text-primary">{{ monthly_settings }} / {{ monthly_settings.mode_settings }}</strong>
+                        </p>
+                        <p class="fw-medium"><strong></strong>Select an hour:</p>
+                        <select class="form-select required" aria-label="Default select example"
+                                name="monthly_hour"
+                                required>
+                            <option selected></option>
+                            {% for h in hour_list %}
+                            <option value='{{h}}'>{{h}}</option>
+                            {% endfor %}
+                        </select>
+                        <p class="fw-medium"><strong></strong>Select a minute:</p>
+                        <select class="form-select required" aria-label="Default select example"
+                                name="monthly_minute"
+                                required>
+                            <option selected></option>
+                            {% for m in minute_list %}
+                            <option value='{{m}}'>{{m}}</option>
+                            {% endfor %}
+                        </select>
+                        <p class="fw-medium"><strong></strong>Select a day:</p>
+                        <select class="form-select required" aria-label="Default select example"
+                                name="monthly_day"
+                                required>
+                            <option selected></option>
+                            {% for d in dom_list %}
+                            <option value='{{d}}'>{{d}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-outline-primary" type="submit" name="monthly">Save changes</button>
+                    </div>
                 </div>
-                <div class="card-body">
-                </div>
-                <div class="card-footer"></div>
-            </div>
+            </form>
         </div>
-    </div>
 
+    </div>
 </div>
 
 {% endblock %}

@@ -6,7 +6,7 @@ class Schedule(models.Model):
     mode_settings = models.CharField(max_length=250, verbose_name='mode_settings')
 
     def __str__(self):
-        return f'{self.mode_name} --- {self.mode_settings}'
+        return f'{self.mode_name}'
 
     class Meta:
         verbose_name = 'Schedule'
