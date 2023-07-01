@@ -3,6 +3,8 @@ from django.db import models
 from django.utils.text import slugify
 from unidecode import unidecode
 
+from newsletter.models.schedule import Schedule
+
 NULLABLE = {'blank': True, 'null': True}
 
 
@@ -13,18 +15,13 @@ class Newsletter(models.Model):
         ('finished', 'Finished'),
     ]
 
-    REGULARITY_CHOICES = [
-        ('daily', 'Daily'),
-        ('weekly', 'Weekly'),
-        ('monthly', 'Monthly'),
-    ]
-
     newsletter = models.CharField(max_length=100, verbose_name='newsletter_name')
     slug = models.SlugField(max_length=250, verbose_name='slug', **NULLABLE)
     start_campaign = models.DateTimeField(verbose_name='from')
     finish_campaign = models.DateTimeField(verbose_name='until')
     status = models.CharField(max_length=10, default='created', choices=STATUS_CHOICE, verbose_name='newsletter_status')
-    regularity = models.CharField(max_length=10, choices=REGULARITY_CHOICES, verbose_name='newsletter_regularity')
+    regularity = models.ForeignKey(Schedule, verbose_name='regularity_settings',
+                                        on_delete=models.SET_NULL, **NULLABLE)
     subject = models.CharField(max_length=100, verbose_name='subject', unique=True)
     content = models.TextField(verbose_name='content')
     is_active = models.BooleanField(verbose_name='is_active', default=True)

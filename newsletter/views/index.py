@@ -16,10 +16,13 @@ def index(request):
     all_newsletters_finished = Newsletter.objects.filter(status='finished')
     all_attempts = NewsletterAttempts.objects.all()
     attempts_success = NewsletterAttempts.objects.filter(attempt_status='success')
-    success_ratio = str(round(((attempts_success.count() / all_attempts.count()) * 100), 0)) + '%'
+    success_ratio = str(
+        round(((attempts_success.count() / all_attempts.count()) * 100), 0)) + '%' if all_attempts.count() != 0 else '-'
     all_clients = Client.objects.all()
     all_clients_signed_up = Client.objects.filter(is_signed_up=True)
-    signing_up_ratio = str(round(((all_clients_signed_up.count() / all_clients.count()) * 100), 0)) + '%'
+    signing_up_ratio = str(
+        round(((all_clients_signed_up.count() / all_clients.count()) * 100),
+              0)) + '%' if all_clients.count() != 0 else '-'
     all_blogs = Blog.objects.all()
     blogs_to_show = [all_blogs[x] for x in range(all_blogs.count())]
     random.shuffle(blogs_to_show)

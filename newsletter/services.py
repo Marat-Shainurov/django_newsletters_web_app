@@ -78,7 +78,7 @@ def get_launched_cron_jobs():
             cron_jobs.append(str(job.slices) + ' ' + str(job.command))
 
     for j in cron_jobs:
-        job_id = j[-1]
+        job_id = j.split()[-1]
         newsletter = Newsletter.objects.get(pk=job_id)
         match_action_type = re.search('remove', j.lower())
         if match_action_type:

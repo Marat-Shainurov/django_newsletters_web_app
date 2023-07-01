@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from newsletter.models import Newsletter, NewsletterAttempts, EmailServerResponse
+from newsletter.models import Newsletter, NewsletterAttempts, EmailServerResponse, Schedule
 
 
 @admin.register(Newsletter)
@@ -19,3 +19,7 @@ class NewsletterAttemptsAdmin(admin.ModelAdmin):
 class EmailServerResponseAdmin(admin.ModelAdmin):
     list_display = ('pk', 'attempt', 'recipient_email', 'response')
     list_filter = ('attempt', 'recipient_email')
+
+@admin.register(Schedule)
+class EmailServerResponseAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'mode_name', 'mode_settings')

@@ -147,12 +147,6 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/users/login/'
 
-REGULARITY_MODES = {
-    'daily': '0 12 * * *',
-    'weekly': '15 12 * * 5',
-    'monthly': '30 12 30 * *'
-}
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
