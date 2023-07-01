@@ -5,8 +5,11 @@
   Поэтому важно:
   - Работать с проектом либо используя Linux, либо в среде Ubuntu для Windows.
   - Установить все зависимости проекта.
-  - Убедиться, что механизм cron запущен - sudo service cron status, и sudo service cron restart, при необходимости.
   - Установить соотвествующую вашему часовому поясу настройку TIME_ZONE в config/settings.py
+  - Убедиться, что механизм cron запущен - sudo service cron status, и sudo service cron restart, при необходимости.
+    Проверить наличие запущенных cronhob в ОС - команда crontab -l в командной строке.
+    Проверить наличие запущенных cronhob в пользовательском интервейск - страница Regular Newslrtters.
+
 
 ### Сущности системы
 
