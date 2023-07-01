@@ -41,3 +41,6 @@
 
 ### Создание superuser 
 python manage.py csu
+
+Log-инфо о запущенных регулярных/отправленных разовых/удаленных рассылках - в файле
+custom_command.log
