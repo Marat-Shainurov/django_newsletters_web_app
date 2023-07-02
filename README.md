@@ -7,14 +7,13 @@
   - Установить все зависимости проекта.
   - Установить соотвествующую вашему часовому поясу настройку TIME_ZONE в config/settings.py
   - Убедиться, что механизм cron запущен - sudo service cron status, и sudo service cron restart, при необходимости.
-    Проверить наличие запущенных cronjob в ОС - команда crontab -l в командной строке.
-    Проверить наличие запущенных cronjob в пользовательском интервейск - страница Regular Newslrtters.
+
 
 
 ### Сущности системы
 
 - Приложение newsletter
-    - Newsletter - все атрибуты и настройки рассылки
+    - Newsletter - все аттрибуты и настройки рассылки
     - NewsletterAttempts - попытки отправок рассылок (и разовые, и регулярные)
     - EmailServerResponse - (ответы серверов почтовых адресов клиентов)
     - Schedule - настройка расписания рассылок (daily, weekly, monthly режимы) - меню доступно для superuser.
@@ -34,7 +33,7 @@
 - Manager (группа "manager")
     - Включает все права обычных пользователей
     - Удаление запущенных рассылок (remove_regular_newsletter)
-    - Просмотрт списка пользователей сервиса
+    - Просмотр списка пользователей сервиса
     - Блокировка пользователей сервиса (block_user)
     - Просмотр всех рассылок и клиентов
 - Superuser
@@ -45,5 +44,13 @@
 ### Создание superuser 
 python manage.py csu
 
+### Команды для рассылок 
+- python manage.py action_send_newsletter <newsletter_id> - разовая отправка. One-time newsletter в пользовательском интерфейсе.
+- python manage.py action_launch_regular_newsletter <newsletter_id> - запуск регулярной рассылки. Страница Regular newsletter в пользовательском интерфейсе.
+- python manage.py action_remove_cronjob <newsletter_id> - удаление cronjobs  по заданному newsletter. Страница Regular newsletter в пользовательском интерфейсе.
+
 Log-инфо о запущенных регулярных/отправленных разовых/удаленных рассылках - в файле
 custom_command.log
+
+Проверить наличие запущенных cronjob в ОС - команда crontab -l в командной строке.
+Проверить наличие запущенных cronjob в пользовательском интервейск - страница Regular Newslrtters.
