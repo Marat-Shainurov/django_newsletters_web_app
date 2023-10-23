@@ -6,7 +6,6 @@ from newsletter.forms import NewsletterForm
 from newsletter.models import Newsletter
 
 
-
 class NewsletterListView(LoginRequiredMixin, generic.ListView):
     model = Newsletter
     ordering = ('newsletter_user', 'pk')
@@ -39,7 +38,7 @@ class NewsletterCreateView(LoginRequiredMixin, generic.CreateView):
     extra_context = {'page_title': 'Create a newsletter'}
 
     def get_success_url(self):
-        return reverse_lazy('newsletter:newsletter_detail', kwargs={'slug': self.object.slug})
+        return reverse('newsletter:newsletter_detail', kwargs={'slug': self.object.slug})
 
     def form_valid(self, form):
         self.object = form.save()
