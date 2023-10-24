@@ -24,5 +24,8 @@ urlpatterns = [
 ]
 
 # todo:
-#  1. Refactor the User model + UserManager + remove csu command (fixture instead).
-#  2. Consider replacement crontab with celery + templates/views change
+#  1.  Create a custom Group Manager - OK
+#  2. Consider replacement crontab with celery + templates/views change ????
+#  3. Fixture
+#  4. Readme
+#  5. Docker-VM?
