@@ -39,7 +39,8 @@ class UserAdmin(BaseUserAdmin):
         'date_joined',)
     list_filter = ('is_active', 'is_manager',)
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'avatar', 'is_manager', 'is_staff', 'is_superuser', 'is_active',)}),
+        (None, {'fields': (
+            'email', 'password', 'avatar', 'is_manager', 'is_staff', 'is_superuser', 'is_active', 'groups')}),
     )
     add_fieldsets = (
         (None, {
@@ -53,5 +54,3 @@ class UserAdmin(BaseUserAdmin):
 
 
 admin.site.register(User, UserAdmin)
-
-admin.site.unregister(Group)
