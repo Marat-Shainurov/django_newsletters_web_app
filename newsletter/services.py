@@ -20,8 +20,8 @@ def send_newsletter(newsletter_id):
     The function is used in custom commands.
     """
     newsletter_to_send = Newsletter.objects.get(pk=newsletter_id)
-    operating_user = newsletter_to_send.newsletter_user
-    clients_to_be_informed = Client.objects.filter(is_signed_up=True, client_user=operating_user)
+    request_user = newsletter_to_send.newsletter_user
+    clients_to_be_informed = Client.objects.filter(is_signed_up=True, client_user=request_user)
     recipient_list = [x.email for x in clients_to_be_informed]
 
     timezone = tz.gettz(settings.TIME_ZONE)

@@ -7,6 +7,7 @@ from django.urls import reverse
 from newsletter.models import Newsletter
 from newsletter.services import get_launched_cron_jobs
 
+
 @login_required
 def send_newsletter_manager(request):
     if request.method == 'POST':
@@ -18,6 +19,7 @@ def send_newsletter_manager(request):
         all_newsletters = Newsletter.objects.filter(newsletter_user=user)
         context = {'newsletters_list': all_newsletters, 'user': user, 'page_title': 'Send newsletter'}
         return render(request, 'newsletter/send_newsletter_manager.html', context)
+
 
 @login_required
 def regular_newsletter_manager(request):
