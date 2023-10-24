@@ -1,4 +1,5 @@
 {% extends 'newsletter/base.html'%}
+{% load my_tags %}
 {% block content %}
 
 
@@ -41,7 +42,7 @@
                     <strong>Phone number</strong> - {{ object.phone }}<br><br>
                     <strong>Clients added by user </strong> - {{ user_clients.count }}<br><br>
                     <strong>Newsletters added by user </strong> - {{ newsletter_user.count }}<br><br>
-                    <strong>Is manager</strong> - {% if object.is_staff %}Yes{% else %}No{% endif %}<br><br>
+                    <strong>Is manager</strong> - {% if object|has_group:"manager"%}Yes{% else %}No{% endif %}<br><br>
                     <strong>Is verified</strong> - {% if object.is_verified %}Yes{% else %}No{% endif %}<br><br>
                 </div>
                 <div class="card-footer">

@@ -35,12 +35,12 @@ class UserAdmin(BaseUserAdmin):
     add_form = UserCreationForm
 
     list_display = (
-        'id', 'email', 'phone', 'is_verified', 'is_manager', 'is_active', 'is_staff', 'is_superuser',
+        'id', 'email', 'phone', 'is_verified', 'is_active', 'is_staff', 'is_superuser',
         'date_joined',)
-    list_filter = ('is_active', 'is_manager',)
+    list_filter = ('is_active',)
     fieldsets = (
         (None, {'fields': (
-            'email', 'password', 'avatar', 'is_manager', 'is_staff', 'is_superuser', 'is_active', 'groups')}),
+            'email', 'password', 'avatar', 'is_staff', 'is_superuser', 'is_active', 'groups')}),
     )
     add_fieldsets = (
         (None, {

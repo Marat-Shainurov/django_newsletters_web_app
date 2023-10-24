@@ -1,4 +1,5 @@
 {% extends 'newsletter/base.html'%}
+{% load my_tags %}
 {% block content %}
 
 <div class="container py-3">
@@ -39,7 +40,7 @@
                     <td>{% if object.is_active %}Yes{% else %}No{% endif %}</td>
                     <td>{% if object.is_verified %}Yes{% else %}No{% endif %}</td>
                     <td>
-                        {% if object.is_staff %}Yes{% else %}No{% endif %}
+                        {% if object|has_group:"manager" %}Yes{% else %}No{% endif %}
                     </td>
                 </tr>
                 {% endfor %}

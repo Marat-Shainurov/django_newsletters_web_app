@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import Group
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
@@ -19,7 +20,8 @@ class ClientListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
         user = self.request.user
-        if user.is_manager:
+        group = Group.objects.get(name='manager')
+        if group in user.groups.all():
             return queryset
         else:
             queryset = queryset.filter(client_user=user)
