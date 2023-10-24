@@ -7,14 +7,14 @@ from users.views import LoginView, LogoutView, RegisterView, verify_email, UserU
 app_name = UsersConfig.name
 
 urlpatterns = [
-    path('login/', LoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
-    path('registration/', RegisterView.as_view(), name='register'),
-    path('registration/verification/<str:email>', verify_email, name='verify_email'),
-    path('manager/list/', user_list, name='user_list'),
-    path('create-user/', UserCreateView.as_view(), name='user_form'),
-    path('manager/list/user-detail/<int:pk>', UserDetailView.as_view(), name='user_detail'),
-    path('manager/list/user-delete/<int:pk>', UserDeleteView.as_view(), name='user_delete'),
-    path('list/update/<int:pk>', UserUpdateView.as_view(), name='user_form'),
-    path('manager/schedule-settings/', set_schedule, name='set_schedule')
+    path('users/login/', LoginView.as_view(), name='login'),
+    path('users/logout/', LogoutView.as_view(), name='logout'),
+    path('users/registration/', RegisterView.as_view(), name='register'),
+    path('users/registration/verification/<str:email>', verify_email, name='verify_email'),
+    path('users/manager/list/', user_list, name='user_list'),
+    path('users/create-user/', UserCreateView.as_view(), name='user_form'),
+    path('users/manager/list/user-detail/<int:pk>', UserDetailView.as_view(), name='user_detail'),
+    path('users/manager/list/user-delete/<int:pk>', UserDeleteView.as_view(), name='user_delete'),
+    path('users/list/update/<int:pk>', UserUpdateView.as_view(), name='user_form'),
+    path('users/manager/schedule-settings/', set_schedule, name='set_schedule')
 ]

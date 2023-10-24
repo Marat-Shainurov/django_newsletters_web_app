@@ -36,7 +36,6 @@ class ClientListView(LoginRequiredMixin, generic.ListView):
         return redirect(reverse('client:client_list'))
 
 
-
 class ClientDetailView(LoginRequiredMixin, generic.DetailView):
     model = Client
 

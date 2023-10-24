@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from users.manager import UserManager
 from newsletter.models.newsletter import NULLABLE
 
 
@@ -15,6 +16,8 @@ class User(AbstractUser):
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
+
+    objects = UserManager()
 
     def delete(self, **kwargs):
         self.is_active = False
