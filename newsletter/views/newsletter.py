@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import Group
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
@@ -13,9 +14,13 @@ class NewsletterListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
         queryset = queryset.filter(is_active=True)
-        if not self.request.user.has_perm('newsletter.view_newsletter'):
-            queryset = queryset.filter(newsletter_user=self.request.user)
-        return queryset
+        user = self.request.user
+        group = Group.objects.get(name='manager')
+        if group in user.groups.all() or user.is_superuser:
+            return queryset
+        else:
+            queryset = queryset.filter(newsletter_user=user)
+            return queryset
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
