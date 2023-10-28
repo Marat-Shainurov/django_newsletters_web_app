@@ -40,11 +40,11 @@
             {% csrf_token %}
             <div class="card">
                 <div class="card-header">
-                    <h2>One-time newsletter</h2>
+                    <h2>One-off newsletter</h2>
                 </div>
                 <div class="card-body">
                     <p>Select a newsletter from your list:</p>
-                    <select class="form-select required" aria-label="Default select example" name="newsletter" required>
+                    <select class="form-select required" aria-label="Default select example" name="newsletter_one_off" required>
                         <option selected></option>
                         {% for n in newsletters_list %}
                         <option value='{{n.pk}}'>{{n}}</option>

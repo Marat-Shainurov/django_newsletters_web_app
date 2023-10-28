@@ -21,7 +21,7 @@
     <div class="row">
         <div class="col-5">
             <form class="form-control" method="get"
-                  action="{% url 'newsletter:attempts_list_filtered_newsletter' %}"
+                  action="{% url 'newsletter:regular_newsletters_report' %}"
                   name="filter_newsletter">
                 <div class="row">
                     <div class="col-6">
@@ -30,13 +30,7 @@
                             <option selected>Select newsletter:</option>
                             <option value='all'>All newsletters</option>
                             {% for n in all_newsletters %}
-                                {% if user|has_group:"manager"%}
-                                    <option value='{{n.pk}}'>{{n.newsletter}}</option>
-                                {% else %}
-                                    {% if request.user == n.newsletter_user%}
-                                        <option value='{{n.pk}}'>{{n.newsletter}}</option>
-                                    {% endif %}
-                                {% endif %}
+                                <option value='{{n.pk}}'>{{n.newsletter}}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -48,10 +42,9 @@
             </form>
         </div>
 
-        {% if user|has_group:"manager" or user.is_superuser %}
             <div class="col-4">
                 <form class="form-control" method="get"
-                      action="{% url 'newsletter:attempts_list_filtered_newsletter' %}"
+                      action="{% url 'newsletter:regular_newsletters_report' %}"
                       name="filter_users">
                     <div class="row">
                         <div class="col-6">
@@ -71,42 +64,38 @@
                     </div>
                 </form>
             </div>
-            {% endif %}
         </div>
     </div>
 
-    <div class="container d-flex justify-content-center align-items-start" style="min-height: 70vh;">
-        <div class="container-fluid table-container">
+    <div class="container d-flex justify-content-center align-items-start mt-3">
+        <div class="container-fluid" style="max-height: 250px;
+            overflow-y: auto;">
             <table class="table table-striped">
                 <thead>
                 <tr class="sticky-top">
-                    <th scope="col">#</th>
+                    <th scope="col">id</th>
                     <th scope="col">Newsletter</th>
-                    <th scope="col">Date(from latest)</th>
-                    <th scope="col">Attempt status</th>
-                    <th scope="col">User</th>
+                    <th scope="col">Schedule</th>
+                    <th scope="col">Run count</th>
+                    <th scope="col">Start time</th>
+                    <th scope="col">Finish time</th>
                 </tr>
                 </thead>
                 <tbody class="table-group-divider">
-
-                {% for object in object_list %}
-                        <tr>
-                            <th scope="row">{{ object.pk}}</th>
-                            <td><a href="{% url 'newsletter:attempt_responses_detail' object.pk %}">{{ object.newsletter }}</a>
-                            </td>
-                            <td>{{ object.last_attempt}}</td>
-                            <td>{{ object.attempt_status}}</td>
-                            <td>{{ object.newsletter.newsletter_user }}</td>
-                        </tr>
+                {% for task, vals in tasks_status.items %}
+                <tr>
+                    <td class="text-success">{{ vals.newsletter_id }}</td>
+                    <td class="text-success">{{ vals.newsletter_title }}</td>
+                    <td class="text-success">{{ vals.schedule }}</td>
+                    <td class="text-success">{{ vals.total_run_count }}</td>
+                    <td class="text-success">{{ vals.start_time }}</td>
+                    <td class="text-success">{{ vals.finish_time }}</td>
+                </tr>
                 {% endfor %}
-
                 </tbody>
             </table>
         </div>
     </div>
-    <br>
-    <div>
 
-    </div>
-</div>
+
 {% endblock %}

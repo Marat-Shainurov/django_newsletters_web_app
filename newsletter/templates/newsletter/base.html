@@ -219,45 +219,47 @@
             <ul class="list-unstyled ps-0">
                 <li class="mb-1">
                     <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                            data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+                            data-bs-toggle="collapse" data-bs-target="#newsletters-collapse" aria-expanded="true">
                         Newsletters
                     </button>
-                    <div class="collapse show" id="home-collapse">
+                    <div class="collapse show" id="newsletters-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             <li>
                                 <a href="{% url 'newsletter:newsletter_list' %}"
                                    class="link-body-emphasis d-inline-flex text-decoration-none rounded">List</a>
                             </li>
                             <li><a href="{% url 'newsletter:newsletter_create'%}"
-                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Add newsletters</a>
-                            </li>
-                            <li><a href="{% url 'newsletter:send_newsletter_manager' %}"
-                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">One-time
-                                newsletter</a>
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a>
                             </li>
                             <li><a href="{% url 'newsletter:regular_newsletter_manager' %}"
-                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Regular
-                                newsletters</a>
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Panel</a>
+                            </li>
+                            <li><a href="{% url 'newsletter:regular_newsletters_report' %}"
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Report</a>
                             </li>
                             <li><a href="{% url 'newsletter:attempts_list' %}"
                                    class="link-body-emphasis d-inline-flex text-decoration-none rounded">Attempts
                                 Report</a>
                             </li>
+                            {% if request.user.is_superuser %}
+                            <li><a href="{% url 'users:set_schedule'%}"
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Schedule settings</a></li>
+                            {% endif %}
                         </ul>
                     </div>
                 </li>
                 <li class="border-top my-3"></li>
                 <li class="mb-1">
                     <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                            data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="true">
+                            data-bs-toggle="collapse" data-bs-target="#clients-collapse" aria-expanded="true">
                         Clients
                     </button>
-                    <div class="collapse show" id="dashboard-collapse">
+                    <div class="collapse show" id="clients-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             <li><a href="{% url 'client:client_list' %}"
                                    class="link-body-emphasis d-inline-flex text-decoration-none rounded">List</a></li>
                             <li><a href="{% url 'client:client_form'%}"
-                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Add clients</a></li>
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
                         </ul>
                     </div>
                 </li>
@@ -265,19 +267,17 @@
                 {% if user|has_group:"manager" %}
                 <li class="mb-1">
                     <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                            data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="true">
-                        Manager menu
+                            data-bs-toggle="collapse" data-bs-target="#users-collapse" aria-expanded="true">
+                        Users
                     </button>
-                    <div class="collapse show" id="dashboard-collapse">
+                    <div class="collapse show" id="users-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             <li><a href="{% url 'users:user_list' %}"
                                    class="link-body-emphasis d-inline-flex text-decoration-none rounded">Users List</a>
                             </li>
                             {% if request.user.is_superuser %}
                             <li><a href="{% url 'users:user_form'%}"
-                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Add users</a></li>
-                            <li><a href="{% url 'users:set_schedule'%}"
-                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Schedule settings</a></li>
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create user</a></li>
                             {% endif %}
                         </ul>
                     </div>

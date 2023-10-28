@@ -40,10 +40,10 @@
 
     <div>
         <p class="icon-link icon-link-hover d-flex align-items-center link-body-emphasis text-decoration-none">
-            <strong>The list of newsletters</strong>
+            <strong>Newsletters list</strong>
             {% if user|has_group:"manager" or user.is_superuser %}
             <strong class="text-success">
-                (*newsletters added by you, available for editing)</strong>
+                (*newsletters added by you, available for viewing and editing)</strong>
             {% endif %}
         </p>
     </div>
@@ -65,23 +65,18 @@
                 <tbody class="table-group-divider">
 
                 {% for object in object_list %}
-                {% if perms.newsletter.view_newsletter %}
+                {% if user|has_group:"manager" %}
                 <tr>
-                    {% if user == object.newsletter_user %}
-                    <th class="text-success" scope="row"><strong>{{ object.pk}}</strong></th>
-                    <td><a class="text-success" href="{% url 'newsletter:newsletter_detail' object.slug %}"><strong>{{ object.newsletter }}</strong></a></td>
-                    <td class="text-success"><strong>{{ object.status }}</strong></td>
-                    <td class="text-success"><strong>{{ object.regularity }}</strong></td>
-                    <td class="text-success"><strong>{{ object.newsletter_user }}</strong></td>
-                    <td class="text-success"><strong>{{ object.is_active }}</strong></td>
-                    {% else %}
                     <th scope="row">{{ object.pk}}</th>
+                    {% if user == object.newsletter_user %}
+                    <td><a class="text-success" href="{% url 'newsletter:newsletter_detail' object.slug %}"><strong>{{ object.newsletter }}</strong></a></td>
+                    {% else %}
                     <td><a href="{% url 'newsletter:newsletter_detail' object.slug %}">{{ object.newsletter }}</a></td>
-                    <td>{{ object.status }}</td>
-                    <td>{{ object.regularity }}</td>
+                    {% endif %}
+                    <td>{{ object.status}}</td>
+                    <td>{{ object.regularity}}</td>
                     <td>{{ object.newsletter_user }}</td>
                     <td>{{ object.is_active }}</td>
-                    {% endif %}
                 </tr>
                 {% else %}
                 <tr>
@@ -94,7 +89,6 @@
                 </tr>
                 {% endif %}
                 {% endfor %}
-
                 </tbody>
             </table>
         </div>

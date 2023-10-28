@@ -4,7 +4,7 @@ from django.views.decorators.cache import cache_page
 from newsletter.apps import NewsletterConfig
 from newsletter.views import NewsletterListView, NewsletterDetailView, NewsletterCreateView, NewsletterUpdateView, \
     NewsletterDeleteView, NewsletterAttemptsListView, NewsletterAttemptsDetailView, index, send_newsletter_manager, \
-    regular_newsletter_manager
+    regular_newsletter_manager, regular_newsletters_report
 
 app_name = NewsletterConfig.name
 
@@ -20,12 +20,12 @@ urlpatterns = [
          name='attempts_list_filtered_newsletter'),
     path('newsletters/reports/<int:pk>/', NewsletterAttemptsDetailView.as_view(), name='attempt_responses_detail'),
     path('newsletters/send-newsletter/', send_newsletter_manager, name='send_newsletter_manager'),
-    path('newsletters/regular-newsletters/', regular_newsletter_manager, name='regular_newsletter_manager'),
+    path('newsletters/newsletters-panel/', regular_newsletter_manager, name='regular_newsletter_manager'),
+    path('newsletters/regular-newsletters-report/', regular_newsletters_report, name='regular_newsletters_report'),
 ]
 
 # todo:
-#  1.  Create a custom Group Manager - OK
-#  2. Consider replacement crontab with celery + templates/views change ????
-#  3. Fixture
-#  4. Readme
-#  5. Docker-VM?
+#  filters for 'managers' (clients and newsletters list, reports) or checkboxes for clients list???
+#  Fixture
+#  Readme
+#  Docker-VM?

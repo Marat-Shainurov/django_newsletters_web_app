@@ -37,10 +37,10 @@
 
     <div>
         <p class="icon-link icon-link-hover d-flex align-items-center link-body-emphasis text-decoration-none">
-        <strong>The list of currently active clients</strong>
-            {% if user|has_group:"manager" or user.is_superuser %}
+        <strong>Clients list</strong>
+            {% if user|has_group:"manager" %}
             <strong class="text-success">
-            (*clients added by you, available for your newsletters and editing)</strong>
+            (*clients added by you, available for viewing and editing)</strong>
             {% endif %}
         </p>
     </div>
@@ -61,30 +61,14 @@
                 </thead>
                 <tbody class="table-group-divider">
                 {% for object in object_list %}
-                    {% if perms.client.view_client %}
-                        {% if user == object.client_user %}
-                        <tr>
-                            <th class="text-success" scope="row">{{ object.pk}}</th>
-                            <td class="text-success"><a class="text-success" href="{% url 'client:client_detail' object.slug %}"><strong>{{ object.name }}</strong></a></td>
-                            <td class="text-success"><strong>{{ object.email}}</strong></td>
-                            <td class="text-success"><strong>{{ object.client_user}}</strong></td>
-                            <td class="text-success"><strong>{{ object.is_signed_up }}</strong></td>
-                            <td>
-                                <form method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="pk_sign_up_toggle" value="{{ object.pk }}">
-                                    <button class="btn btn-outline-primary" type="submit" name="sign_up_toggle">
-                                        {% if object.is_signed_up %}Switch off
-                                        {% else%} Switch on
-                                        {% endif %}
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                        {% else %}
+                    {% if user|has_group:"manager" %}
                         <tr>
                             <th scope="row">{{ object.pk}}</th>
+                            {% if request.user == object.client_user %}
+                            <td class="text-success"><a class="text-success" href="{% url 'client:client_detail' object.slug %}"><strong>{{ object.name }}</strong></a></td>
+                            {% else %}
                             <td><a href="{% url 'client:client_detail' object.slug %}">{{ object.name }}</a></td>
+                            {% endif %}
                             <td>{{ object.email}}</td>
                             <td>{{ object.client_user}}</td>
                             <td>{{ object.is_signed_up }}</td>
@@ -92,18 +76,25 @@
                                 <form method="post">
                                     {% csrf_token %}
                                     <input type="hidden" name="pk_sign_up_toggle" value="{{ object.pk }}">
+                                    {% if request.user == object.client_user %}
+                                    <button class="btn btn-outline-primary" type="submit" name="sign_up_toggle">
+                                        {% if object.is_signed_up %}Switch off
+                                        {% else%} Switch on
+                                        {% endif %}
+                                    </button>
+                                    {% else %}
                                     <button class="btn btn-outline-secondary disabled" type="submit" name="sign_up_toggle">
                                         {% if object.is_signed_up %}Switch off
                                         {% else%} Switch on
                                         {% endif %}
                                     </button>
+                                    {% endif %}
                                 </form>
                             </td>
                         </tr>
-                        {% endif %}
                     {% else %}
                         <tr>
-                            <th scope="row">{{ object.pk}}</th>
+                            <th scope="row">{{ object.pk }}</th>
                             <td><a href="{% url 'client:client_detail' object.slug %}">{{ object.name }}</a></td>
                             <td>{{ object.email}}</td>
                             <td>{{ object.client_user}}</td>

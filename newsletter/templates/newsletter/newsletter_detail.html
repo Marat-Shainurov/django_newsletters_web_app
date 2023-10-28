@@ -48,7 +48,7 @@
                 </div>
                 <div class="card-footer">
 
-                        {% if user == object.newsletter_user %}
+                        {% if request.user == object.newsletter_user %}
                         <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
                             <a class="btn btn-outline-info rounded-pill"
                                href="{% url 'newsletter:newsletter_update' object.slug %}">Edit</a>
