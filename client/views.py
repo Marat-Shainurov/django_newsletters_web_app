@@ -19,9 +19,10 @@ class ClientListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
+        queryset = queryset.filter(is_active=True)
         user = self.request.user
         group = Group.objects.get(name='manager')
-        if group in user.groups.all():
+        if group in user.groups.all() or user.is_superuser:
             return queryset
         else:
             queryset = queryset.filter(client_user=user)
