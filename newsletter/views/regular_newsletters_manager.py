@@ -5,7 +5,7 @@ from django.urls import reverse
 from django_celery_beat.models import PeriodicTask
 
 from newsletter.models import Newsletter
-from newsletter.tasks import set_regular_newsletter_schedule, enable_launched_newsletter_task, set_enabler_schedule, \
+from newsletter.tasks import set_regular_newsletter_schedule, disable_launched_newsletter_task, set_enabler_schedule, \
     send_newsletter_task
 from users.models import User
 
@@ -35,7 +35,7 @@ def regular_newsletter_manager(request):
             if not request.user.has_perm('newsletter.remove_regular_newsletter'):
                 raise Http404('You don\'t have access to this action! PLease contact your manager.')
             newsletter_pk = request.POST.get('pk_newsletter_remove')
-            enable_launched_newsletter_task(newsletter_pk)
+            disable_launched_newsletter_task(newsletter_pk)
             return redirect(reverse('newsletter:regular_newsletter_manager'))
         if 'newsletter_one_off' in request.POST:
             newsletter_pk = request.POST.get('newsletter_one_off')

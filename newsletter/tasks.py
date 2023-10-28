@@ -22,7 +22,7 @@ def send_newsletter_task(newsletter_pk: str) -> None:
 
 
 @shared_task
-def enable_launched_newsletter_task(newsletter_pk: str) -> None:
+def disable_launched_newsletter_task(newsletter_pk: str) -> None:
     """Sets the 'task.enable' field to False"""
     task = PeriodicTask.objects.get(name=f'Regular newsletter {newsletter_pk}')
     newsletter = get_object_or_404(Newsletter, pk=newsletter_pk)
@@ -31,6 +31,11 @@ def enable_launched_newsletter_task(newsletter_pk: str) -> None:
     newsletter.save()
     task.save()
     logger.info(f'Regular newsletter {newsletter_pk} has been disabled.')
+
+    task_disabler = PeriodicTask.objects.filter(name=f'Disable newsletter {newsletter_pk}')
+    if task_disabler.exists():
+        task_disabler.enabled = False
+        task_disabler.save()
 
 
 @shared_task()
@@ -64,7 +69,7 @@ def set_regular_newsletter_schedule(newsletter_pk) -> None:
 
 
 @shared_task()
-def set_enabler_schedule(newsletter_pk):
+def set_disabler_schedule(newsletter_pk):
     newsletter_to_enable = get_object_or_404(Newsletter, pk=newsletter_pk)
     newsletter_until = newsletter_to_enable.finish_campaign
     schedule, created = ClockedSchedule.objects.get_or_create(
@@ -73,8 +78,8 @@ def set_enabler_schedule(newsletter_pk):
     PeriodicTask.objects.create(
         clocked=schedule,
         one_off=True,
-        name=f'Enable newsletter {newsletter_pk}',
-        task='newsletter.tasks.enable_launched_newsletter_task',
+        name=f'Disable newsletter {newsletter_pk}',
+        task='newsletter.tasks.disable_launched_newsletter_task',
         args=json.dumps([newsletter_pk, ]),
         kwargs={},
     )
