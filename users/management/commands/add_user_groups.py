@@ -3,7 +3,7 @@ from django.core.management import BaseCommand
 
 
 def create_manager_group():
-    group_name = "Manager"
+    group_name = "manager"
     group = Group(name=group_name)
     group.save()
     group.permissions.add(
