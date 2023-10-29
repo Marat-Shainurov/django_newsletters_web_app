@@ -1,15 +1,14 @@
-from django.conf import settings
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from newsletter.models import Schedule, Newsletter
+from newsletter.models import Schedule
 from users.services import get_wod_setting
+from cron_descriptor.ExpressionDescriptor import get_description
 
 @login_required
 @permission_required('users.set_schedule', raise_exception=True)
 def set_schedule(request):
-
     if request.method == 'POST':
         if 'daily' in request.POST:
             new_hour = request.POST.get('daily_hour')
@@ -35,7 +34,7 @@ def set_schedule(request):
             monthly_mode.mode_settings = new_monthly_settings
             monthly_mode.save()
 
-        return redirect(reverse('users:set_schedule'))
+        return redirect(reverse('newsletter:set_schedule'))
 
     else:
         all_schedules = Schedule.objects.all()
@@ -44,16 +43,20 @@ def set_schedule(request):
         dow_list = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
         dom_list = [str(x) for x in range(1, 32)]
 
+        daily_settings = Schedule.objects.get(mode_name='daily')
+        weekly_settings = Schedule.objects.get(mode_name='weekly')
+        monthly_settings = Schedule.objects.get(mode_name='monthly')
+
         context = {
-            'daily_settings': Schedule.objects.get(mode_name='daily'),
-            'weekly_settings': Schedule.objects.get(mode_name='weekly'),
-            'monthly_settings': Schedule.objects.get(mode_name='monthly'),
             'all_schedules': all_schedules,
             'minute_list': minute_list,
             'hour_list': hour_list,
             'dow_list': dow_list,
             'dom_list': dom_list,
-            'page_title': 'Schedule settings'
+            'page_title': 'Schedule settings',
+            'human_readable_daily': get_description(daily_settings.mode_settings),
+            'human_readable_weekly': get_description(weekly_settings.mode_settings),
+            'human_readable_monthly': get_description(monthly_settings.mode_settings)
         }
 
-    return render(request, 'users/set_schedule.html', context)
+    return render(request, 'newsletter/set_schedule.html', context)

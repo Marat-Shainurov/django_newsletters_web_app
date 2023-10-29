@@ -242,7 +242,7 @@
                                 Report</a>
                             </li>
                             {% if request.user.is_superuser %}
-                            <li><a href="{% url 'users:set_schedule'%}"
+                            <li><a href="{% url 'newsletter:set_schedule'%}"
                                    class="link-body-emphasis d-inline-flex text-decoration-none rounded">Schedule settings</a></li>
                             {% endif %}
                         </ul>
