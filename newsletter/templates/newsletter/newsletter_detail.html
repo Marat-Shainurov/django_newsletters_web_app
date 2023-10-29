@@ -32,19 +32,19 @@
                     <p class="fw-bold fs-2">Technical info</p>
                 </div>
                 <div class="card-body">
-                    <p class="fw-medium"><strong>Newsletter name</strong> - {{object.newsletter}}</p>
-                    <p class="fw-medium"><strong>Newsletter id</strong> - {{object.pk}}</p>
-                    <p class="fw-medium"><strong>Newsletter duration</strong>:
-                        <br> From - {{object.start_campaign}} / To - {{object.finish_campaign}}</p>
-                    <p class="fw-medium"><strong>Newsletter status</strong> - {{object.status}}</p>
+                    <p class="fw-medium"><strong>Newsletter:</strong> {{object.newsletter}}</p>
+                    <p class="fw-medium"><strong>Id:</strong> {{object.pk}}</p>
+                    <p class="fw-medium"><strong>Duration</strong>:
+                        <br> {{object.start_campaign}} -> {{object.finish_campaign}}</p>
+                    <p class="fw-medium"><strong>Status:</strong> {{object.status}}</p>
 
-                    <p class="fw-medium"><strong>Newsletter regularity</strong> - {{object.regularity.mode_name }}</p>
+                    <p class="fw-medium"><strong>Regularity:</strong> {{object.regularity.mode_name }}</p>
 
-                    <p class="fw-medium"><strong>Newsletter activity</strong> -
-                        {% if object.is_active %}Active
-                        {%else%}'Deactivated' and not in the list{%endif%}</p>
-                    <p class="fw-medium"><strong>Newsletter created</strong> - {{object.created}}</p>
-                    <p class="fw-medium"><strong>Newsletter user</strong> - {{object.newsletter_user}}</p>
+                    <p class="fw-medium"><strong>Activity:</strong>
+                        {% if object.is_active %}active
+                        {%else%}'deactivated' and not in the list{%endif%}</p>
+                    <p class="fw-medium"><strong>Created at:</strong> {{object.created}}</p>
+                    <p class="fw-medium"><strong>Owner:</strong> {{object.newsletter_user}}</p>
                 </div>
                 <div class="card-footer">
 
@@ -77,7 +77,7 @@
                     <p class="fw-bold fs-2">Newsletter content</p>
                 </div>
                 <div class="card-body">
-                    <p class="fw-medium"><strong>Email subject</strong>: {{object.subject}}</p>
+                    <p class="fw-medium"><strong>Message subject</strong>: {{object.subject}}</p>
                     <p class="fw-medium"><strong>Content</strong>: {{object.content}}</p>
                 </div>
                 <div class="card-footer"></div>

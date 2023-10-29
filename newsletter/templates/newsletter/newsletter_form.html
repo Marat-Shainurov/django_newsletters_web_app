@@ -47,10 +47,22 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="form-group">
-                        {% for field in form %}
-                        {{ field.label_tag }} {{ field }}
-                        {% endfor %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form.newsletter.label_tag }} {{ form.newsletter }}
+                                {{ form.start_campaign.label_tag }} {{ form.start_campaign }}
+                                {{ form.finish_campaign.label_tag }} {{ form.finish_campaign }}
+                                {{ form.regularity.label_tag }} {{ form.regularity }}
+                                {{ form.newsletter_cities.label_tag }} {{ form.newsletter_cities }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form.subject.label_tag }} {{ form.subject }}
+                                {{ form.content.label_tag }} {{ form.content }}
+                            </div>
+                        </div>
                     </div>
                 </div>
 

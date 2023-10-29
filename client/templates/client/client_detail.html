@@ -34,13 +34,13 @@
                 <div class="card-body">
                     <p class="fw-medium"><strong>Client name</strong> - {{object.name}}</p>
                     <p class="fw-medium"><strong>Client email</strong> - {{object.email}}</p>
-                    <p class="fw-medium"><strong>Added by</strong> - {{object.client_user}}</p>
+                    <p class="fw-medium"><strong>Added by</strong> - {{object.user}}</p>
                     <p class="fw-medium"><strong>Added </strong> - {{object.created}}</p>
                     <p class="fw-medium"><strong>Additional info</strong> - {{object.comments}}</p>
                     <p class="fw-medium"><strong>Is active</strong> - {{object.is_active}}</p>
                 </div>
                 <div class="card-footer">
-                      {% if user == object.client_user %}
+                      {% if user == object.user %}
             <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
                 <a class="btn btn-outline-info rounded-pill"
                    href="{% url 'client:client_update' object.slug %}">Edit</a>

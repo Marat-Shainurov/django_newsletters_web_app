@@ -30,20 +30,27 @@
         <div class="card">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-
                 <div class="card-header">
                     <h1>{% if object %}Edit the{%else%}Add a{%endif%} client</h1>
                 </div>
-
                 <div class="card-body">
-                    <div class="form-group">
-                        {% for field in form %}
-                        {{ field.label_tag }} {{ field }}
-                        <br>
-                        {% endfor %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form.name.label_tag }} {{ form.name }}
+                                {{ form.email.label_tag }} {{ form.email }}
+                                {{ form.city.label_tag }} {{ form.city }}
+                                {{ form.is_signed_up.label_tag }} {{ form.is_signed_up }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+
+                                {{ form.comments.label_tag }} {{ form.comments }}
+                            </div>
+                        </div>
                     </div>
                 </div>
-
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">
                         {% if object %}

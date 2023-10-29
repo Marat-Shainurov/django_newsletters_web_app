@@ -5,22 +5,10 @@ from django.urls import reverse
 from django_celery_beat.models import PeriodicTask
 
 from newsletter.models import Newsletter
-from newsletter.tasks import set_regular_newsletter_schedule, disable_launched_newsletter_task, set_enabler_schedule, \
+from newsletter.tasks import set_regular_newsletter_schedule, disable_launched_newsletter_task, set_disabler_schedule, \
     send_newsletter_task
 from users.models import User
 
-
-@login_required
-def send_newsletter_manager(request):
-    if request.method == 'POST':
-        newsletter_pk = request.POST.get('newsletter_one_off')
-        send_newsletter_task(newsletter_pk)
-        return redirect(reverse('newsletter:newsletter_list'))
-    else:
-        user = request.user
-        all_newsletters = Newsletter.objects.filter(newsletter_user=user)
-        context = {'newsletters_list': all_newsletters, 'user': user, 'page_title': 'Send newsletter'}
-        return render(request, 'newsletter/send_newsletter_manager.html', context)
 
 
 @login_required
@@ -29,7 +17,7 @@ def regular_newsletter_manager(request):
         if 'newsletter_launch' in request.POST:
             newsletter_pk = request.POST.get('pk_newsletter_launch')
             set_regular_newsletter_schedule.delay(newsletter_pk)
-            set_enabler_schedule(newsletter_pk)
+            set_disabler_schedule(newsletter_pk)
             return redirect(reverse('newsletter:regular_newsletter_manager'))
         if 'newsletter_remove' in request.POST:
             if not request.user.has_perm('newsletter.remove_regular_newsletter'):
@@ -62,7 +50,7 @@ def regular_newsletters_report(request):
             newsletter = Newsletter.objects.get(pk=eval(task.args)[0])
             tasks_status[eval(task.args)[0]] = {
                 'newsletter_id': newsletter.pk,
-                'newsletter_title': newsletter.newsletter,
+                'newsletter_title': newsletter.title,
                 'schedule': task.crontab.human_readable,
                 'total_run_count': task.total_run_count,
                 'start_time': task.start_time,

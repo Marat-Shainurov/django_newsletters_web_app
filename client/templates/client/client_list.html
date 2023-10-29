@@ -15,35 +15,16 @@
                 Main page
             </a>
             <a class="icon-link icon-link-hover d-flex align-items-center link-body-emphasis text-decoration-none"
-               style="margin-right: 30px;" href="{% url 'newsletter:send_newsletter_manager' %}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                     class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                          d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
-                </svg>
-                One-time newsletter manage
-            </a>
-            <a class="icon-link icon-link-hover d-flex align-items-center link-body-emphasis text-decoration-none"
                href="{% url 'newsletter:regular_newsletter_manager' %}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                      class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
                           d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
                 </svg>
-                Regular newsletter manager
+                Newsletters panel
             </a>
         </div>
     </header>
-
-    <div>
-        <p class="icon-link icon-link-hover d-flex align-items-center link-body-emphasis text-decoration-none">
-        <strong>Clients list</strong>
-            {% if user|has_group:"manager" %}
-            <strong class="text-success">
-            (*clients added by you, available for viewing and editing)</strong>
-            {% endif %}
-        </p>
-    </div>
 
     <div class="container d-flex justify-content-center align-items-start mt-4">
         <div class="container-fluid">
@@ -53,9 +34,10 @@
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
+                    <th scope="col">City</th>
                     <th scope="col">Added by</th>
                     <th scope="col">Is signed up</th>
-                    <th scope="col">Sign up toggle</th>
+                    <th scope="col">Sign-up toggle</th>
 
                 </tr>
                 </thead>
@@ -64,19 +46,24 @@
                     {% if user|has_group:"manager" %}
                         <tr>
                             <th scope="row">{{ object.pk}}</th>
-                            {% if request.user == object.client_user %}
+                            {% if request.user == object.user %}
                             <td class="text-success"><a class="text-success" href="{% url 'client:client_detail' object.slug %}"><strong>{{ object.name }}</strong></a></td>
                             {% else %}
                             <td><a href="{% url 'client:client_detail' object.slug %}">{{ object.name }}</a></td>
                             {% endif %}
                             <td>{{ object.email}}</td>
-                            <td>{{ object.client_user}}</td>
-                            <td>{{ object.is_signed_up }}</td>
+                            <td>{{ object.city}}</td>
+                            {% if user == object.user %}
+                            <td><strong class="text-success">{{ object.user }}</strong></td>
+                            {% else %}
+                            <td>{{ object.user }}</td>
+                            {% endif %}
+                            <td>{% if object.is_signed_up %}Yes{%else%}No{% endif %}</td>
                             <td>
                                 <form method="post">
                                     {% csrf_token %}
                                     <input type="hidden" name="pk_sign_up_toggle" value="{{ object.pk }}">
-                                    {% if request.user == object.client_user %}
+                                    {% if request.user == object.user %}
                                     <button class="btn btn-outline-primary" type="submit" name="sign_up_toggle">
                                         {% if object.is_signed_up %}Switch off
                                         {% else%} Switch on
@@ -97,7 +84,12 @@
                             <th scope="row">{{ object.pk }}</th>
                             <td><a href="{% url 'client:client_detail' object.slug %}">{{ object.name }}</a></td>
                             <td>{{ object.email}}</td>
-                            <td>{{ object.client_user}}</td>
+                            <td>{{ object.city}}</td>
+                            {% if user == object.user %}
+                            <td><strong class="text-success">{{ object.user }}</strong></td>
+                            {% else %}
+                            <td>{{ object.user }}</td>
+                            {% endif %}
                             <td>{{ object.is_signed_up }}</td>
                             <td>
                                 <form method="post">
