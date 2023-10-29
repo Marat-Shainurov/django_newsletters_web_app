@@ -37,14 +37,17 @@
                     <p class="fw-medium"><strong>Duration</strong>:
                         <br> {{object.start_campaign}} -> {{object.finish_campaign}}</p>
                     <p class="fw-medium"><strong>Status:</strong> {{object.status}}</p>
-
                     <p class="fw-medium"><strong>Regularity:</strong> {{object.regularity.mode_name }}</p>
-
                     <p class="fw-medium"><strong>Activity:</strong>
                         {% if object.is_active %}active
                         {%else%}'deactivated' and not in the list{%endif%}</p>
                     <p class="fw-medium"><strong>Created at:</strong> {{object.created}}</p>
                     <p class="fw-medium"><strong>Owner:</strong> {{object.newsletter_user}}</p>
+                    <p class="fw-medium"><strong>Inform clients from:</strong>
+                        {% for city in object.newsletter_cities.all %}
+                            {{city}}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
                 </div>
                 <div class="card-footer">
 

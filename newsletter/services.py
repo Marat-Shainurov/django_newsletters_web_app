@@ -17,13 +17,13 @@ def send_newsletter(newsletter_id):
     """
     newsletter_to_send = Newsletter.objects.get(pk=newsletter_id)
     request_user = newsletter_to_send.newsletter_user
-    newsletter_cities = newsletter_to_send.newsletter_cities
+    newsletter_cities = newsletter_to_send.newsletter_cities.all()
     recipients_list = []
-
-    for city in newsletter_cities:
-        city_clients = city.city_clients.filter(is_signed_up=True, user=request_user)
-        city_recipients = [x.email for x in city_clients]
-        recipients_list.append(city_recipients)
+    if newsletter_cities.exists():
+        for city in newsletter_cities:
+            city_clients = city.city_clients.filter(is_signed_up=True, user=request_user)
+            city_recipients = [x.email for x in city_clients]
+            recipients_list.extend(city_recipients)
 
     timezone = tz.gettz(settings.TIME_ZONE)
     actual_time = datetime.now(timezone)

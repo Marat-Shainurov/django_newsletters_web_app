@@ -32,12 +32,13 @@
                     <p class="fw-bold fs-2">Client details</p>
                 </div>
                 <div class="card-body">
-                    <p class="fw-medium"><strong>Client name</strong> - {{object.name}}</p>
-                    <p class="fw-medium"><strong>Client email</strong> - {{object.email}}</p>
-                    <p class="fw-medium"><strong>Added by</strong> - {{object.user}}</p>
-                    <p class="fw-medium"><strong>Added </strong> - {{object.created}}</p>
-                    <p class="fw-medium"><strong>Additional info</strong> - {{object.comments}}</p>
-                    <p class="fw-medium"><strong>Is active</strong> - {{object.is_active}}</p>
+                    <p class="fw-medium"><strong>Client name:</strong> {{object.name}}</p>
+                    <p class="fw-medium"><strong>Client email:</strong> {{object.email}}</p>
+                    <p class="fw-medium"><strong>Added by:</strong> {{object.user}}</p>
+                    <p class="fw-medium"><strong>Added at:</strong> {{object.created}}</p>
+                    <p class="fw-medium"><strong>Additional info:</strong> {{object.comments}}</p>
+                    <p class="fw-medium"><strong>Is signed up:</strong> {% if object.is_signed_up %}Yes{% else %} No {% endif %}</p>
+                    <p class="fw-medium"><strong>Is active:</strong> - {{object.is_active}}</p>
                 </div>
                 <div class="card-footer">
                       {% if user == object.user %}
