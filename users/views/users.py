@@ -49,7 +49,7 @@ class UserDetailView(LoginRequiredMixin, generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user_clients'] = Client.objects.filter(client_user=self.request.user)
+        context['user_clients'] = Client.objects.filter(user=self.request.user)
         context['newsletter_user'] = Newsletter.objects.filter(newsletter_user=self.request.user)
         return context
 

@@ -10,7 +10,7 @@ from client.models import Client
 
 class ClientListView(LoginRequiredMixin, generic.ListView):
     model = Client
-    ordering = ('client_user', 'pk',)
+    ordering = ('user', 'pk',)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -25,7 +25,7 @@ class ClientListView(LoginRequiredMixin, generic.ListView):
         if group in user.groups.all() or user.is_superuser:
             return queryset
         else:
-            queryset = queryset.filter(client_user=user)
+            queryset = queryset.filter(user=user)
             return queryset
 
     def post(self, *args, **kwargs):
@@ -58,7 +58,7 @@ class ClientCreateView(LoginRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         self.object = form.save()
         if form.is_valid():
-            self.object.client_user = self.request.user
+            self.object.user = self.request.user
             self.object.save()
             return super().form_valid(form)
 

@@ -6,6 +6,17 @@ from unidecode import unidecode
 NULLABLE = {'blank': True, 'null': True}
 
 
+class City(models.Model):
+    city = models.CharField(verbose_name='city_name', max_length=50)
+
+    class Meta:
+        verbose_name = 'City'
+        verbose_name_plural = 'Cities'
+
+    def __str__(self):
+        return self.city
+
+
 class Client(models.Model):
     name = models.CharField(max_length=100, verbose_name='client_name', unique=True)
     email = models.EmailField(max_length=50, verbose_name='client_email', unique=True)
@@ -14,9 +25,10 @@ class Client(models.Model):
     is_active = models.BooleanField(verbose_name='is_active', default=True)
     comments = models.TextField(verbose_name='additional_info')
     created = models.DateTimeField(verbose_name='created', auto_now_add=True)
-
-    client_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
-                                    verbose_name='user_added_client', **NULLABLE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name='user_clients', **NULLABLE)
+    city = models.ForeignKey(
+        City, on_delete=models.SET_NULL, related_name='city_clients', verbose_name='client_city', **NULLABLE)
 
     def __str__(self):
         return f'{self.name} {self.email}'
