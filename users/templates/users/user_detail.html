@@ -40,8 +40,8 @@
                 <div class="card-body">
                     <strong>Email</strong> - {{ object }}<br><br>
                     <strong>Phone number</strong> - {{ object.phone }}<br><br>
-                    <strong>Clients added by user </strong> - {{ user_clients.count }}<br><br>
-                    <strong>Newsletters added by user </strong> - {{ newsletter_user.count }}<br><br>
+                    <strong>Clients added by user </strong> - {{ user_clients }}<br><br>
+                    <strong>Newsletters added by user </strong> - {{ newsletter_user }}<br><br>
                     <strong>Is manager</strong> - {% if object|has_group:"manager"%}Yes{% else %}No{% endif %}<br><br>
                     <strong>Is verified</strong> - {% if object.is_verified %}Yes{% else %}No{% endif %}<br><br>
                 </div>
@@ -55,7 +55,7 @@
                                href="{% url 'users:user_delete' object.pk %}">Delete</a>
                         </nav>
                     {% endif %}
-
+                    {% if request.user != object and not object.is_superuser %}
                     <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto float-end">
                     <form method="post">
                             {% csrf_token %}
@@ -65,6 +65,7 @@
                             </button>
                         </form>
                     </nav>
+                    {% endif %}
                 </div>
             </div>
         </div>

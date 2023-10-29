@@ -12,7 +12,6 @@ from users.services import get_cached_users_for_list_table
 
 
 @login_required
-@permission_required('users.view_user', raise_exception=True)
 def user_list(request):
     context = {'object_list': get_cached_users_for_list_table(), 'page_title': 'Users list'}
     return render(request, 'users/user_list.html', context)
@@ -49,8 +48,9 @@ class UserDetailView(LoginRequiredMixin, generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user_clients'] = Client.objects.filter(user=self.request.user)
-        context['newsletter_user'] = Newsletter.objects.filter(newsletter_user=self.request.user)
+        user = kwargs.get('object')
+        context['user_clients'] = Client.objects.filter(user=user).count()
+        context['newsletter_user'] = Newsletter.objects.filter(newsletter_user=user).count()
         return context
 
     def post(self, *args, **kwargs):

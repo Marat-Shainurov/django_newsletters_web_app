@@ -19,8 +19,8 @@ urlpatterns = [
     path('newsletters/attempts-report/filter-newsletter/', NewsletterAttemptsListView.as_view(),
          name='attempts_list_filtered_newsletter'),
     path('newsletters/reports/<int:pk>/', NewsletterAttemptsDetailView.as_view(), name='attempt_responses_detail'),
-    path('newsletters/newsletters-panel/', regular_newsletter_manager, name='regular_newsletter_manager'),
-    path('newsletters/regular-newsletters-report/', regular_newsletters_report, name='regular_newsletters_report'),
+    path('newsletters/control-panel/', regular_newsletter_manager, name='regular_newsletter_manager'),
+    path('newsletters/general-report/', regular_newsletters_report, name='regular_newsletters_report'),
 ]
 
 # todo:

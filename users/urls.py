@@ -12,9 +12,9 @@ urlpatterns = [
     path('users/registration/', RegisterView.as_view(), name='register'),
     path('users/registration/verification/<str:email>', verify_email, name='verify_email'),
     path('users/manager/list/', user_list, name='user_list'),
-    path('users/create-user/', UserCreateView.as_view(), name='user_form'),
-    path('users/manager/list/user-detail/<int:pk>', UserDetailView.as_view(), name='user_detail'),
-    path('users/manager/list/user-delete/<int:pk>', UserDeleteView.as_view(), name='user_delete'),
-    path('users/list/update/<int:pk>', UserUpdateView.as_view(), name='user_form'),
+    path('users/manager/create-user/', UserCreateView.as_view(), name='user_form'),
+    path('users/manager/user-detail/<int:pk>', UserDetailView.as_view(), name='user_detail'),
+    path('users/manager/user-delete/<int:pk>', UserDeleteView.as_view(), name='user_delete'),
+    path('users/manager/update/<int:pk>', UserUpdateView.as_view(), name='user_form'),
     path('users/manager/schedule-settings/', set_schedule, name='set_schedule')
 ]

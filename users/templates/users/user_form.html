@@ -51,7 +51,7 @@
                 <div class="card-body">
                     <div class="form-group">
                         {% for field in form %}
-                        {% if field.name != 'password' and field.name != 'is_verified' %}
+                        {% if field.name != 'password' %}
                         {{ field.label_tag }} {{ field }}
                         <br>
                         {% endif %}
