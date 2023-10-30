@@ -42,11 +42,12 @@ def regular_newsletter_manager(request):
 @login_required
 def regular_newsletters_report(request):
     periodic_tasks = PeriodicTask.objects.all()
+    all_newsletters = Newsletter.objects.all()
     tasks_status = {}
     for task in periodic_tasks:
-        newsletter = task.args
-        if not task.one_off and task.enabled and not newsletter == '[]':
-            newsletter = Newsletter.objects.get(pk=eval(task.args)[0])
+        task_args_newsletter_pk = task.args
+        if not task.one_off and not task_args_newsletter_pk == '[]':
+            newsletter = all_newsletters.filter(pk=eval(task_args_newsletter_pk)[0]).first()
             tasks_status[eval(task.args)[0]] = {
                 'newsletter_id': newsletter.pk,
                 'newsletter_title': newsletter.newsletter,
@@ -57,17 +58,15 @@ def regular_newsletters_report(request):
                 'newsletter_user': newsletter.newsletter_user.email
             }
 
-    if 'filter_newsletter' in request.GET:
-        newsletter_pk = request.GET.get('pk_filter_newsletter')
-        if newsletter_pk == 'all' or newsletter_pk == 'Select newsletter:':
-            pass
-        else:
-            tasks_status = {k: v for k, v in tasks_status.items() if k == newsletter_pk}
-    if 'filter_users' in request.GET:
+    if 'filter_form' in request.GET:
+        newsletter_pk = request.GET.get('filter_newsletter')
         user_email = request.GET.get('email_filter_user')
-        if user_email == 'all' or user_email == 'Select user:':
-            pass
-        else:
+        if newsletter_pk == 'all' and user_email != 'all':
+            tasks_status = {k: v for k, v in tasks_status.items() if v['newsletter_user'] == user_email}
+        elif newsletter_pk != 'all' and user_email == 'all':
+            tasks_status = {k: v for k, v in tasks_status.items() if k == newsletter_pk}
+        elif user_email != 'all' and newsletter_pk != 'all':
+            tasks_status = {k: v for k, v in tasks_status.items() if k == newsletter_pk}
             tasks_status = {k: v for k, v in tasks_status.items() if v['newsletter_user'] == user_email}
 
     all_newsletters = Newsletter.objects.all()

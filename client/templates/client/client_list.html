@@ -26,8 +26,56 @@
         </div>
     </header>
 
-    <div class="container d-flex justify-content-center align-items-start mt-4">
-        <div class="container-fluid">
+
+    <div class="row col-8">
+            <form class="form-control " method="get" action="{% url 'client:client_list' %}" name="filter_form">
+                <div class="row">
+                    <div class="col-4">
+                        <label>Select a city:</label>
+                        <select class="form-select form-select-sm required" aria-label=".form-select-sm example"
+                                name="filter_city">
+                                <option value='all'>
+                                    All cities
+                                </option>
+                            {% for city in all_cities %}
+                                {% if user|has_group:"manager" %}
+                                    <option value='{{city.city}}'>{{city}}</option>
+                                {% else %}
+                                    {% if request.user == n.user %}
+                                        <option value='{{city.city}}'>{{city.city}}</option>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-5">
+                    <label>Select a user:</label>
+                        <select class="form-select form-select-sm required" aria-label=".form-select-sm example"
+                                name="email_filter_user">
+                                <option value="all">
+                                    All users
+                                </option>
+                            {% for u in all_users %}
+                                {% if request.user == u %}
+                                    <option value='{{u.email}}' class="text-primary">{{u.email}}</option>
+                                {% else %}
+                                    <option value='{{u.email}}'>{{u.email}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-3 d-flex justify-content-end align-items-center">
+                        <button class="btn btn-secondary float-end"
+                                type="submit" name="filter_form">Filter</button>
+                    </div>
+                </div>
+            </form>
+    </div>
+
+    <div class="container d-flex justify-content-center align-items-start mt-3">
+        <div class="container-fluid" style="max-height: 350px;
+            overflow-y: auto;">
             <table class="table table-striped">
                 <thead>
                 <tr class="sticky-top">
@@ -45,15 +93,11 @@
                     {% if user|has_group:"manager" %}
                         <tr>
                             <th scope="row">{{ object.pk}}</th>
-                            {% if request.user == object.user %}
-                            <td class="text-success"><a class="text-success" href="{% url 'client:client_detail' object.slug %}"><strong>{{ object.name }}</strong></a></td>
-                            {% else %}
                             <td><a href="{% url 'client:client_detail' object.slug %}">{{ object.name }}</a></td>
-                            {% endif %}
                             <td>{{ object.email}}</td>
                             <td>{{ object.city}}</td>
                             {% if user == object.user %}
-                            <td><strong class="text-success">{{ object.user }}</strong></td>
+                            <td><strong class="text-primary">{{ object.user }}</strong></td>
                             {% else %}
                             <td>{{ object.user }}</td>
                             {% endif %}

@@ -18,54 +18,53 @@
         </div>
     </header>
 
-    <div class="row">
-        <div class="col-5">
-            <form class="form-control" method="get"
-                  action="{% url 'newsletter:regular_newsletters_report' %}"
-                  name="filter_newsletter">
+
+    <div class="row col-8">
+            <form class="form-control " method="get" action="{% url 'newsletter:regular_newsletters_report' %}" name="filter_form">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-4">
+                        <label>Select newsletter:</label>
                         <select class="form-select form-select-sm required" aria-label=".form-select-sm example"
-                                name="pk_filter_newsletter">
-                            <option selected>Select newsletter:</option>
-                            <option value='all'>All newsletters</option>
+                                name="filter_newsletter">
+                                <option value='all'>
+                                    All newsletters
+                                </option>
                             {% for n in all_newsletters %}
-                                <option value='{{n.pk}}'>{{n.newsletter}}</option>
+                                {% if user|has_group:"manager" %}
+                                    <option value='{{n.pk}}'>{{n.newsletter}}</option>
+                                {% else %}
+                                    {% if request.user == n.user %}
+                                        <option value='{{n.pk}}'>{{n.newsletter}}</option>
+                                    {% endif %}
+                                {% endif %}
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="col-6">
-                        <button class="btn btn-secondary float-end" type="submit" name="filter_newsletter">Filter
-                        </button>
+
+                    <div class="col-5">
+                    <label>Select a user:</label>
+                        <select class="form-select form-select-sm required" aria-label=".form-select-sm example"
+                                name="email_filter_user">
+                                <option value="all">
+                                    All users
+                                </option>
+                            {% for u in all_users %}
+                                {% if request.user == u %}
+                                    <option value='{{u.email}}' class="text-primary">{{u.email}}</option>
+                                {% else %}
+                                    <option value='{{u.email}}'>{{u.email}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-3 d-flex justify-content-end align-items-center">
+                        <button class="btn btn-secondary float-end"
+                                type="submit" name="filter_form">Filter</button>
                     </div>
                 </div>
             </form>
-        </div>
-
-            <div class="col-4">
-                <form class="form-control" method="get"
-                      action="{% url 'newsletter:regular_newsletters_report' %}"
-                      name="filter_users">
-                    <div class="row">
-                        <div class="col-6">
-                            <select class="form-select form-select-sm required" aria-label=".form-select-sm example"
-                                    name="email_filter_user">
-                                <option selected>Select user:</option>
-                                <option value='all'>All users</option>
-                                {% for u in all_users %}
-                                <option value='{{u.email}}'>{{u.email}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="col-6">
-                            <button class="btn btn-secondary float-end" type="submit" name="filter_users">Filter
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
     </div>
+
 
     <div class="container d-flex justify-content-center align-items-start mt-3">
         <div class="container-fluid" style="max-height: 400px;

@@ -5,7 +5,8 @@ from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 from client.forms import ClientForm
-from client.models import Client
+from client.models import Client, City
+from users.models import User
 
 
 class ClientListView(LoginRequiredMixin, generic.ListView):
@@ -15,18 +16,35 @@ class ClientListView(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['page_title'] = 'Clients list'
+        context['all_users'] = User.objects.all()
+        context['all_cities'] = City.objects.all()
         return context
 
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
         queryset = queryset.filter(is_active=True)
         user = self.request.user
+
         group = Group.objects.get(name='manager')
-        if group in user.groups.all() or user.is_superuser:
-            return queryset
-        else:
+        if group not in user.groups.all():
             queryset = queryset.filter(user=user)
-            return queryset
+
+        if 'filter_form' in self.request.GET:
+            city = self.request.GET.get('filter_city')
+            user_email = self.request.GET.get('email_filter_user')
+            if city == 'all' and user_email != 'all':
+                user_to_filter = User.objects.get(email=user_email)
+                queryset = queryset.filter(user=user_to_filter)
+            elif user_email == 'all' and city != 'all':
+                city_to_filter = City.objects.get(city=city)
+                queryset = queryset.filter(city=city_to_filter)
+            elif user_email != 'all' and city != 'all':
+                city_to_filter = City.objects.get(city=city)
+                user_to_filter = User.objects.get(email=user_email)
+                queryset = queryset.filter(city=city_to_filter, user=user_to_filter)
+            else:
+                return queryset
+        return queryset
 
     def post(self, *args, **kwargs):
 
