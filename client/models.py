@@ -7,7 +7,7 @@ NULLABLE = {'blank': True, 'null': True}
 
 
 class City(models.Model):
-    city = models.CharField(verbose_name='city_name', max_length=50)
+    city = models.CharField(verbose_name='city_name', max_length=50, unique=True)
 
     class Meta:
         verbose_name = 'City'
@@ -23,7 +23,7 @@ class Client(models.Model):
     slug = models.SlugField(verbose_name='slug', **NULLABLE)
     is_signed_up = models.BooleanField(verbose_name='is_signed_up', default=True)
     is_active = models.BooleanField(verbose_name='is_active', default=True)
-    comments = models.TextField(verbose_name='additional_info')
+    comments = models.TextField(verbose_name='additional_info', **NULLABLE)
     created = models.DateTimeField(verbose_name='created', auto_now_add=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name='user_clients', **NULLABLE)

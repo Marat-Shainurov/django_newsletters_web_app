@@ -28,12 +28,11 @@ class Newsletter(models.Model):
     created = models.DateTimeField(verbose_name='created', auto_now_add=True)
 
     newsletter_user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='newsletter_user',
-                                        on_delete=models.CASCADE, **NULLABLE)
-    newsletter_clients = models.ManyToManyField(Client, related_name='client_newsletters')
+                                        on_delete=models.CASCADE, **NULLABLE, related_name='user_newsletters')
     newsletter_cities = models.ManyToManyField(City, related_name='city_newsletters')
 
     def __str__(self):
-        return f'{self.newsletter} {self.pk} / {self.status} / {self.regularity}'
+        return f'{self.newsletter} ({self.status} / {self.regularity})'
 
     def save(self, *args, **kwargs):
         if self.slug:
