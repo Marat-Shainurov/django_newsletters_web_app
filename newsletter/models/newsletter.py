@@ -1,9 +1,13 @@
+from datetime import datetime
+
+import pytz
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
 from unidecode import unidecode
 
-from client.models import Client,City
+from client.models import City
 from newsletter.models.schedule import Schedule
 
 NULLABLE = {'blank': True, 'null': True}
@@ -34,7 +38,15 @@ class Newsletter(models.Model):
     def __str__(self):
         return f'{self.newsletter} ({self.status} / {self.regularity})'
 
+    def clean(self):
+        actual_time = datetime.now(tz=pytz.timezone(settings.TIME_ZONE))
+        if self.finish_campaign < self.start_campaign:
+            raise ValidationError('finish_campaign cannot be earlier than start_campaign!')
+        if self.start_campaign < actual_time:
+            raise ValidationError('start_campaign cannot be earlier than the actual time!')
+
     def save(self, *args, **kwargs):
+        self.clean()
         if self.slug:
             super().save(*args, **kwargs)
         else:
