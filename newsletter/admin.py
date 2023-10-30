@@ -8,13 +8,13 @@ class NewsletterSettingsAdmin(admin.ModelAdmin):
     list_display = (
         'pk', 'newsletter', 'start_campaign', 'finish_campaign', 'status', 'regularity', 'subject', 'is_active',
         'created')
-    list_filter = ('newsletter', 'status')
+    list_filter = ('status', 'regularity', 'is_active')
 
 
 @admin.register(NewsletterAttempts)
 class NewsletterAttemptsAdmin(admin.ModelAdmin):
     list_display = ('pk', 'newsletter', 'last_attempt', 'attempt_status')
-    list_filter = ('newsletter', 'attempt_status', 'last_attempt')
+    list_filter = ('newsletter', 'attempt_status',)
 
 
 @admin.register(EmailServerResponse)
