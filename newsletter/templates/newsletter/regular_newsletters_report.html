@@ -30,13 +30,7 @@
                                     All newsletters
                                 </option>
                             {% for n in all_newsletters %}
-                                {% if user|has_group:"manager" %}
-                                    <option value='{{n.pk}}'>{{n.newsletter}}</option>
-                                {% else %}
-                                    {% if request.user == n.user %}
-                                        <option value='{{n.pk}}'>{{n.newsletter}}</option>
-                                    {% endif %}
-                                {% endif %}
+                                <option value='{{n.pk}}'>{{n.newsletter}}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -83,12 +77,12 @@
                 <tbody class="table-group-divider">
                 {% for task, vals in tasks_status.items %}
                 <tr>
-                    <td class="text-success">{{ vals.newsletter_id }}</td>
-                    <td class="text-success">{{ vals.newsletter_title }}</td>
-                    <td class="text-success">{{ vals.schedule }}</td>
-                    <td class="text-success">{{ vals.total_run_count }}</td>
-                    <td class="text-success">{{ vals.start_time }}</td>
-                    <td class="text-success">{{ vals.finish_time }}</td>
+                    <td>{{ vals.newsletter_id }}</td>
+                    <td>{{ vals.newsletter_title }}</td>
+                    <td>{{ vals.schedule }}</td>
+                    <td>{{ vals.total_run_count }}</td>
+                    <td>{{ vals.start_time }}</td>
+                    <td>{{ vals.finish_time }}</td>
                 </tr>
                 {% endfor %}
                 </tbody>

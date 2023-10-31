@@ -25,26 +25,35 @@ class NewsletterAttemptsListView(LoginRequiredMixin, generic.ListView):
         if group not in user.groups.all():
             user_newsletters = Newsletter.objects.filter(newsletter_user=user)
             queryset = queryset.filter(newsletter__in=user_newsletters)
+            if 'filter_form' in self.request.GET:
+                newsletter_pk = self.request.GET.get('filter_newsletter')
+                if newsletter_pk != 'all':
+                    newsletter = Newsletter.objects.get(pk=newsletter_pk)
+                    queryset = queryset.filter(newsletter=newsletter)
+                else:
+                    return queryset
+            return queryset
 
-        if 'filter_form' in self.request.GET:
-            newsletter_pk = self.request.GET.get('filter_newsletter')
-            user_email = self.request.GET.get('email_filter_user')
-            if newsletter_pk == 'all' and user_email != 'all':
-                user_to_filter = User.objects.get(email=user_email)
-                user_newsletters = Newsletter.objects.filter(newsletter_user=user_to_filter)
-                queryset = queryset.filter(newsletter__in=user_newsletters)
-            elif user_email == 'all' and newsletter_pk != 'all':
-                newsletter = Newsletter.objects.get(pk=newsletter_pk)
-                queryset = queryset.filter(newsletter=newsletter)
-            elif newsletter_pk != 'all' and user_email != 'all' :
-                user_to_filter = User.objects.get(email=user_email)
-                user_newsletters = Newsletter.objects.filter(newsletter_user=user_to_filter)
-                queryset = queryset.filter(newsletter__in=user_newsletters)
-                newsletter = Newsletter.objects.get(pk=newsletter_pk)
-                queryset = queryset.filter(newsletter=newsletter)
-            else:
-                return queryset
-        return queryset
+        else:
+            if 'filter_form' in self.request.GET:
+                newsletter_pk = self.request.GET.get('filter_newsletter')
+                user_email = self.request.GET.get('email_filter_user')
+                if newsletter_pk == 'all' and user_email != 'all':
+                    user_to_filter = User.objects.get(email=user_email)
+                    user_newsletters = Newsletter.objects.filter(newsletter_user=user_to_filter)
+                    queryset = queryset.filter(newsletter__in=user_newsletters)
+                elif user_email == 'all' and newsletter_pk != 'all':
+                    newsletter = Newsletter.objects.get(pk=newsletter_pk)
+                    queryset = queryset.filter(newsletter=newsletter)
+                elif newsletter_pk != 'all' and user_email != 'all' :
+                    user_to_filter = User.objects.get(email=user_email)
+                    user_newsletters = Newsletter.objects.filter(newsletter_user=user_to_filter)
+                    queryset = queryset.filter(newsletter__in=user_newsletters)
+                    newsletter = Newsletter.objects.get(pk=newsletter_pk)
+                    queryset = queryset.filter(newsletter=newsletter)
+                else:
+                    return queryset
+            return queryset
 
 
 class NewsletterAttemptsDetailView(LoginRequiredMixin, generic.DetailView):

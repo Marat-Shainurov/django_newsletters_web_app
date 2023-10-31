@@ -28,23 +28,31 @@ class ClientListView(LoginRequiredMixin, generic.ListView):
         group = Group.objects.get(name='manager')
         if group not in user.groups.all():
             queryset = queryset.filter(user=user)
-
-        if 'filter_form' in self.request.GET:
-            city = self.request.GET.get('filter_city')
-            user_email = self.request.GET.get('email_filter_user')
-            if city == 'all' and user_email != 'all':
-                user_to_filter = User.objects.get(email=user_email)
-                queryset = queryset.filter(user=user_to_filter)
-            elif user_email == 'all' and city != 'all':
-                city_to_filter = City.objects.get(city=city)
-                queryset = queryset.filter(city=city_to_filter)
-            elif user_email != 'all' and city != 'all':
-                city_to_filter = City.objects.get(city=city)
-                user_to_filter = User.objects.get(email=user_email)
-                queryset = queryset.filter(city=city_to_filter, user=user_to_filter)
-            else:
+            if 'filter_form' in self.request.GET:
+                city = self.request.GET.get('filter_city')
+                if city != 'all':
+                    city_to_filter = City.objects.get(city=city)
+                    queryset = queryset.filter(city=city_to_filter)
+                else:
+                    return queryset
                 return queryset
-        return queryset
+        else:
+            if 'filter_form' in self.request.GET:
+                city = self.request.GET.get('filter_city')
+                user_email = self.request.GET.get('email_filter_user')
+                if city == 'all' and user_email != 'all':
+                    user_to_filter = User.objects.get(email=user_email)
+                    queryset = queryset.filter(user=user_to_filter)
+                elif user_email == 'all' and city != 'all':
+                    city_to_filter = City.objects.get(city=city)
+                    queryset = queryset.filter(city=city_to_filter)
+                elif user_email != 'all' and city != 'all':
+                    city_to_filter = City.objects.get(city=city)
+                    user_to_filter = User.objects.get(email=user_email)
+                    queryset = queryset.filter(city=city_to_filter, user=user_to_filter)
+                else:
+                    return queryset
+            return queryset
 
     def post(self, *args, **kwargs):
 

@@ -232,18 +232,18 @@
                                    class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a>
                             </li>
                             <li><a href="{% url 'newsletter:control_panel' %}"
-                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control panel</a>
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Control Panel</a>
                             </li>
                             <li><a href="{% url 'newsletter:regular_newsletters_report' %}"
-                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">General report</a>
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Regular Newsletters Report</a>
                             </li>
                             <li><a href="{% url 'newsletter:attempts_list' %}"
-                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Attempts
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sending Attempts
                                 Report</a>
                             </li>
                             {% if request.user.is_superuser %}
                             <li><a href="{% url 'newsletter:set_schedule'%}"
-                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Schedule settings</a></li>
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Schedule Settings</a></li>
                             {% endif %}
                         </ul>
                     </div>
@@ -277,7 +277,7 @@
                             </li>
                             {% if request.user.is_superuser %}
                             <li><a href="{% url 'users:user_form'%}"
-                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create user</a></li>
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
                             {% endif %}
                         </ul>
                     </div>

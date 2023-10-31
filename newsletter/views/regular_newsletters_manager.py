@@ -15,6 +15,7 @@ def regular_newsletter_manager(request):
     if request.method == 'POST':
         if 'newsletter_launch' in request.POST:
             newsletter_pk = request.POST.get('pk_newsletter_launch')
+            # todo - check the start_campaign and the actual time
             set_regular_newsletter_schedule.delay(newsletter_pk)
             set_disabler_schedule(newsletter_pk)
             return redirect(reverse('newsletter:regular_newsletters_report'))

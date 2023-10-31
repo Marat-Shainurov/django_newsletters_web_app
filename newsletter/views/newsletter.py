@@ -20,23 +20,29 @@ class NewsletterListView(LoginRequiredMixin, generic.ListView):
         user = self.request.user
         group = Group.objects.get(name='manager')
         if group not in user.groups.all():
-            queryset = queryset.filter(user=user)
-
-        if 'filter_form' in self.request.GET:
-            status = self.request.GET.get('filter_status')
-            user_email = self.request.GET.get('email_filter_user')
-            if status == 'all' and user_email != 'all':
-                user_to_filter = User.objects.get(email=user_email)
-                queryset = queryset.filter(newsletter_user=user_to_filter)
-            elif user_email == 'all' and status != 'all':
-                queryset = queryset.filter(status=status)
-            elif user_email != 'all' and status != 'all':
-                user_to_filter = User.objects.get(email=user_email)
-                queryset = queryset.filter(status=status, newsletter_user=user_to_filter)
-            else:
-                return queryset
-
-        return queryset
+            queryset = queryset.filter(newsletter_user=user)
+            if 'filter_form' in self.request.GET:
+                status = self.request.GET.get('filter_status')
+                if status != 'all':
+                    queryset = queryset.filter(status=status)
+                else:
+                    return queryset
+            return queryset
+        else:
+            if 'filter_form' in self.request.GET:
+                status = self.request.GET.get('filter_status')
+                user_email = self.request.GET.get('email_filter_user')
+                if status == 'all' and user_email != 'all':
+                    user_to_filter = User.objects.get(email=user_email)
+                    queryset = queryset.filter(newsletter_user=user_to_filter)
+                elif user_email == 'all' and status != 'all':
+                    queryset = queryset.filter(status=status)
+                elif user_email != 'all' and status != 'all':
+                    user_to_filter = User.objects.get(email=user_email)
+                    queryset = queryset.filter(status=status, newsletter_user=user_to_filter)
+                else:
+                    return queryset
+            return queryset
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)

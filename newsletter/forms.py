@@ -12,7 +12,7 @@ class NewsletterForm(forms.ModelForm):
             field.widget.attrs['class'] = 'form-control'
             if field_name == 'content':
                 self.fields[field_name] = forms.CharField(
-                    widget=forms.Textarea(attrs={'class': 'form-control', 'rows': '10'}))
+                    widget=forms.Textarea(attrs={'class': 'form-control', 'rows': '8'}))
             if field_name == 'newsletter_cities':
                 self.fields[field_name] = forms.ModelMultipleChoiceField(
                     queryset=City.objects.all(),)

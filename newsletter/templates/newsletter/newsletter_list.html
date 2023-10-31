@@ -7,7 +7,7 @@
     <header>
         <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
             <a class="icon-link icon-link-hover d-flex align-items-center link-body-emphasis text-decoration-none"
-               style="margin-right: 30px;" href="{% url 'newsletter:index'%}">
+               href="{% url 'newsletter:index'%}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                      class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
@@ -28,11 +28,18 @@
 
         </div>
     </header>
-
+    {% if user|has_group:"manager" %}
     <div class="row col-8">
+    {% else %}
+    <div class="row col-6">
+    {% endif %}
             <form class="form-control " method="get" action="{% url 'newsletter:newsletter_list' %}" name="filter_form">
                 <div class="row">
+                    {% if user|has_group:"manager" %}
                     <div class="col-4">
+                    {% else %}
+                    <div class="col-8">
+                    {% endif %}
                         <label>Select status:</label>
                         <select class="form-select form-select-sm required" aria-label=".form-select-sm example"
                                 name="filter_status">
@@ -40,17 +47,11 @@
                                     All statuses
                                 </option>
                             {% for status in all_statuses %}
-                                {% if user|has_group:"manager" %}
-                                    <option value='{{status}}'>{{status}}</option>
-                                {% else %}
-                                    {% if request.user == n.user %}
-                                        <option value='{{status}}'>{{status}}</option>
-                                    {% endif %}
-                                {% endif %}
+                                <option value='{{status}}'>{{status}}</option>
                             {% endfor %}
                         </select>
                     </div>
-
+                    {% if user|has_group:"manager" %}
                     <div class="col-5">
                     <label>Select a user:</label>
                         <select class="form-select form-select-sm required" aria-label=".form-select-sm example"
@@ -67,6 +68,7 @@
                             {% endfor %}
                         </select>
                     </div>
+                    {% endif %}
                     <div class="col-3 d-flex justify-content-end align-items-center">
                         <button class="btn btn-secondary float-end"
                                 type="submit" name="filter_form">Filter</button>

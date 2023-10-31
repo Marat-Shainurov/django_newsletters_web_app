@@ -8,7 +8,7 @@ from client.models import NULLABLE
 class Blog(models.Model):
     title = models.CharField(max_length=255, verbose_name='blog_title', unique=True)
     content = models.TextField(verbose_name='blog_content')
-    image = models.ImageField(upload_to='blog_image/', verbose_name='blog_image', **NULLABLE)
+    image = models.ImageField(upload_to='blog_image/', verbose_name='blog_image')
     views = models.IntegerField(verbose_name='blog_views', default=0, **NULLABLE)
     created = models.DateTimeField(auto_now_add=True, verbose_name='blog_created')
     slug = models.SlugField(verbose_name='blog_slug', max_length=255, **NULLABLE)
