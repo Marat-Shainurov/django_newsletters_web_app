@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
 from unidecode import unidecode
+from celery import current_task
 
 from client.models import City
 from newsletter.models.schedule import Schedule
@@ -39,11 +40,12 @@ class Newsletter(models.Model):
         return f'{self.newsletter} ({self.status} / {self.regularity})'
 
     def clean(self):
-        actual_time = datetime.now(tz=pytz.timezone(settings.TIME_ZONE))
-        if self.finish_campaign < self.start_campaign:
-            raise ValidationError('finish_campaign cannot be earlier than start_campaign!')
-        if self.start_campaign < actual_time:
-            raise ValidationError('start_campaign cannot be earlier than the actual time!')
+        if not getattr(current_task, 'ignore_validation', False):
+            actual_time = datetime.now(tz=pytz.timezone(settings.TIME_ZONE))
+            if self.finish_campaign < self.start_campaign:
+                raise ValidationError('finish_campaign cannot be earlier than start_campaign!')
+            if self.start_campaign < actual_time:
+                raise ValidationError('start_campaign cannot be earlier than the actual time!')
 
     def save(self, *args, **kwargs):
         self.clean()

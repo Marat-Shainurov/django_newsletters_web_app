@@ -3,7 +3,7 @@ import logging
 from datetime import datetime
 
 import pytz
-from celery import shared_task
+from celery import shared_task, current_task
 from django.shortcuts import get_object_or_404
 from django_celery_beat.models import PeriodicTask, CrontabSchedule, ClockedSchedule
 
@@ -27,8 +27,10 @@ def disable_launched_newsletter_task(newsletter_pk: str) -> None:
     task = PeriodicTask.objects.get(name=f'Regular newsletter {newsletter_pk}')
     newsletter = get_object_or_404(Newsletter, pk=newsletter_pk)
     task.enabled = False
+    current_task.ignore_validation = True
     newsletter.status = 'finished'
     newsletter.save()
+    current_task.ignore_validation = False
     task.save()
     logger.info(f'Regular newsletter {newsletter_pk} has been disabled.')
 

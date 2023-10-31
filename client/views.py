@@ -35,7 +35,7 @@ class ClientListView(LoginRequiredMixin, generic.ListView):
                     queryset = queryset.filter(city=city_to_filter)
                 else:
                     return queryset
-                return queryset
+            return queryset
         else:
             if 'filter_form' in self.request.GET:
                 city = self.request.GET.get('filter_city')

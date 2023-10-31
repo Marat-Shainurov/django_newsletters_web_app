@@ -4,7 +4,7 @@ from django.views.decorators.cache import cache_page
 from newsletter.apps import NewsletterConfig
 from newsletter.views import NewsletterListView, NewsletterDetailView, NewsletterCreateView, NewsletterUpdateView, \
     NewsletterDeleteView, NewsletterAttemptsListView, NewsletterAttemptsDetailView, index, \
-    regular_newsletter_manager, regular_newsletters_report, set_schedule
+    regular_newsletter_manager, regular_newsletters_report, set_schedule, invalid_newsletter_settings
 
 app_name = NewsletterConfig.name
 
@@ -19,7 +19,9 @@ urlpatterns = [
     path('newsletters/reports/<int:pk>/', NewsletterAttemptsDetailView.as_view(), name='attempt_responses_detail'),
     path('newsletters/control-panel/', regular_newsletter_manager, name='control_panel'),
     path('newsletters/general-report/', regular_newsletters_report, name='regular_newsletters_report'),
-    path('newsletters/schedule-settings/', set_schedule, name='set_schedule')
+    path('newsletters/schedule-settings/', set_schedule, name='set_schedule'),
+    path('newsletters/control-panel/invalid-settings/<str:slug>/', invalid_newsletter_settings,
+         name='invalid_newsletter_settings'),
 ]
 
 # todo:
