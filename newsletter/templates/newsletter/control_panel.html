@@ -28,7 +28,7 @@
 
             <a class="icon-link icon-link-hover d-flex align-items-center link-body-emphasis text-decoration-none"
                href="{% url 'client:client_list'%}"
-               >
+            >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                      class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
@@ -112,36 +112,42 @@
         {% endif %}
     </div>
 
-<div class="row align-items-center mt-4">
-<div class="col-sm-6">
-        <form class="form-control" method="post">
-            {% csrf_token %}
-            <div class="card">
-                <div class="card-header">
-                    <h4>Send a one-off newsletter</h4>
-                </div>
-                <div class="card-body">
-                    <p><strong>Select a newsletter:</strong></p>
-                    {% if available_user_newsletters.count == 0 %}
+    <div class="row align-items-center mt-4">
+        <div class="col-sm-6">
+            <form class="form-control" method="post">
+                {% csrf_token %}
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Send a one-off newsletter</h4>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Select a newsletter:</strong></p>
+                        {% if available_user_newsletters.count == 0 %}
                         <p>No available newsletters.</p>
-                    {% else %}
-                    <select class="form-select required" aria-label="Default select example" name="newsletter_one_off"
-                            required>
-                        <option selected></option>
-                        {% endif %}
-                        {% for n in available_user_newsletters %}
-                        <option value='{{n.pk}}'>{{n}}</option>
-                        {% endfor %}
-                    </select>
+                        <div class="card-footer">
+                            <button class="btn btn-primary disabled" type="submit">Send</button>
+                            <a class="btn btn-secondary disabled" href="{% url 'client:client_list' %}">Clients list</a>
+                        </div>
+                        {% else %}
+                        <select class="form-select required" aria-label="Default select example"
+                                name="newsletter_one_off"
+                                required>
+                            <option selected></option>
+
+                            {% for n in available_user_newsletters %}
+                            <option value='{{n.pk}}'>{{n}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary" type="submit">Send</button>
+                        <a class="btn btn-secondary" href="{% url 'client:client_list' %}">Clients list</a>
+                    </div>
+                    {% endif %}
                 </div>
-                <div class="card-footer">
-                    <button class="btn btn-primary" type="submit">Send</button>
-                    <a class="btn btn-secondary" href="{% url 'client:client_list' %}">Clients list</a>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 </div>
 
 {% endblock %}

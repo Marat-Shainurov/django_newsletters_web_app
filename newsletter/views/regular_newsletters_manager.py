@@ -16,7 +16,6 @@ from users.models import User
 
 @login_required
 def regular_newsletter_manager(request):
-    validation_message = ''
     if request.method == 'POST':
         if 'newsletter_launch' in request.POST:
             newsletter_pk = request.POST.get('pk_newsletter_launch')
@@ -29,7 +28,7 @@ def regular_newsletter_manager(request):
             else:
                 set_regular_newsletter_schedule.delay(newsletter_pk)
                 set_disabler_schedule(newsletter_pk)
-                return redirect(reverse('newsletter:regular_newsletters_report'))
+                return redirect(reverse('newsletter:newsletter_list'))
         if 'newsletter_remove' in request.POST:
             if not request.user.has_perm('newsletter.remove_regular_newsletter'):
                 raise Http404('You don\'t have access to this action! PLease contact your manager.')
@@ -47,8 +46,7 @@ def regular_newsletter_manager(request):
         all_newsletters_total = Newsletter.objects.all()
         context = {'available_user_newsletters': available_user_newsletters,
                    'newsletters_list_launched': all_newsletters_launched,
-                   'page_title': 'Launch newsletter', 'all_newsletters_total': all_newsletters_total,
-                   'validation_message': validation_message}
+                   'page_title': 'Launch newsletter', 'all_newsletters_total': all_newsletters_total}
         return render(request, 'newsletter/control_panel.html', context)
 
 
@@ -68,7 +66,8 @@ def regular_newsletters_report(request):
                 'total_run_count': task.total_run_count,
                 'start_time': task.start_time,
                 'finish_time': newsletter.finish_campaign,
-                'newsletter_user': newsletter.newsletter_user.email
+                'newsletter_user': newsletter.newsletter_user.email,
+                'enabled': task.enabled
             }
 
     if 'filter_form' in request.GET:

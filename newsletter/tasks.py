@@ -34,9 +34,9 @@ def disable_launched_newsletter_task(newsletter_pk: str) -> None:
     task.save()
     logger.info(f'Regular newsletter {newsletter_pk} has been disabled.')
 
-    task_disabler = PeriodicTask.objects.filter(name=f'Disable newsletter {newsletter_pk}')
-    if task_disabler.exists():
-        task_disabler.enabled = False
+    task_disabler = PeriodicTask.objects.get(name=f'Disable newsletter {newsletter_pk}')
+    task_disabler.enabled = False
+    task_disabler.save()
 
 
 @shared_task()

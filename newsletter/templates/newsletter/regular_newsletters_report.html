@@ -81,6 +81,7 @@
                     <th scope="col">Run count</th>
                     <th scope="col">Start time</th>
                     <th scope="col">Finish time</th>
+                    <th scope="col">Is enabled</th>
                 </tr>
                 </thead>
                 <tbody class="table-group-divider">
@@ -92,6 +93,11 @@
                     <td>{{ vals.total_run_count }}</td>
                     <td>{{ vals.start_time }}</td>
                     <td>{{ vals.finish_time }}</td>
+                    {% if vals.enabled %}
+                    <td class="text-success">Yes</td>
+                    {% else %}
+                    <td class="text-danger">No</td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
                 </tbody>
