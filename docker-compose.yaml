@@ -1,0 +1,83 @@
+version: '3'
+
+services:
+
+  db:
+    image: postgres
+    container_name: db_newsletters_web_app
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: django_newsletters
+      POSTGRES_PASSWORD: mysecretpassword
+    volumes:
+      - postgres_data_newsletters:/var/lib/postgresql/data/pgdata
+    ports:
+      - '5432:5432'
+
+  redis:
+    image: redis:7.0.2-alpine
+    container_name: redis_newsletters_web_app
+    command: redis-server --save 20 1 --loglevel warning
+    depends_on:
+      - db
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data_newsletters:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  app:
+    build: .
+    container_name: app_newsletters_web_app
+    command: sh -c "python manage.py migrate && python manage.py add_user_groups && python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./.env:/app/.env
+
+  celery:
+    build: .
+    container_name: celery_newsletters_web_app
+    command: celery -A config worker -l INFO
+    volumes:
+      - celery_data_newsletters:/app
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_LOG_LEVEL=debug
+    healthcheck:
+      test: [ "CMD", "celery", "inspect", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  celery-beat:
+    build: .
+    container_name: celery_beat_newsletters_web_app
+    command: celery -A config beat -l info -S django
+    volumes:
+      - celery_beat_data_newsletters:/app
+    depends_on:
+      redis:
+        condition: service_healthy
+      celery:
+        condition: service_healthy
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_LOG_LEVEL=debug
+
+volumes:
+  postgres_data_newsletters:
+  redis_data_newsletters:
+  celery_data_newsletters:
+  celery_beat_data_newsletters:
+
