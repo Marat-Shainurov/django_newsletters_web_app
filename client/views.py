@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
-from client.forms import ClientForm
+from client.forms import ClientForm, CityForm
 from client.models import Client, City
 from users.models import User
 
@@ -91,6 +91,19 @@ class ClientCreateView(LoginRequiredMixin, generic.CreateView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['page_title'] = 'Create a client'
+        return context
+
+
+class CityCreateView(LoginRequiredMixin, generic.CreateView):
+    model = City
+    form_class = CityForm
+
+    def get_success_url(self):
+        return reverse('client:client_list')
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['page_title'] = 'Create a city'
         return context
 
 

@@ -29,139 +29,143 @@
 
     {% if user|has_group:"manager" %}
     <div class="row col-8">
-    {% else %}
-    <div class="row col-6">
-    {% endif %}
+        {% else %}
+        <div class="row col-6">
+            {% endif %}
             <form class="form-control " method="get" action="{% url 'client:client_list' %}" name="filter_form">
                 <div class="row">
                     {% if user|has_group:"manager" %}
                     <div class="col-4">
-                    {% else %}
-                    <div class="col-8">
-                    {% endif %}
-                        <label>Select a city:</label>
-                        <select class="form-select form-select-sm required" aria-label=".form-select-sm example"
-                                name="filter_city">
+                        {% else %}
+                        <div class="col-8">
+                            {% endif %}
+                            <label>Select a city:</label>
+                            <select class="form-select form-select-sm required" aria-label=".form-select-sm example"
+                                    name="filter_city">
                                 <option value='all'>
                                     All cities
                                 </option>
-                            {% for city in all_cities %}
+                                {% for city in all_cities %}
                                 <option value='{{city.city}}'>{{city}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
+                                {% endfor %}
+                            </select>
+                        </div>
 
-                    {% if user|has_group:"manager" %}
-                    <div class="col-5">
-                    <label>Added by:</label>
-                        <select class="form-select form-select-sm required" aria-label=".form-select-sm example"
-                                name="email_filter_user">
+                        {% if user|has_group:"manager" %}
+                        <div class="col-5">
+                            <label>Added by:</label>
+                            <select class="form-select form-select-sm required" aria-label=".form-select-sm example"
+                                    name="email_filter_user">
                                 <option value="all">
                                     All users
                                 </option>
-                            {% for u in all_users %}
+                                {% for u in all_users %}
                                 {% if request.user == u %}
-                                    <option value='{{u.email}}' class="text-primary">{{u.email}}</option>
+                                <option value='{{u.email}}' class="text-primary">{{u.email}}</option>
                                 {% else %}
-                                    <option value='{{u.email}}'>{{u.email}}</option>
+                                <option value='{{u.email}}'>{{u.email}}</option>
                                 {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
-                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% endif %}
 
-                    <div class="col-3 d-flex justify-content-end align-items-center">
-                        <button class="btn btn-secondary float-end"
-                                type="submit" name="filter_form">Filter</button>
+                        <div class="col-3 d-flex justify-content-end align-items-center">
+                            <button class="btn btn-secondary float-end"
+                                    type="submit" name="filter_form">Filter
+                            </button>
+                        </div>
                     </div>
-                </div>
             </form>
-    </div>
-
-    <div class="container d-flex justify-content-center align-items-start mt-3">
-        <div class="container-fluid" style="max-height: 350px;
-            overflow-y: auto;">
-            <table class="table table-striped">
-                <thead>
-                <tr class="sticky-top">
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">City</th>
-                    <th scope="col">Added by</th>
-                    <th scope="col">Sign-up/Unsign</th>
-
-                </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                {% for object in object_list %}
-                    {% if user|has_group:"manager" %}
-                        <tr>
-                            <th scope="row">{{ object.pk}}</th>
-                            <td><a href="{% url 'client:client_detail' object.slug %}">{{ object.name }}</a></td>
-                            <td>{{ object.email}}</td>
-                            <td>{{ object.city}}</td>
-                            {% if user == object.user %}
-                            <td><strong class="text-primary">{{ object.user }}</strong></td>
-                            {% else %}
-                            <td>{{ object.user }}</td>
-                            {% endif %}
-                            <td>
-                            <form method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="pk_sign_up_toggle" value="{{ object.pk }}">
-                                    {% if request.user == object.user %}
-                                    <button class="btn btn-outline-primary" type="submit" name="sign_up_toggle">
-                                        {% if object.is_signed_up %}Unsubscribe
-                                        {% else%} Sign up
-                                        {% endif %}
-                                    </button>
-                                    {% else %}
-                                    <button class="btn btn-outline-secondary disabled" type="submit" name="sign_up_toggle">
-                                        {% if object.is_signed_up %}Unsubscribe
-                                        {% else%} Sign up
-                                        {% endif %}
-                                    </button>
-                                    {% endif %}
-                                </form>
-                            </td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <th scope="row">{{ object.pk }}</th>
-                            <td><a href="{% url 'client:client_detail' object.slug %}">{{ object.name }}</a></td>
-                            <td>{{ object.email}}</td>
-                            <td>{{ object.city}}</td>
-                            {% if user == object.user %}
-                            <td><strong class="text-success">{{ object.user }}</strong></td>
-                            {% else %}
-                            <td>{{ object.user }}</td>
-                            {% endif %}
-                            <td>
-                            <form method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="pk_sign_up_toggle" value="{{ object.pk }}">
-                                    <button class="btn btn-outline-primary" type="submit" name="sign_up_toggle">
-                                        {% if object.is_signed_up %}Unsubscribe
-                                        {% else%} Sign up
-                                        {% endif %}
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    {% endif %}
-                {% endfor %}
-                </tbody>
-            </table>
         </div>
-    </div>
 
-    <div class="m-4 float-end">
-        <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+        <div class="container d-flex justify-content-center align-items-start mt-3">
+            <div class="container-fluid" style="max-height: 350px;
+            overflow-y: auto;">
+                <table class="table table-striped">
+                    <thead>
+                    <tr class="sticky-top">
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">City</th>
+                        <th scope="col">Added by</th>
+                        <th scope="col">Sign-up/Unsign</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                    {% for object in object_list %}
+                    {% if user|has_group:"manager" %}
+                    <tr>
+                        <th scope="row">{{ object.pk}}</th>
+                        <td><a href="{% url 'client:client_detail' object.slug %}">{{ object.name }}</a></td>
+                        <td>{{ object.email}}</td>
+                        <td>{{ object.city}}</td>
+                        {% if user == object.user %}
+                        <td><strong class="text-primary">{{ object.user }}</strong></td>
+                        {% else %}
+                        <td>{{ object.user }}</td>
+                        {% endif %}
+                        <td>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="pk_sign_up_toggle" value="{{ object.pk }}">
+                                {% if request.user == object.user %}
+                                <button class="btn btn-outline-primary" type="submit" name="sign_up_toggle">
+                                    {% if object.is_signed_up %}Unsubscribe
+                                    {% else%} Sign up
+                                    {% endif %}
+                                </button>
+                                {% else %}
+                                <button class="btn btn-outline-secondary disabled" type="submit" name="sign_up_toggle">
+                                    {% if object.is_signed_up %}Unsubscribe
+                                    {% else%} Sign up
+                                    {% endif %}
+                                </button>
+                                {% endif %}
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <th scope="row">{{ object.pk }}</th>
+                        <td><a href="{% url 'client:client_detail' object.slug %}">{{ object.name }}</a></td>
+                        <td>{{ object.email}}</td>
+                        <td>{{ object.city}}</td>
+                        {% if user == object.user %}
+                        <td><strong class="text-success">{{ object.user }}</strong></td>
+                        {% else %}
+                        <td>{{ object.user }}</td>
+                        {% endif %}
+                        <td>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="pk_sign_up_toggle" value="{{ object.pk }}">
+                                <button class="btn btn-outline-primary" type="submit" name="sign_up_toggle">
+                                    {% if object.is_signed_up %}Unsubscribe
+                                    {% else%} Sign up
+                                    {% endif %}
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="m-4 float-end">
+            <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
                 <a class="btn btn-outline-primary rounded-pill"
                    href="{% url 'client:client_form' %}">Add client</a>
             </nav>
+            <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                <a class="btn btn-outline-primary rounded-pill"
+                   href="{% url 'client:city_form' %}">Add city</a>
+            </nav>
+        </div>
     </div>
 </div>
-
 {% endblock %}

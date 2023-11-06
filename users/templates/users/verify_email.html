@@ -1,25 +1,48 @@
 {% extends 'newsletter/base.html'%}
 {% block content %}
 
-<div class="card form-control">
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
 
-        <div class="card-header">
-            <h3>Email verification</h3>
+<div class="container py-3">
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+            <a class="icon-link icon-link-hover d-flex align-items-center link-body-emphasis text-decoration-none"
+               style="margin-right: 30px;" href="{% url 'users:register'%}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                </svg>
+                Back to registration form
+            </a>
         </div>
-        <div class="card-body">
-            <div class="col-auto">
-                <label for="inputPassword6" class="col-form-label">Input your code from email here:</label>
+    </header>
+
+
+<div class="container d-flex justify-content-center align-items-start">
+    <div class="col-sm-8 mb-3 mb-sm-0">
+    <div class="card form-control">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="card-header">
+                <h3>Email verification</h3>
             </div>
-            <div class="col-auto">
-                <input type="text" id="inputPassword6" class="form-control"
-                       aria-labelledby="passwordHelpInline" name="code">
+            <div class="card-body">
+                <div class="col-auto">
+                    <label for="inputPassword6" class="col-form-label">Verification code has been sent to your email.</label>
+                    <label for="inputPassword6" class="col-form-label">Please, input the code here:</label>
+                </div>
+                <div class="col-auto">
+                    <input type="text" id="inputPassword6" class="form-control"
+                           aria-labelledby="passwordHelpInline" name="code">
+                </div>
             </div>
-        </div>
-        <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Check the code</button>
-        </div>
-    </form>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Verify</button>
+            </div>
+        </form>
+    </div>
+    </div>
 </div>
-{% endblock %}
+</div>
+    {% endblock %}

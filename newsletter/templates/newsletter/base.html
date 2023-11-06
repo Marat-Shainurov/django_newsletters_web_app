@@ -241,7 +241,7 @@
                                    class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sending Attempts
                                 Report</a>
                             </li>
-                            {% if request.user.is_superuser %}
+                            {% if user|has_group:"manager" %}
                             <li><a href="{% url 'newsletter:set_schedule'%}"
                                    class="link-body-emphasis d-inline-flex text-decoration-none rounded">Schedule Settings</a></li>
                             {% endif %}
@@ -259,7 +259,9 @@
                             <li><a href="{% url 'client:client_list' %}"
                                    class="link-body-emphasis d-inline-flex text-decoration-none rounded">List</a></li>
                             <li><a href="{% url 'client:client_form'%}"
-                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Add clients</a></li>
+                            <li><a href="{% url 'client:city_form'%}"
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Add cities</a></li>
                         </ul>
                     </div>
                 </li>
@@ -277,7 +279,7 @@
                             </li>
                             {% if request.user.is_superuser %}
                             <li><a href="{% url 'users:user_form'%}"
-                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Create</a></li>
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Add users</a></li>
                             {% endif %}
                         </ul>
                     </div>

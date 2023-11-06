@@ -1,5 +1,4 @@
 from django.urls import path
-from django.views.decorators.cache import cache_page
 
 from newsletter.apps import NewsletterConfig
 from newsletter.views import NewsletterListView, NewsletterDetailView, NewsletterCreateView, NewsletterUpdateView, \
@@ -23,8 +22,3 @@ urlpatterns = [
     path('newsletters/control-panel/invalid-settings/<str:slug>/', invalid_newsletter_settings,
          name='invalid_newsletter_settings'),
 ]
-
-# todo:
-#  Fixture
-#  Readme
-#  Docker-VM?

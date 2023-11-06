@@ -25,41 +25,28 @@
         </div>
     </header>
 
-
-    <div class="container d-flex justify-content-center align-items-start" style="height: 90vh;">
-        <div class="card">
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="card-header">
-                    <h1>{% if object %}Edit the{%else%}Add a{%endif%} client</h1>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                {{ form.name.label_tag }} {{ form.name }}
-                                {{ form.email.label_tag }} {{ form.email }}
-                                {{ form.city.label_tag }} {{ form.city }}
-                                {{ form.is_signed_up.label_tag }} {{ form.is_signed_up }}
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                {{ form.comments.label_tag }} {{ form.comments }}
+    <div class="container d-flex justify-content-center align-items-start">
+        <div class="col-sm-8 mb-3 mb-sm-0">
+            <div class="card">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="card-header">
+                        <h1>Add a city</h1>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ form.as_p }}
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">
-                        {% if object %}
-                        Save changes
-                        {% else %}
-                        Create
-                        {% endif %}
-                    </button>
-                </div>
-            </form>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">
+                            Create
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

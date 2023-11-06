@@ -2,7 +2,6 @@ from datetime import datetime
 
 import pytz
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ValidationError
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse
