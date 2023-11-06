@@ -31,7 +31,7 @@
     - can view newsletters created by all users.
 
 # Install and usage
-1. Clone the project from ___ to your local machine.
+1. Clone the project from https://github.com/Marat-Shainurov/django_newsletters_web_app to your local machine.
 
 2. Build a new image and run the project container from the root project directory:
    - docker-compose build
