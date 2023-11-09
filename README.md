@@ -57,4 +57,4 @@
        }
    - alternatively you can register a new user over http://127.0.0.1:8000/users/registration/
 
-4. Go to the main page on your browser http://127.0.0.1:8000/ and start working with the web application.
+4. Go to the main page on your browser and start working with the web application at http://127.0.0.1:8000/.
